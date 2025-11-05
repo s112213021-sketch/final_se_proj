@@ -1,0 +1,231 @@
+2025-11-01 23:13:12,114 DEBUG app: 嘗試記錄檔案上傳: bid_id=3, filename=e92fdc93af4dbb01.txt
+2025-11-01 23:14:52,853 DEBUG app: 嘗試記錄檔案上傳: bid_id=3, filename=9c578ae910aad432.txt
+2025-11-01 23:14:52,854 WARNING app: uploads table permission denied
+2025-11-01 23:17:45,669 DEBUG app: 嘗試記錄檔案上傳: bid_id=3, filename=f247cacac6890440.txt
+2025-11-01 23:17:45,677 DEBUG app: 嘗試記錄檔案上傳: bid_id=3, filename=d8bfe45ca75128b3.txt
+2025-11-01 23:17:45,687 WARNING app: uploads table permission denied
+2025-11-01 23:17:45,688 WARNING app: uploads table permission denied
+2025-11-01 23:20:31,700 DEBUG app: 嘗試記錄檔案上傳: bid_id=3, filename=c71054f38360d064.txt
+2025-11-01 23:20:31,707 WARNING app: uploads table permission denied
+2025-11-01 23:33:11,048 DEBUG app: 嘗試記錄檔案上傳: bid_id=3, filename=247ce6e98db85d05.txt
+2025-11-01 23:33:11,052 WARNING app: uploads table permission denied
+2025-11-01 23:37:06,865 DEBUG app: 嘗試記錄檔案上傳: bid_id=3, filename=b1cae6f1acd7d3a0.txt
+2025-11-01 23:37:06,870 WARNING app: uploads table permission denied
+2025-11-02 02:20:11,757 DEBUG app: 嘗試記錄檔案上傳: bid_id=8, filename=8adc70d72f3cb011.txt
+2025-11-02 02:20:11,767 WARNING app: uploads table permission denied
+2025-11-02 02:21:26,243 DEBUG app: 嘗試記錄檔案上傳: bid_id=4, filename=4ac61b3f239cd5e4.txt
+2025-11-02 02:21:26,246 WARNING app: uploads table permission denied
+2025-11-02 02:33:34,638 DEBUG app: 嘗試記錄檔案上傳: bid_id=8, filename=652ad4832f82427c.txt
+2025-11-02 02:33:34,649 WARNING app: uploads table permission denied
+2025-11-02 12:49:59,385 DEBUG app: 嘗試記錄檔案上傳: bid_id=4, filename=82e90811d3076ce5.txt
+2025-11-02 12:49:59,394 WARNING app: uploads table permission denied
+2025-11-02 12:57:01,831 DEBUG app: 嘗試記錄檔案上傳: bid_id=8, filename=026bfd6ed69fad8d.png
+2025-11-02 12:57:01,842 WARNING app: uploads table permission denied
+2025-11-02 14:26:24,005 DEBUG app: 嘗試記錄檔案上傳: bid_id=4, filename=f60f76c7b2fd7990.docx
+2025-11-02 14:26:24,010 WARNING app: uploads table permission denied
+2025-11-02 14:37:18,073 WARNING app: uploads table permission denied | bid_id=8 | file=a36de8a6bf4d791d.docx
+2025-11-02 14:39:17,044 WARNING app: uploads table permission denied | bid_id=8 | file=d4d13bb6fd631336.png
+2025-11-02 14:41:24,688 WARNING app: uploads table permission denied | bid_id=8 | file=49a690ac75941928.png
+2025-11-02 14:43:03,236 WARNING app: uploads table permission denied | bid_id=4 | file=7e25d19561089402.pdf
+2025-11-02 15:05:07,081 WARNING app: uploads table permission denied | bid_id=8 | file=5e3978a57b0462cd.jpg
+2025-11-02 15:13:35,883 WARNING app: uploads table permission denied | bid_id=8 | file=339ba0c672d09c3d.png
+2025-11-02 16:43:16,102 DEBUG app: login succeeded, session={'user': {'id': 6, 'username': 'co2', 'role': 'contractor'}}
+2025-11-02 16:43:16,116 DEBUG app: dashboard called, session user={'id': 6, 'username': 'co2', 'role': 'contractor'}
+2025-11-02 16:43:27,662 WARNING app: uploads table permission denied | bid_id=8 | file=089b671bf5b58345.png
+2025-11-02 16:43:27,674 DEBUG app: dashboard called, session user={'id': 6, 'username': 'co2', 'role': 'contractor'}
+2025-11-02 16:52:35,043 DEBUG app: dashboard called, session user={'id': 6, 'username': 'co2', 'role': 'contractor'}
+2025-11-02 16:52:46,882 WARNING app: uploads table permission denied | bid_id=8 | file=51634d93d2a43d18.jpg
+2025-11-02 16:52:46,904 DEBUG app: dashboard called, session user={'id': 6, 'username': 'co2', 'role': 'contractor'}
+2025-11-02 17:05:42,866 DEBUG app: dashboard called, session user={'id': 6, 'username': 'co2', 'role': 'contractor'}
+2025-11-02 17:05:48,116 DEBUG app: dashboard called, session user={'id': 6, 'username': 'co2', 'role': 'contractor'}
+2025-11-02 17:06:09,116 DEBUG app: dashboard called, session user={'id': 6, 'username': 'co2', 'role': 'contractor'}
+2025-11-02 17:45:09,865 DEBUG app: login succeeded, session={'flash_message': '檔案上傳成功，專案已標記為「已提交」！', 'flash_type': 'success', 'user': {'id': 6, 'username': 'co2', 'role': 'contractor'}}
+2025-11-02 17:45:10,119 DEBUG app: login succeeded, session={'flash_message': '檔案上傳成功，專案已標記為「已提交」！', 'flash_type': 'success', 'user': {'id': 6, 'username': 'co2', 'role': 'contractor'}}
+2025-11-02 17:45:10,136 DEBUG app: dashboard called, session user={'id': 6, 'username': 'co2', 'role': 'contractor'}
+2025-11-02 17:45:18,326 WARNING app: uploads table permission denied | bid_id=8 | file=e194109d2ae456d3.pdf
+2025-11-02 17:45:18,342 DEBUG app: dashboard called, session user={'id': 6, 'username': 'co2', 'role': 'contractor'}
+2025-11-02 17:56:26,424 DEBUG app: dashboard called, session user={'id': 6, 'username': 'co2', 'role': 'contractor'}
+2025-11-02 17:56:28,008 DEBUG app: dashboard called, session user={'id': 6, 'username': 'co2', 'role': 'contractor'}
+2025-11-04 10:53:54,947 DEBUG app: login succeeded, session={'user': {'id': 6, 'username': 'co2', 'role': 'contractor'}}
+2025-11-04 10:53:54,962 DEBUG app: dashboard called, session user={'id': 6, 'username': 'co2', 'role': 'contractor'}
+2025-11-04 12:25:43,251 DEBUG app: login succeeded, session={'user': {'id': 4, 'username': 'client1', 'role': 'client'}}
+2025-11-04 12:25:43,282 DEBUG app: dashboard called, session user={'id': 4, 'username': 'client1', 'role': 'client'}
+2025-11-04 14:59:45,180 DEBUG app: login succeeded, session={'user': {'id': 4, 'username': 'client1', 'role': 'client'}}
+2025-11-04 14:59:45,317 DEBUG app: dashboard called, session user={'id': 4, 'username': 'client1', 'role': 'client'}
+2025-11-04 17:01:42,409 DEBUG app: login succeeded, session={'user': {'id': 4, 'username': 'client1', 'role': 'client'}}
+2025-11-04 17:01:42,688 DEBUG app: login succeeded, session={'user': {'id': 4, 'username': 'client1', 'role': 'client'}}
+2025-11-04 17:01:42,702 DEBUG app: dashboard called, session user={'id': 4, 'username': 'client1', 'role': 'client'}
+2025-11-04 17:02:10,756 DEBUG app: login succeeded, session={'user': {'id': 6, 'username': 'co2', 'role': 'contractor'}}
+2025-11-04 17:02:10,768 DEBUG app: dashboard called, session user={'id': 6, 'username': 'co2', 'role': 'contractor'}
+2025-11-04 17:02:11,129 DEBUG app: login succeeded, session={'user': {'id': 6, 'username': 'co2', 'role': 'contractor'}}
+2025-11-04 17:02:11,139 DEBUG app: dashboard called, session user={'id': 6, 'username': 'co2', 'role': 'contractor'}
+2025-11-04 17:02:28,899 DEBUG app: login succeeded, session={'user': {'id': 4, 'username': 'client1', 'role': 'client'}}
+2025-11-04 17:02:29,237 DEBUG app: login succeeded, session={'user': {'id': 4, 'username': 'client1', 'role': 'client'}}
+2025-11-04 17:02:29,248 DEBUG app: dashboard called, session user={'id': 4, 'username': 'client1', 'role': 'client'}
+2025-11-04 17:06:35,485 DEBUG app: dashboard called, session user={'id': 4, 'username': 'client1', 'role': 'client'}
+2025-11-04 17:06:46,687 DEBUG app: login succeeded, session={'user': {'id': 6, 'username': 'co2', 'role': 'contractor'}}
+2025-11-04 17:06:46,701 DEBUG app: dashboard called, session user={'id': 6, 'username': 'co2', 'role': 'contractor'}
+2025-11-04 17:06:56,440 WARNING app: uploads table permission denied | bid_id=8 | file=82aee230c6707373.pdf
+2025-11-04 17:06:56,460 DEBUG app: dashboard called, session user={'id': 6, 'username': 'co2', 'role': 'contractor'}
+2025-11-04 17:18:46,076 DEBUG app: dashboard called, session user={'id': 6, 'username': 'co2', 'role': 'contractor'}
+2025-11-04 17:18:55,091 WARNING app: uploads table permission denied | bid_id=8 | file=007d9e81e59079d3.png
+2025-11-04 17:18:55,120 DEBUG app: dashboard called, session user={'id': 6, 'username': 'co2', 'role': 'contractor'}
+2025-11-04 17:20:11,521 WARNING app: uploads table permission denied | bid_id=8 | file=d82def7b300ac9c1.jpg
+2025-11-04 17:20:11,539 DEBUG app: dashboard called, session user={'id': 6, 'username': 'co2', 'role': 'contractor'}
+2025-11-04 18:28:42,361 DEBUG app: login succeeded, session={'user': {'id': 6, 'username': 'co2', 'role': 'contractor'}}
+2025-11-04 18:28:42,376 DEBUG app: dashboard called, session user={'id': 6, 'username': 'co2', 'role': 'contractor'}
+2025-11-04 18:28:50,822 WARNING app: uploads table permission denied | bid_id=4 | file=01465124f7a17df3.png | error=permission denied for table uploads
+2025-11-04 18:28:50,838 DEBUG app: dashboard called, session user={'id': 6, 'username': 'co2', 'role': 'contractor'}
+2025-11-04 18:46:15,309 DEBUG app: dashboard called, session user={'id': 6, 'username': 'co2', 'role': 'contractor'}
+2025-11-04 18:46:18,560 DEBUG app: dashboard called, session user={'id': 6, 'username': 'co2', 'role': 'contractor'}
+2025-11-04 18:46:45,083 DEBUG app: dashboard called, session user={'id': 6, 'username': 'co2', 'role': 'contractor'}
+2025-11-04 18:46:50,814 ERROR app: 登入過程發生例外
+Traceback (most recent call last):
+  File "/Users/a-----/Desktop/1141posts-new/main.py", line 147, in login
+    row = await db_get_user_by_credentials(conn, username)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/a-----/Desktop/1141posts-new/routes/dbQuery.py", line 313, in get_user_by_credentials
+    await cur.execute("""
+    ...<9 lines>...
+    )
+  File "/opt/anaconda3/lib/python3.13/site-packages/psycopg/cursor_async.py", line 97, in execute
+    raise ex.with_traceback(None)
+psycopg.errors.InsufficientPrivilege: permission denied for table users
+2025-11-04 18:47:06,591 ERROR app: 登入過程發生例外
+Traceback (most recent call last):
+  File "/Users/a-----/Desktop/1141posts-new/main.py", line 147, in login
+    row = await db_get_user_by_credentials(conn, username)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/a-----/Desktop/1141posts-new/routes/dbQuery.py", line 313, in get_user_by_credentials
+    await cur.execute("""
+    ...<9 lines>...
+    )
+  File "/opt/anaconda3/lib/python3.13/site-packages/psycopg/cursor_async.py", line 97, in execute
+    raise ex.with_traceback(None)
+psycopg.errors.InsufficientPrivilege: permission denied for table users
+2025-11-04 18:47:09,036 ERROR app: 登入過程發生例外
+Traceback (most recent call last):
+  File "/Users/a-----/Desktop/1141posts-new/main.py", line 147, in login
+    row = await db_get_user_by_credentials(conn, username)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/a-----/Desktop/1141posts-new/routes/dbQuery.py", line 313, in get_user_by_credentials
+    await cur.execute("""
+    ...<9 lines>...
+    )
+  File "/opt/anaconda3/lib/python3.13/site-packages/psycopg/cursor_async.py", line 97, in execute
+    raise ex.with_traceback(None)
+psycopg.errors.InsufficientPrivilege: permission denied for table users
+2025-11-04 18:47:55,043 DEBUG app: login succeeded, session={'flash_message': '檔案已上傳，但資料庫無法寫入；系統將在稍後同步 metadata。若未自動同步請聯絡管理員。', 'flash_type': 'warning', 'user': {'id': 6, 'username': 'co2', 'role': 'contractor'}}
+2025-11-04 18:47:59,592 DEBUG app: dashboard called, session user={'id': 6, 'username': 'co2', 'role': 'contractor'}
+2025-11-04 18:48:01,387 DEBUG app: dashboard called, session user={'id': 6, 'username': 'co2', 'role': 'contractor'}
+2025-11-04 20:36:20,083 DEBUG app: login succeeded, session={'user': {'id': 6, 'username': 'co2', 'role': 'contractor'}}
+2025-11-04 20:36:20,099 DEBUG app: dashboard called, session user={'id': 6, 'username': 'co2', 'role': 'contractor'}
+2025-11-04 20:38:07,777 DEBUG app: dashboard called, session user={'id': 6, 'username': 'co2', 'role': 'contractor'}
+2025-11-04 20:38:22,949 DEBUG app: dashboard called, session user={'id': 6, 'username': 'co2', 'role': 'contractor'}
+2025-11-04 20:38:22,950 DEBUG app: dashboard called, session user={'id': 6, 'username': 'co2', 'role': 'contractor'}
+2025-11-04 20:38:22,951 DEBUG app: dashboard called, session user={'id': 6, 'username': 'co2', 'role': 'contractor'}
+2025-11-04 20:43:51,242 DEBUG app: login succeeded, session={'user': {'id': 6, 'username': 'co2', 'role': 'contractor'}}
+2025-11-04 20:43:51,260 DEBUG app: dashboard called, session user={'id': 6, 'username': 'co2', 'role': 'contractor'}
+2025-11-04 20:44:06,593 DEBUG app: dashboard called, session user={'id': 6, 'username': 'co2', 'role': 'contractor'}
+2025-11-04 20:45:28,092 DEBUG app: login succeeded, session={'user': {'id': 6, 'username': 'co2', 'role': 'contractor'}}
+2025-11-04 20:45:28,109 DEBUG app: dashboard called, session user={'id': 6, 'username': 'co2', 'role': 'contractor'}
+2025-11-04 20:45:58,970 DEBUG app: dashboard called, session user={'id': 6, 'username': 'co2', 'role': 'contractor'}
+2025-11-04 21:00:32,516 DEBUG app: login succeeded, session={'user': {'id': 6, 'username': 'co2', 'role': 'contractor'}}
+2025-11-04 21:00:32,533 DEBUG app: dashboard called, session user={'id': 6, 'username': 'co2', 'role': 'contractor'}
+2025-11-04 21:00:38,975 DEBUG app: dashboard called, session user={'id': 6, 'username': 'co2', 'role': 'contractor'}
+2025-11-04 21:00:52,322 DEBUG app: dashboard called, session user={'id': 6, 'username': 'co2', 'role': 'contractor'}
+2025-11-04 21:01:02,627 DEBUG app: login succeeded, session={'user': {'id': 4, 'username': 'client1', 'role': 'client'}}
+2025-11-04 21:01:02,634 DEBUG app: dashboard called, session user={'id': 4, 'username': 'client1', 'role': 'client'}
+2025-11-04 21:01:12,644 DEBUG app: dashboard called, session user={'id': 4, 'username': 'client1', 'role': 'client'}
+2025-11-04 21:09:53,751 DEBUG app: dashboard called, session user={'id': 4, 'username': 'client1', 'role': 'client'}
+2025-11-04 21:09:55,073 DEBUG app: dashboard called, session user={'id': 4, 'username': 'client1', 'role': 'client'}
+2025-11-04 21:10:49,042 DEBUG app: login succeeded, session={'user': {'id': 4, 'username': 'client1', 'role': 'client'}}
+2025-11-04 21:10:49,055 DEBUG app: dashboard called, session user={'id': 4, 'username': 'client1', 'role': 'client'}
+2025-11-04 21:10:56,452 DEBUG app: login succeeded, session={'user': {'id': 6, 'username': 'co2', 'role': 'contractor'}}
+2025-11-04 21:10:56,463 DEBUG app: dashboard called, session user={'id': 6, 'username': 'co2', 'role': 'contractor'}
+2025-11-04 21:16:54,677 DEBUG app: login succeeded, session={'user': {'id': 6, 'username': 'co2', 'role': 'contractor'}}
+2025-11-04 21:16:54,693 DEBUG app: dashboard called, session user={'id': 6, 'username': 'co2', 'role': 'contractor'}
+2025-11-04 21:22:05,767 DEBUG app: dashboard called, session user={'id': 6, 'username': 'co2', 'role': 'contractor'}
+2025-11-04 21:23:09,281 DEBUG app: dashboard called, session user={'id': 6, 'username': 'co2', 'role': 'contractor'}
+2025-11-04 21:23:14,186 DEBUG app: dashboard called, session user={'id': 6, 'username': 'co2', 'role': 'contractor'}
+2025-11-04 21:23:30,535 DEBUG app: login succeeded, session={'user': {'id': 6, 'username': 'co2', 'role': 'contractor'}}
+2025-11-04 21:23:30,549 DEBUG app: dashboard called, session user={'id': 6, 'username': 'co2', 'role': 'contractor'}
+2025-11-04 21:41:04,746 DEBUG app: login succeeded, session={'user': {'id': 6, 'username': 'co2', 'role': 'contractor'}}
+2025-11-04 21:41:05,004 DEBUG app: login succeeded, session={'user': {'id': 6, 'username': 'co2', 'role': 'contractor'}}
+2025-11-04 21:41:05,020 DEBUG app: dashboard called, session user={'id': 6, 'username': 'co2', 'role': 'contractor'}
+2025-11-04 21:41:17,612 DEBUG app: dashboard called, session user={'id': 6, 'username': 'co2', 'role': 'contractor'}
+2025-11-04 21:43:31,914 DEBUG app: login succeeded, session={'flash_message': '檔案上傳成功，專案已標記為「已提交」！', 'flash_type': 'success', 'user': {'id': 4, 'username': 'client1', 'role': 'client'}}
+2025-11-04 21:43:31,927 DEBUG app: dashboard called, session user={'id': 4, 'username': 'client1', 'role': 'client'}
+2025-11-04 21:44:07,100 DEBUG app: login succeeded, session={'flash_message': '檔案上傳成功，專案已標記為「已提交」！', 'flash_type': 'success', 'user': {'id': 6, 'username': 'co2', 'role': 'contractor'}}
+2025-11-04 21:44:07,118 DEBUG app: dashboard called, session user={'id': 6, 'username': 'co2', 'role': 'contractor'}
+2025-11-04 21:44:19,061 DEBUG app: login succeeded, session={'flash_message': '檔案上傳成功，專案已標記為「已提交」！', 'flash_type': 'success', 'user': {'id': 4, 'username': 'client1', 'role': 'client'}}
+2025-11-04 21:44:19,073 DEBUG app: dashboard called, session user={'id': 4, 'username': 'client1', 'role': 'client'}
+2025-11-04 21:50:43,502 DEBUG app: dashboard called, session user={'id': 4, 'username': 'client1', 'role': 'client'}
+2025-11-04 21:50:45,558 DEBUG app: dashboard called, session user={'id': 4, 'username': 'client1', 'role': 'client'}
+2025-11-04 21:50:59,815 DEBUG app: dashboard called, session user={'id': 4, 'username': 'client1', 'role': 'client'}
+2025-11-04 21:52:04,160 DEBUG app: dashboard called, session user={'id': 4, 'username': 'client1', 'role': 'client'}
+2025-11-04 21:52:05,169 DEBUG app: dashboard called, session user={'id': 4, 'username': 'client1', 'role': 'client'}
+2025-11-04 21:52:22,795 DEBUG app: dashboard called, session user={'id': 4, 'username': 'client1', 'role': 'client'}
+2025-11-04 21:52:28,547 DEBUG app: login succeeded, session={'flash_message': '檔案上傳成功，專案已標記為「已提交」！', 'flash_type': 'success', 'user': {'id': 4, 'username': 'client1', 'role': 'client'}}
+2025-11-04 21:52:28,561 DEBUG app: dashboard called, session user={'id': 4, 'username': 'client1', 'role': 'client'}
+2025-11-04 21:53:55,367 DEBUG app: dashboard called, session user={'id': 4, 'username': 'client1', 'role': 'client'}
+2025-11-04 22:16:39,222 DEBUG app: login succeeded, session={'flash_message': '檔案上傳成功，專案已標記為「已提交」！', 'flash_type': 'success', 'user': {'id': 4, 'username': 'client1', 'role': 'client'}}
+2025-11-04 22:16:39,236 DEBUG app: dashboard called, session user={'id': 4, 'username': 'client1', 'role': 'client'}
+2025-11-04 22:16:45,221 DEBUG app: dashboard called, session user={'id': 4, 'username': 'client1', 'role': 'client'}
+2025-11-04 22:16:58,975 DEBUG app: login succeeded, session={'flash_message': '檔案上傳成功，專案已標記為「已提交」！', 'flash_type': 'success', 'user': {'id': 6, 'username': 'co2', 'role': 'contractor'}}
+2025-11-04 22:16:58,986 DEBUG app: dashboard called, session user={'id': 6, 'username': 'co2', 'role': 'contractor'}
+2025-11-04 22:31:30,039 DEBUG app: login succeeded, session={'flash_message': '檔案上傳成功，專案已標記為「已提交」！', 'flash_type': 'success', 'user': {'id': 6, 'username': 'co2', 'role': 'contractor'}}
+2025-11-04 22:31:30,054 DEBUG app: dashboard called, session user={'id': 6, 'username': 'co2', 'role': 'contractor'}
+2025-11-04 22:32:29,050 DEBUG app: dashboard called, session user={'id': 6, 'username': 'co2', 'role': 'contractor'}
+2025-11-04 22:32:40,597 DEBUG app: login succeeded, session={'flash_message': '檔案上傳成功，專案已標記為「已提交」！', 'flash_type': 'success', 'user': {'id': 4, 'username': 'client1', 'role': 'client'}}
+2025-11-04 22:32:40,610 DEBUG app: dashboard called, session user={'id': 4, 'username': 'client1', 'role': 'client'}
+2025-11-04 22:33:12,457 DEBUG app: dashboard called, session user={'id': 4, 'username': 'client1', 'role': 'client'}
+2025-11-04 22:33:18,538 DEBUG app: dashboard called, session user={'id': 4, 'username': 'client1', 'role': 'client'}
+2025-11-04 22:33:35,708 DEBUG app: login succeeded, session={'flash_message': '已退件，承包商可重新上傳', 'flash_type': 'warning', 'user': {'id': 6, 'username': 'co2', 'role': 'contractor'}}
+2025-11-04 22:33:35,714 DEBUG app: dashboard called, session user={'id': 6, 'username': 'co2', 'role': 'contractor'}
+2025-11-04 22:34:00,913 DEBUG app: login succeeded, session={'flash_message': '已退件，承包商可重新上傳', 'flash_type': 'warning', 'user': {'id': 4, 'username': 'client1', 'role': 'client'}}
+2025-11-04 22:34:00,926 DEBUG app: dashboard called, session user={'id': 4, 'username': 'client1', 'role': 'client'}
+2025-11-04 22:34:58,636 DEBUG app: dashboard called, session user={'id': 8, 'username': 'client3', 'role': 'client'}
+2025-11-04 22:35:23,268 DEBUG app: login succeeded, session={'flash_message': '已退件，承包商可重新上傳', 'flash_type': 'warning', 'user': {'id': 4, 'username': 'client1', 'role': 'client'}}
+2025-11-04 22:35:23,282 DEBUG app: dashboard called, session user={'id': 4, 'username': 'client1', 'role': 'client'}
+2025-11-04 22:35:51,244 DEBUG app: login succeeded, session={'flash_message': '已退件，承包商可重新上傳', 'flash_type': 'warning', 'user': {'id': 5, 'username': 'co', 'role': 'contractor'}}
+2025-11-04 22:35:51,252 DEBUG app: dashboard called, session user={'id': 5, 'username': 'co', 'role': 'contractor'}
+2025-11-04 22:36:05,509 DEBUG app: dashboard called, session user={'id': 5, 'username': 'co', 'role': 'contractor'}
+2025-11-04 22:36:14,567 DEBUG app: login succeeded, session={'flash_message': '已退件，承包商可重新上傳', 'flash_type': 'warning', 'user': {'id': 4, 'username': 'client1', 'role': 'client'}}
+2025-11-04 22:36:14,580 DEBUG app: dashboard called, session user={'id': 4, 'username': 'client1', 'role': 'client'}
+2025-11-04 22:38:17,806 DEBUG app: login succeeded, session={'flash_message': '已退件，承包商可重新上傳', 'flash_type': 'warning', 'user': {'id': 6, 'username': 'co2', 'role': 'contractor'}}
+2025-11-04 22:38:17,817 DEBUG app: dashboard called, session user={'id': 6, 'username': 'co2', 'role': 'contractor'}
+2025-11-04 22:38:49,154 DEBUG app: login succeeded, session={'flash_message': '已退件，承包商可重新上傳', 'flash_type': 'warning', 'user': {'id': 6, 'username': 'co2', 'role': 'contractor'}}
+2025-11-04 22:38:49,168 DEBUG app: dashboard called, session user={'id': 6, 'username': 'co2', 'role': 'contractor'}
+2025-11-04 22:38:54,604 DEBUG app: dashboard called, session user={'id': 6, 'username': 'co2', 'role': 'contractor'}
+2025-11-04 22:39:02,985 DEBUG app: login succeeded, session={'flash_message': '已退件，承包商可重新上傳', 'flash_type': 'warning', 'user': {'id': 4, 'username': 'client1', 'role': 'client'}}
+2025-11-04 22:39:03,001 DEBUG app: dashboard called, session user={'id': 4, 'username': 'client1', 'role': 'client'}
+2025-11-04 22:39:57,550 DEBUG app: dashboard called, session user={'id': 4, 'username': 'client1', 'role': 'client'}
+2025-11-04 22:40:22,199 DEBUG app: dashboard called, session user={'id': 4, 'username': 'client1', 'role': 'client'}
+2025-11-04 22:42:16,772 DEBUG app: dashboard called, session user={'id': 4, 'username': 'client1', 'role': 'client'}
+2025-11-04 22:44:02,831 DEBUG app: dashboard called, session user={'id': 4, 'username': 'client1', 'role': 'client'}
+2025-11-04 22:44:06,050 DEBUG app: dashboard called, session user={'id': 4, 'username': 'client1', 'role': 'client'}
+2025-11-04 22:53:34,671 DEBUG app: login succeeded, session={'flash_message': '已退件，承包商可重新上傳', 'flash_type': 'warning', 'user': {'id': 4, 'username': 'client1', 'role': 'client'}}
+2025-11-04 22:53:34,690 DEBUG app: dashboard called, session user={'id': 4, 'username': 'client1', 'role': 'client'}
+2025-11-04 22:53:47,721 DEBUG app: dashboard called, session user={'id': 4, 'username': 'client1', 'role': 'client'}
+2025-11-04 22:53:50,958 DEBUG app: dashboard called, session user={'id': 4, 'username': 'client1', 'role': 'client'}
+2025-11-04 22:54:41,852 DEBUG app: login succeeded, session={'flash_message': '已退件，承包商可重新上傳', 'flash_type': 'warning', 'user': {'id': 4, 'username': 'client1', 'role': 'client'}}
+2025-11-04 22:54:41,864 DEBUG app: dashboard called, session user={'id': 4, 'username': 'client1', 'role': 'client'}
+2025-11-04 22:55:10,703 DEBUG app: dashboard called, session user={'id': 4, 'username': 'client1', 'role': 'client'}
+2025-11-04 23:05:50,230 DEBUG app: dashboard called, session user={'id': 4, 'username': 'client1', 'role': 'client'}
+2025-11-04 23:06:48,399 DEBUG app: login succeeded, session={'flash_message': '已退件，承包商可重新上傳', 'flash_type': 'warning', 'user': {'id': 4, 'username': 'client1', 'role': 'client'}}
+2025-11-04 23:06:48,416 DEBUG app: dashboard called, session user={'id': 4, 'username': 'client1', 'role': 'client'}
+2025-11-04 23:29:10,379 DEBUG app: login succeeded, session={'flash_message': '已退件，承包商可重新上傳', 'flash_type': 'warning', 'user': {'id': 6, 'username': 'co2', 'role': 'contractor'}}
+2025-11-04 23:29:10,394 DEBUG app: dashboard called, session user={'id': 6, 'username': 'co2', 'role': 'contractor'}
+2025-11-04 23:29:31,109 DEBUG app: dashboard called, session user={'id': 6, 'username': 'co2', 'role': 'contractor'}
+2025-11-04 23:31:26,675 DEBUG app: login succeeded, session={'flash_message': '檔案上傳成功，專案已標記為「已提交」！', 'flash_type': 'success', 'user': {'id': 4, 'username': 'client1', 'role': 'client'}}
+2025-11-04 23:31:26,922 DEBUG app: login succeeded, session={'flash_message': '檔案上傳成功，專案已標記為「已提交」！', 'flash_type': 'success', 'user': {'id': 4, 'username': 'client1', 'role': 'client'}}
+2025-11-04 23:31:26,932 DEBUG app: dashboard called, session user={'id': 4, 'username': 'client1', 'role': 'client'}
+2025-11-05 12:20:57,521 DEBUG app: login succeeded, session={'user': {'id': 4, 'username': 'client1', 'role': 'client'}}
+2025-11-05 12:20:57,859 DEBUG app: login succeeded, session={'user': {'id': 4, 'username': 'client1', 'role': 'client'}}
+2025-11-05 12:20:57,869 DEBUG app: dashboard called, session user={'id': 4, 'username': 'client1', 'role': 'client'}
+2025-11-05 12:21:07,853 DEBUG app: dashboard called, session user={'id': 4, 'username': 'client1', 'role': 'client'}
+2025-11-05 12:21:22,447 DEBUG app: login succeeded, session={'user': {'id': 6, 'username': 'co2', 'role': 'contractor'}}
+2025-11-05 12:21:22,459 DEBUG app: dashboard called, session user={'id': 6, 'username': 'co2', 'role': 'contractor'}
+2025-11-05 12:21:39,622 DEBUG app: login succeeded, session={'user': {'id': 4, 'username': 'client1', 'role': 'client'}}
+2025-11-05 12:21:39,634 DEBUG app: dashboard called, session user={'id': 4, 'username': 'client1', 'role': 'client'}
