@@ -1,26 +1,19 @@
-<!-- templates/upload.html -->
-<!-- 承包商上傳結案檔案的頁面 -->
-<!-- 主要功能：
-1. 提供檔案上傳介面
-2. 處理檔案上傳
-3. 顯示上傳狀態訊息
--->
-
 {% extends "base.html" %}
 {% block content %}
-<!-- 頁面標題 -->
-<h1>上傳檔案</h1>
+<div class="container">
+    <h1>上傳檔案</h1>
 
-<!-- 檔案上傳表單 -->
-<!-- enctype="multipart/form-data" 用於處理檔案上傳 -->
-<form method="post" action="/upload/{{ project_id }}" enctype="multipart/form-data">
-    <!-- 檔案選擇器 -->
-    <label>選擇檔案: <input type="file" name="file" required></label><br>
-    <button type="submit">上傳</button>
-</form>
+    <form method="post" action="/upload/{{ project_id }}" enctype="multipart/form-data">
+        <label>選擇檔案
+            <input type="file" name="file" required>
+        </label>
+        <button type="submit">上傳檔案</button>
+    </form>
 
-<!-- 顯示上傳結果訊息 -->
-{% if message %}
-<p>{{ message }}</p>
-{% endif %}
+    {% if message %}
+    <div class="alert alert-success mt-4">
+        {{ message }}
+    </div>
+    {% endif %}
+</div>
 {% endblock %}
