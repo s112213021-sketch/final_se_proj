@@ -4,46 +4,89 @@
 
 {% block content %}
 <div class="container mt-4">
-    <div class="card">
-        <div class="card-header d-flex justify-content-between">
-            <h5>👁️ 檔案檢視</h5>
+
+    <!-- 檔案資訊 -->
+    <div class="card mb-4">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h5 class="mb-0">👁️ 檔案檢視</h5>
             <a href="/dashboard" class="btn btn-secondary btn-sm">🏠 返回</a>
         </div>
+
         <div class="card-body">
             <p><strong>🏡 專案：</strong> {{ bid.project_title }}</p>
+
             <p><strong>📁 檔案：</strong>
                 <a href="/uploads/{{ upload.filename }}" target="_blank" class="text-primary">
                     {{ upload.filename }} (點擊下載)
                 </a>
             </p>
+
             <p><strong>⏰ 上傳時間：</strong> {{ upload.created_at }}</p>
 
             <hr>
 
-            {% if user.role == "client" and bid.project_status != 'completed' %}
-            <form method="post" action="/reject_bid/{{ bid.id }}" class="d-inline">
-                <button type="submit" class="btn btn-warning btn-sm">🔄 退件</button>
-            </form>
-            <form method="post" action="/complete_project/{{ bid.project_id }}" class="d-inline ms-2">
-                <button type="submit" class="btn btn-success btn-sm">✅ 結案</button>
-            </form>
+            <!-- ✅ 共用動作：查看 / 提出 Issue（甲乙都能看 Issue） -->
+            <div class="d-flex flex-wrap gap-2 align-items-center mb-2">
+                {# 你 main.py 若有傳 project_id，用 project_id；沒有就用 bid.project_id #}
+                {% set pid = project_id if project_id is defined else bid.project_id %}
 
-            {% elif user.role == "contractor" %}
-            {% if bid.project_status == 'completed' %}
-            <div class="alert alert-success">
-                🎉 <strong>已結案，審核通過！恭喜完成任務！</strong>
+                <a href="/issues/{{ pid }}" class="btn btn-outline-primary btn-sm">
+                    📝 提出問題 / 查看 Issues
+                    {% if open_issues is defined %}
+                        {% if open_issues > 0 %}
+                            （未完成 {{ open_issues }}）
+                        {% endif %}
+                    {% endif %}
+                </a>
             </div>
-            {% elif bid.status == 'rejected' %}
-            <a href="/upload/{{ bid.project_id }}" class="btn btn-primary btn-sm">
-                🔄 重新上傳
-            </a>
-            {% else %}
-            <div class="alert alert-info">
-                ⏳ <strong>檔案已提交，等待審核中...</strong>
-            </div>
+
+            <!-- 甲方操作 -->
+            {% if user.role == "client" and bid.project_status != 'completed' %}
+                <div class="d-flex flex-wrap gap-2 align-items-center">
+                    <form method="post" action="/reject_bid/{{ bid.id }}" class="d-inline">
+                        <button type="submit" class="btn btn-warning btn-sm">🔄 退件</button>
+                    </form>
+
+                    <!-- ✅ 結案：只有 open_issues == 0 才能結案 -->
+                    {% if open_issues == 0 %}
+                    <form method="post" action="/complete_project/{{ bid.project_id }}" class="d-inline">
+                        <button type="submit" class="btn btn-success btn-sm">✅ 結案</button>
+                    </form>
+                    {% else %}
+                    <button class="btn btn-success btn-sm" disabled>
+                        ✅ 結案（尚有 {{ open_issues }} 個 Issue 未完成）
+                    </button>
+                    {% endif %}
+                </div>
+
+                {% if open_issues > 0 %}
+                <div class="alert alert-warning mt-3 mb-0">
+                    ⚠️ 目前尚有 <strong>{{ open_issues }}</strong> 個 Issue 未完成，請先全部處理完成再結案。
+                </div>
+                {% endif %}
             {% endif %}
+
+            <!-- 乙方狀態提示 -->
+            {% if user.role == "contractor" %}
+                {% if bid.project_status == 'completed' %}
+                    <div class="alert alert-success mt-3">
+                        🎉 <strong>已結案，審核通過！恭喜完成任務！</strong>
+                    </div>
+                {% elif bid.status == 'rejected' %}
+                    <div class="mt-3">
+                        <a href="/upload/{{ bid.project_id }}" class="btn btn-primary btn-sm">🔄 重新上傳</a>
+                        <div class="alert alert-warning mt-2 mb-0">
+                            ⚠️ 此案已退件，請依 Issue/留言要求修正後重新上傳。
+                        </div>
+                    </div>
+                {% else %}
+                    <div class="alert alert-info mt-3 mb-0">
+                        ⏳ <strong>檔案已提交，等待審核中...</strong>
+                    </div>
+                {% endif %}
             {% endif %}
         </div>
     </div>
+
 </div>
 {% endblock %}
