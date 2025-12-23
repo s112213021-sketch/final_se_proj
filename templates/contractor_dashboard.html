@@ -24,8 +24,10 @@
                         <p class="card-text text-muted flex-grow-1">
                             {{ p.description[:100] }}{% if p.description|length > 100 %}...{% endif %}
                         </p>
-                        <p class="card-text"><strong>預算</strong> <span class="text-success">${{ "%.2f"|format(p.budget)
-                                }}</span></p>
+                        <p class="card-text">
+                            <strong>預算</strong>
+                            <span class="text-success">${{ "%.2f"|format(p.budget) }}</span>
+                        </p>
                         <p class="card-text text-muted small">
                             <strong>截止</strong> {{ p.deadline }}
                         </p>
@@ -53,7 +55,8 @@
                         <th>金額</th>
                         <th>狀態</th>
                         <th>上傳檔案</th>
-                        <th width="200">操作</th>
+                        <th>Issues</th>
+                        <th width="240">操作</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -95,22 +98,37 @@
                             {% endif %}
                         </td>
 
+                        {# ✅ Issues 入口只保留在這一欄 #}
+                        <td>
+                            {% if bid.status in ['accepted','rejected'] or bid.project_status == 'completed' %}
+                                <a href="/issues/{{ bid.project_id }}" class="btn btn-outline-secondary btn-sm">
+                                    查看 Issues
+                                </a>
+                            {% else %}
+                                <span class="text-muted small">—</span>
+                            {% endif %}
+                        </td>
+
+                        {# ✅ 操作欄：只保留 上傳/重新上傳/檢視，不要再出現 Issues #}
                         <td>
                             {% if bid.project_status == 'completed' %}
-                            <a href="/view_upload/{{ bid.id }}" class="btn btn-info btn-sm">檢視</a>
+                                <a href="/view_upload/{{ bid.id }}" class="btn btn-info btn-sm">檢視</a>
+
                             {% elif bid.status == 'accepted' or bid.status == 'rejected' %}
-                            {% if bid.status == 'rejected' %}
-                            <a href="/upload/{{ bid.project_id }}" class="btn btn-warning btn-sm">重新上傳</a>
-                            {% else %}
-                            <a href="/upload/{{ bid.project_id }}" class="btn btn-success btn-sm">上傳檔案</a>
-                            {% endif %}
-                            {% if bid.upload_filename %}
-                            <a href="/view_upload/{{ bid.id }}" class="btn btn-secondary btn-sm ms-1">檢視</a>
-                            {% endif %}
+                                {% if bid.status == 'rejected' %}
+                                    <a href="/upload/{{ bid.project_id }}" class="btn btn-warning btn-sm">重新上傳</a>
+                                {% else %}
+                                    <a href="/upload/{{ bid.project_id }}" class="btn btn-success btn-sm">上傳檔案</a>
+                                {% endif %}
+
+                                {% if bid.upload_filename %}
+                                    <a href="/view_upload/{{ bid.id }}" class="btn btn-secondary btn-sm ms-1">檢視</a>
+                                {% endif %}
+
                             {% elif bid.status == 'pending' %}
-                            <span class="text-muted small">等待客戶選擇</span>
+                                <span class="text-muted small">等待客戶選擇</span>
                             {% else %}
-                            <span class="text-muted">—</span>
+                                <span class="text-muted">—</span>
                             {% endif %}
                         </td>
                     </tr>

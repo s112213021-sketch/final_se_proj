@@ -634,7 +634,7 @@ async def view_upload(bid_id: int, request: Request, user=Depends(get_current_us
             "upload": upload,
             "user": user,
             "open_issues": open_issues,
-            "project_id": project_id,   # ✅ 這個一定要給
+            "project_id": project_id,     # ✅ 給按鈕用
         },
     )
 

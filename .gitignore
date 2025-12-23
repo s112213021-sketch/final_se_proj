@@ -1,19 +1,5 @@
 __pycache__/
-db.py
-# macOS
-.DS_Store
-
-# logs
-logs/
-*.log
-
-# uploads (user uploaded files)
-uploads/
-
-# python cache
-__pycache__/
 *.pyc
-
-# env
-.venv/
-.env
+logs/
+uploads/
+db.py
