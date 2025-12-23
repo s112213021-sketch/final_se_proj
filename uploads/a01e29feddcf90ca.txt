@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="zh-tw" dir="ltr">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="robots" content="noindex">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>匯出: postgres - Adminer</title>
+<link rel="stylesheet" href="adminer.php?file=default.css&amp;version=5.4.0">
+<link rel='stylesheet' media='(prefers-color-scheme: dark)' href='adminer.php?file=dark.css&amp;version=5.4.0'>
+<meta name='color-scheme' content='light dark'>
+<script src='adminer.php?file=functions.js&amp;version=5.4.0' nonce="ZTM1MTFmNzY3MGJkMzUyOWY3YTZlODAzNTdlMTZmMzk="></script>
+<link rel='icon' href='data:image/gif;base64,R0lGODlhEAAQAJEAAAQCBPz+/PwCBAROZCH5BAEAAAAALAAAAAAQABAAAAI2hI+pGO1rmghihiUdvUBnZ3XBQA7f05mOak1RWXrNq5nQWHMKvuoJ37BhVEEfYxQzHjWQ5qIAADs='>
+<link rel='apple-touch-icon' href='adminer.php?file=logo.png&amp;version=5.4.0'>
+
+<body class='ltr nojs adminer'>
+<script nonce="ZTM1MTFmNzY3MGJkMzUyOWY3YTZlODAzNTdlMTZmMzk=">mixin(document.body, {onkeydown: bodyKeydown, onclick: bodyClick});
+document.body.classList.replace('nojs', 'js');
+const offlineMessage = '您離線了。';
+const thousandsSeparator = ',';</script>
+<div id='help' class='jush-pgsql jsonly hidden'></div>
+<script nonce="ZTM1MTFmNzY3MGJkMzUyOWY3YTZlODAzNTdlMTZmMzk=">mixin(qs('#help'), {onmouseover: () => { helpOpen = 1; }, onmouseout: helpMouseout});</script>
+<div id='content'>
+<span id='menuopen' class='jsonly'><button type='submit' name='' title='' class='icon icon-move'><span>menu</span></button></span><script nonce="ZTM1MTFmNzY3MGJkMzUyOWY3YTZlODAzNTdlMTZmMzk=">qs('#menuopen').onclick = event => { qs('#foot').classList.toggle('foot'); event.stopPropagation(); }</script>
+<p id="breadcrumb"><a href="adminer.php?pgsql=">PostgreSQL</a> » <a href='adminer.php?pgsql=&amp;username=penny' accesskey='1' title='Alt+Shift+1'>伺服器</a> » <a href="adminer.php?pgsql=&amp;username=penny&amp;db=postgres&amp;ns=">postgres</a> » <a href="adminer.php?pgsql=&amp;username=penny&amp;db=postgres&amp;ns=public">public</a> » 匯出
+<h2>匯出: postgres</h2>
+<div id='ajaxstatus' class='jsonly hidden'></div>
+
+<form action="" method="post">
+<table class="layout">
+<tr><th>輸出<td><label><input type='radio' name='output' value='text' checked>打開</label><label><input type='radio' name='output' value='file'>儲存</label><label><input type='radio' name='output' value='gz'>gzip</label>
+<tr><th>格式<td><label><input type='radio' name='format' value='sql' checked>SQL</label><label><input type='radio' name='format' value='csv'>CSV,</label><label><input type='radio' name='format' value='csv;'>CSV;</label><label><input type='radio' name='format' value='tsv'>TSV</label>
+<tr><th>資料庫<td><select name='db_style'><option selected><option>USE<option>DROP+CREATE<option>CREATE</select><label><input type='checkbox' name='types' value='1'>使用者類型</label><label><input type='checkbox' name='routines' value='1' checked>程序</label><tr><th>資料表<td><select name='table_style'><option><option selected>DROP+CREATE<option>CREATE</select><label><input type='checkbox' name='auto_increment' value='1'>自動遞增</label><label><input type='checkbox' name='triggers' value='1' checked>觸發器</label><tr><th>資料<td><select name='data_style'><option><option>TRUNCATE+INSERT<option selected>INSERT</select></table>
+<p><input type="submit" value="匯出">
+<input type='hidden' name='token' value='1024942:109488'>
+
+<table>
+<script nonce="ZTM1MTFmNzY3MGJkMzUyOWY3YTZlODAzNTdlMTZmMzk=">qsl('table').onclick = dumpClick;</script>
+<thead><tr><th style='text-align: left;'><label class='block'><input type='checkbox' id='check-tables' checked>資料表</label><script nonce="ZTM1MTFmNzY3MGJkMzUyOWY3YTZlODAzNTdlMTZmMzk=">qs('#check-tables').onclick = partial(formCheck, /^tables\[/);</script><th style='text-align: right;'><label class='block'>資料<input type='checkbox' id='check-data' checked></label><script nonce="ZTM1MTFmNzY3MGJkMzUyOWY3YTZlODAzNTdlMTZmMzk=">qs('#check-data').onclick = partial(formCheck, /^data\[/);</script></thead>
+<tr><td><label class='block'><input type='checkbox' name='tables[]' value='bids' checked>bids</label><td align='right'><label class='block'><span id='Rows-bids'></span><input type='checkbox' name='data[]' value='bids' checked></label>
+<tr><td><label class='block'><input type='checkbox' name='tables[]' value='deliverables' checked>deliverables</label><td align='right'><label class='block'><span id='Rows-deliverables'></span><input type='checkbox' name='data[]' value='deliverables' checked></label>
+<tr><td><label class='block'><input type='checkbox' name='tables[]' value='messages' checked>messages</label><td align='right'><label class='block'><span id='Rows-messages'></span><input type='checkbox' name='data[]' value='messages' checked></label>
+<tr><td><label class='block'><input type='checkbox' name='tables[]' value='posts' checked>posts</label><td align='right'><label class='block'><span id='Rows-posts'></span><input type='checkbox' name='data[]' value='posts' checked></label>
+<tr><td><label class='block'><input type='checkbox' name='tables[]' value='projects' checked>projects</label><td align='right'><label class='block'><span id='Rows-projects'></span><input type='checkbox' name='data[]' value='projects' checked></label>
+<tr><td><label class='block'><input type='checkbox' name='tables[]' value='proposals' checked>proposals</label><td align='right'><label class='block'><span id='Rows-proposals'></span><input type='checkbox' name='data[]' value='proposals' checked></label>
+<tr><td><label class='block'><input type='checkbox' name='tables[]' value='submissions' checked>submissions</label><td align='right'><label class='block'><span id='Rows-submissions'></span><input type='checkbox' name='data[]' value='submissions' checked></label>
+<tr><td><label class='block'><input type='checkbox' name='tables[]' value='uploads' checked>uploads</label><td align='right'><label class='block'><span id='Rows-uploads'></span><input type='checkbox' name='data[]' value='uploads' checked></label>
+<tr><td><label class='block'><input type='checkbox' name='tables[]' value='users' checked>users</label><td align='right'><label class='block'><span id='Rows-users'></span><input type='checkbox' name='data[]' value='users' checked></label>
+<script nonce="ZTM1MTFmNzY3MGJkMzUyOWY3YTZlODAzNTdlMTZmMzk=">ajaxSetHtml('adminer.php?pgsql=&username=penny&db=postgres&ns=public&script=db');</script>
+</table>
+</form>
+</div>
+
+<div id='foot' class='foot'>
+<div id='menu'>
+<h1><a href='https://www.adminer.org/' target="_blank" rel="noreferrer noopener" id='h1'><img src='adminer.php?file=logo.png&amp;version=5.4.0' width='24' height='24' alt='' id='logo'>Adminer</a> <span class='version'>5.4.0 <a href='https://www.adminer.org/#download' target="_blank" rel="noreferrer noopener" id='version'>5.4.1</a></span></h1>
+<form action='' method='post'>
+<div id='lang'><label>語言: <select name='lang'><option value="en">English<option value="ar">العربية<option value="bg">Български<option value="bn">বাংলা<option value="bs">Bosanski<option value="ca">Català<option value="cs">Čeština<option value="da">Dansk<option value="de">Deutsch<option value="el">Ελληνικά<option value="es">Español<option value="et">Eesti<option value="fa">فارسی<option value="fi">Suomi<option value="fr">Français<option value="gl">Galego<option value="he">עברית<option value="hi">हिन्दी<option value="hu">Magyar<option value="id">Bahasa Indonesia<option value="it">Italiano<option value="ja">日本語<option value="ka">ქართული<option value="ko">한국어<option value="lt">Lietuvių<option value="lv">Latviešu<option value="ms">Bahasa Melayu<option value="nl">Nederlands<option value="no">Norsk<option value="pl">Polski<option value="pt">Português<option value="pt-br">Português (Brazil)<option value="ro">Limba Română<option value="ru">Русский<option value="sk">Slovenčina<option value="sl">Slovenski<option value="sr">Српски<option value="sv">Svenska<option value="ta">த‌மிழ்<option value="th">ภาษาไทย<option value="tr">Türkçe<option value="uk">Українська<option value="uz">Oʻzbekcha<option value="vi">Tiếng Việt<option value="zh">简体中文<option value="zh-tw" selected>繁體中文</select><script nonce="ZTM1MTFmNzY3MGJkMzUyOWY3YTZlODAzNTdlMTZmMzk=">qsl('select').onchange = function () { this.form.submit(); };</script></label> <input type='submit' value='使用' class='hidden'>
+<input type='hidden' name='token' value='1022066:102508'>
+</div>
+</form>
+<script src='adminer.php?file=jush.js&amp;version=5.4.0' nonce="ZTM1MTFmNzY3MGJkMzUyOWY3YTZlODAzNTdlMTZmMzk=" defer></script>
+<script nonce="ZTM1MTFmNzY3MGJkMzUyOWY3YTZlODAzNTdlMTZmMzk=">
+var jushLinks = { pgsql:{
+	"adminer.php?pgsql=&username=penny&db=postgres&ns=public&table=$&": /\b(bids|deliverables|messages|posts|projects|proposals|submissions|uploads|users)\b/g
+}
+};
+jushLinks.bac = jushLinks.pgsql;
+jushLinks.bra = jushLinks.pgsql;
+jushLinks.sqlite_quo = jushLinks.pgsql;
+jushLinks.mssql_bra = jushLinks.pgsql;
+</script>
+<script nonce="ZTM1MTFmNzY3MGJkMzUyOWY3YTZlODAzNTdlMTZmMzk=">syntaxHighlighting('18', '');</script>
+<form action=''>
+<p id='dbs'>
+<input type='hidden' name='pgsql' value=''>
+<input type='hidden' name='username' value='penny'>
+<label title='資料庫'>資料庫: <select name='db'><option value=""><option selected>postgres<option>template1<option>work_contracts</select><script nonce="ZTM1MTFmNzY3MGJkMzUyOWY3YTZlODAzNTdlMTZmMzk=">mixin(qsl('select'), {onmousedown: dbMouseDown, onchange: dbChange});</script>
+</label><input type='submit' value='使用' class='hidden'>
+<br><label>資料表結構: <select name='ns'><option value=""><option>information_schema<option>pg_catalog<option>pg_toast<option selected>public</select><script nonce="ZTM1MTFmNzY3MGJkMzUyOWY3YTZlODAzNTdlMTZmMzk=">mixin(qsl('select'), {onmousedown: dbMouseDown, onchange: dbChange});</script>
+</label><input type='hidden' name='dump' value=''>
+</p></form>
+<p class='links'>
+<a href='adminer.php?pgsql=&amp;username=penny&amp;db=postgres&amp;ns=public&amp;sql='>SQL 命令</a>
+<a href='adminer.php?pgsql=&amp;username=penny&amp;db=postgres&amp;ns=public&amp;import='>匯入</a>
+<a href='adminer.php?pgsql=&amp;username=penny&amp;db=postgres&amp;ns=public&amp;dump=' id='dump' class='active '>匯出</a>
+<a href="adminer.php?pgsql=&amp;username=penny&amp;db=postgres&amp;ns=public&amp;create=">建立資料表</a>
+<ul id='tables'><script nonce="ZTM1MTFmNzY3MGJkMzUyOWY3YTZlODAzNTdlMTZmMzk=">mixin(qs('#tables'), {onmouseover: menuOver, onmouseout: menuOut});</script>
+<li><a href="adminer.php?pgsql=&amp;username=penny&amp;db=postgres&amp;ns=public&amp;select=bids" class='select' title='選擇資料'>選擇</a> <a href="adminer.php?pgsql=&amp;username=penny&amp;db=postgres&amp;ns=public&amp;table=bids" class='structure' title='顯示結構'>bids</a>
+<li><a href="adminer.php?pgsql=&amp;username=penny&amp;db=postgres&amp;ns=public&amp;select=deliverables" class='select' title='選擇資料'>選擇</a> <a href="adminer.php?pgsql=&amp;username=penny&amp;db=postgres&amp;ns=public&amp;table=deliverables" class='structure' title='顯示結構'>deliverables</a>
+<li><a href="adminer.php?pgsql=&amp;username=penny&amp;db=postgres&amp;ns=public&amp;select=messages" class='select' title='選擇資料'>選擇</a> <a href="adminer.php?pgsql=&amp;username=penny&amp;db=postgres&amp;ns=public&amp;table=messages" class='structure' title='顯示結構'>messages</a>
+<li><a href="adminer.php?pgsql=&amp;username=penny&amp;db=postgres&amp;ns=public&amp;select=posts" class='select' title='選擇資料'>選擇</a> <a href="adminer.php?pgsql=&amp;username=penny&amp;db=postgres&amp;ns=public&amp;table=posts" class='structure' title='顯示結構'>posts</a>
+<li><a href="adminer.php?pgsql=&amp;username=penny&amp;db=postgres&amp;ns=public&amp;select=projects" class='select' title='選擇資料'>選擇</a> <a href="adminer.php?pgsql=&amp;username=penny&amp;db=postgres&amp;ns=public&amp;table=projects" class='structure' title='顯示結構'>projects</a>
+<li><a href="adminer.php?pgsql=&amp;username=penny&amp;db=postgres&amp;ns=public&amp;select=proposals" class='select' title='選擇資料'>選擇</a> <a href="adminer.php?pgsql=&amp;username=penny&amp;db=postgres&amp;ns=public&amp;table=proposals" class='structure' title='顯示結構'>proposals</a>
+<li><a href="adminer.php?pgsql=&amp;username=penny&amp;db=postgres&amp;ns=public&amp;select=submissions" class='select' title='選擇資料'>選擇</a> <a href="adminer.php?pgsql=&amp;username=penny&amp;db=postgres&amp;ns=public&amp;table=submissions" class='structure' title='顯示結構'>submissions</a>
+<li><a href="adminer.php?pgsql=&amp;username=penny&amp;db=postgres&amp;ns=public&amp;select=uploads" class='select' title='選擇資料'>選擇</a> <a href="adminer.php?pgsql=&amp;username=penny&amp;db=postgres&amp;ns=public&amp;table=uploads" class='structure' title='顯示結構'>uploads</a>
+<li><a href="adminer.php?pgsql=&amp;username=penny&amp;db=postgres&amp;ns=public&amp;select=users" class='select' title='選擇資料'>選擇</a> <a href="adminer.php?pgsql=&amp;username=penny&amp;db=postgres&amp;ns=public&amp;table=users" class='structure' title='顯示結構'>users</a>
+</ul>
+</div>
+<form action="" method="post">
+<p class="logout">
+<span>penny
+</span>
+<input type="submit" name="logout" value="登出" id="logout">
+<input type='hidden' name='token' value='909928:256630'>
+</form>
+</div>
+
+<script nonce="ZTM1MTFmNzY3MGJkMzUyOWY3YTZlODAzNTdlMTZmMzk=">setupSubmitHighlight(document);</script>

@@ -229,3 +229,507 @@ psycopg.errors.InsufficientPrivilege: permission denied for table users
 2025-11-05 12:21:22,459 DEBUG app: dashboard called, session user={'id': 6, 'username': 'co2', 'role': 'contractor'}
 2025-11-05 12:21:39,622 DEBUG app: login succeeded, session={'user': {'id': 4, 'username': 'client1', 'role': 'client'}}
 2025-11-05 12:21:39,634 DEBUG app: dashboard called, session user={'id': 4, 'username': 'client1', 'role': 'client'}
+2025-11-07 14:54:49,649 DEBUG app: login succeeded, session={'user': {'id': 4, 'username': 'client1', 'role': 'client'}}
+2025-11-07 14:54:49,667 DEBUG app: dashboard called, session user={'id': 4, 'username': 'client1', 'role': 'client'}
+2025-11-07 14:56:36,023 DEBUG app: dashboard called, session user={'id': 4, 'username': 'client1', 'role': 'client'}
+2025-11-07 14:58:26,704 DEBUG app: dashboard called, session user={'id': 4, 'username': 'client1', 'role': 'client'}
+2025-11-07 14:58:30,150 DEBUG app: dashboard called, session user={'id': 4, 'username': 'client1', 'role': 'client'}
+2025-11-07 15:00:08,585 DEBUG app: login succeeded, session={'user': {'id': 6, 'username': 'co2', 'role': 'contractor'}}
+2025-11-07 15:00:08,604 DEBUG app: dashboard called, session user={'id': 6, 'username': 'co2', 'role': 'contractor'}
+2025-11-07 15:00:22,606 DEBUG app: dashboard called, session user={'id': 6, 'username': 'co2', 'role': 'contractor'}
+2025-11-07 15:00:27,878 DEBUG app: dashboard called, session user={'id': 4, 'username': 'client1', 'role': 'client'}
+2025-11-07 15:02:09,332 DEBUG app: dashboard called, session user={'id': 4, 'username': 'client1', 'role': 'client'}
+2025-11-07 15:02:58,384 DEBUG app: dashboard called, session user={'id': 6, 'username': 'co2', 'role': 'contractor'}
+2025-11-07 15:03:01,068 DEBUG app: dashboard called, session user={'id': 6, 'username': 'co2', 'role': 'contractor'}
+2025-11-07 15:03:05,282 DEBUG app: dashboard called, session user={'id': 6, 'username': 'co2', 'role': 'contractor'}
+2025-11-07 15:03:06,111 DEBUG app: dashboard called, session user={'id': 6, 'username': 'co2', 'role': 'contractor'}
+2025-11-07 15:03:22,535 DEBUG app: dashboard called, session user={'id': 4, 'username': 'client1', 'role': 'client'}
+2025-11-07 15:03:28,062 DEBUG app: dashboard called, session user={'id': 4, 'username': 'client1', 'role': 'client'}
+2025-11-07 15:03:33,432 DEBUG app: dashboard called, session user={'id': 4, 'username': 'client1', 'role': 'client'}
+2025-11-07 15:03:37,183 DEBUG app: dashboard called, session user={'id': 4, 'username': 'client1', 'role': 'client'}
+2025-11-07 15:03:41,093 DEBUG app: dashboard called, session user={'id': 4, 'username': 'client1', 'role': 'client'}
+2025-11-07 15:03:46,643 DEBUG app: dashboard called, session user={'id': 6, 'username': 'co2', 'role': 'contractor'}
+2025-11-07 15:03:50,638 DEBUG app: dashboard called, session user={'id': 6, 'username': 'co2', 'role': 'contractor'}
+2025-11-07 15:04:48,307 DEBUG app: dashboard called, session user={'id': 4, 'username': 'client1', 'role': 'client'}
+2025-11-07 15:04:52,168 DEBUG app: dashboard called, session user={'id': 4, 'username': 'client1', 'role': 'client'}
+2025-11-07 15:04:57,901 DEBUG app: dashboard called, session user={'id': 6, 'username': 'co2', 'role': 'contractor'}
+2025-11-07 15:04:59,050 DEBUG app: dashboard called, session user={'id': 6, 'username': 'co2', 'role': 'contractor'}
+2025-11-07 15:21:53,955 DEBUG app: dashboard called, session user={'id': 4, 'username': 'client1', 'role': 'client'}
+2025-11-07 15:21:55,258 DEBUG app: dashboard called, session user={'id': 4, 'username': 'client1', 'role': 'client'}
+2025-11-07 15:22:11,168 DEBUG app: dashboard called, session user={'id': 4, 'username': 'client1', 'role': 'client'}
+2025-11-07 15:22:14,117 DEBUG app: dashboard called, session user={'id': 4, 'username': 'client1', 'role': 'client'}
+2025-11-07 15:22:17,459 DEBUG app: dashboard called, session user={'id': 4, 'username': 'client1', 'role': 'client'}
+2025-11-07 15:22:20,285 DEBUG app: dashboard called, session user={'id': 4, 'username': 'client1', 'role': 'client'}
+2025-11-07 15:22:24,622 DEBUG app: dashboard called, session user={'id': 4, 'username': 'client1', 'role': 'client'}
+2025-11-07 15:22:28,386 DEBUG app: dashboard called, session user={'id': 4, 'username': 'client1', 'role': 'client'}
+2025-11-07 15:24:10,671 DEBUG app: dashboard called, session user={'id': 4, 'username': 'client1', 'role': 'client'}
+2025-11-07 15:36:41,422 DEBUG app: dashboard called, session user={'id': 6, 'username': 'co2', 'role': 'contractor'}
+2025-11-07 15:36:46,059 DEBUG app: dashboard called, session user={'id': 6, 'username': 'co2', 'role': 'contractor'}
+2025-11-07 15:36:54,392 DEBUG app: dashboard called, session user={'id': 6, 'username': 'co2', 'role': 'contractor'}
+2025-11-07 15:37:00,887 DEBUG app: dashboard called, session user={'id': 6, 'username': 'co2', 'role': 'contractor'}
+2025-11-07 15:37:11,540 DEBUG app: dashboard called, session user={'id': 6, 'username': 'co2', 'role': 'contractor'}
+2025-11-07 15:37:47,365 DEBUG app: dashboard called, session user={'id': 4, 'username': 'client1', 'role': 'client'}
+2025-11-07 15:38:39,963 DEBUG app: dashboard called, session user={'id': 4, 'username': 'client1', 'role': 'client'}
+2025-11-07 16:20:11,541 DEBUG app: dashboard called, session user={'id': 6, 'username': 'co2', 'role': 'contractor'}
+2025-11-07 16:21:31,568 DEBUG app: dashboard called, session user={'id': 6, 'username': 'co2', 'role': 'contractor'}
+2025-11-07 16:21:52,596 DEBUG app: dashboard called, session user={'id': 6, 'username': 'co2', 'role': 'contractor'}
+2025-11-07 16:21:57,653 DEBUG app: dashboard called, session user={'id': 6, 'username': 'co2', 'role': 'contractor'}
+2025-11-07 16:22:12,558 DEBUG app: login succeeded, session={'flash_message': '檔案上傳成功，專案已標記為「已提交」！', 'flash_type': 'success', 'user': {'id': 6, 'username': 'co2', 'role': 'contractor'}}
+2025-11-07 16:22:12,573 DEBUG app: dashboard called, session user={'id': 6, 'username': 'co2', 'role': 'contractor'}
+2025-11-07 16:22:19,600 DEBUG app: dashboard called, session user={'id': 4, 'username': 'client1', 'role': 'client'}
+2025-11-07 16:22:36,038 DEBUG app: dashboard called, session user={'id': 4, 'username': 'client1', 'role': 'client'}
+2025-11-07 16:23:20,319 DEBUG app: dashboard called, session user={'id': 4, 'username': 'client1', 'role': 'client'}
+2025-11-07 16:23:35,693 DEBUG app: dashboard called, session user={'id': 4, 'username': 'client1', 'role': 'client'}
+2025-11-07 16:23:47,799 DEBUG app: dashboard called, session user={'id': 6, 'username': 'co2', 'role': 'contractor'}
+2025-11-07 16:23:53,990 DEBUG app: dashboard called, session user={'id': 6, 'username': 'co2', 'role': 'contractor'}
+2025-11-07 16:23:56,823 DEBUG app: dashboard called, session user={'id': 4, 'username': 'client1', 'role': 'client'}
+2025-11-07 16:29:06,654 DEBUG app: dashboard called, session user={'id': 4, 'username': 'client1', 'role': 'client'}
+2025-11-07 16:29:13,674 DEBUG app: dashboard called, session user={'id': 6, 'username': 'co2', 'role': 'contractor'}
+2025-11-07 16:29:29,716 DEBUG app: dashboard called, session user={'id': 6, 'username': 'co2', 'role': 'contractor'}
+2025-11-07 16:35:04,729 DEBUG app: dashboard called, session user={'id': 6, 'username': 'co2', 'role': 'contractor'}
+2025-11-07 16:35:26,062 DEBUG app: login succeeded, session={'flash_message': '檔案上傳成功，專案已標記為「已提交」！', 'flash_type': 'success', 'user': {'id': 6, 'username': 'co2', 'role': 'contractor'}}
+2025-11-07 16:35:26,069 DEBUG app: dashboard called, session user={'id': 6, 'username': 'co2', 'role': 'contractor'}
+2025-11-07 16:36:15,762 DEBUG app: dashboard called, session user={'id': 4, 'username': 'client1', 'role': 'client'}
+2025-11-07 17:06:23,006 DEBUG app: dashboard called, session user={'id': 4, 'username': 'client1', 'role': 'client'}
+2025-11-07 17:06:25,037 INFO app: view_upload: no upload found for bid_id=11; db_upload=None; pending_exists=True
+2025-11-07 17:06:25,038 DEBUG app: HTTPException intercepted: status=404 detail=尚未上傳檔案 / file not found
+2025-11-07 17:06:36,041 INFO app: view_upload: no upload found for bid_id=11; db_upload=None; pending_exists=True
+2025-11-07 17:06:36,041 DEBUG app: HTTPException intercepted: status=404 detail=尚未上傳檔案 / file not found
+2025-11-07 17:10:35,712 DEBUG app: dashboard called, session user={'id': 6, 'username': 'co2', 'role': 'contractor'}
+2025-11-07 17:57:20,095 DEBUG app: login succeeded, session={'flash_message': '已接受報價，專案進行中', 'flash_type': 'success', 'user': {'id': 4, 'username': 'client1', 'role': 'client'}}
+2025-11-07 17:57:20,357 DEBUG app: login succeeded, session={'flash_message': '已接受報價，專案進行中', 'flash_type': 'success', 'user': {'id': 4, 'username': 'client1', 'role': 'client'}}
+2025-11-07 17:57:20,369 DEBUG app: dashboard called, session user={'id': 4, 'username': 'client1', 'role': 'client'}
+2025-11-07 18:00:41,428 DEBUG app: login succeeded, session={'flash_message': '檔案上傳成功，專案已標記為「已提交」！', 'flash_type': 'success', 'user': {'id': 6, 'username': 'co2', 'role': 'contractor'}}
+2025-11-07 18:00:41,444 DEBUG app: dashboard called, session user={'id': 6, 'username': 'co2', 'role': 'contractor'}
+2025-11-07 18:32:02,338 DEBUG app: login succeeded, session={'flash_message': '已接受報價，專案進行中', 'flash_type': 'success', 'user': {'id': 6, 'username': 'co2', 'role': 'contractor'}}
+2025-11-07 18:32:02,356 DEBUG app: dashboard called, session user={'id': 6, 'username': 'co2', 'role': 'contractor'}
+2025-11-07 18:32:10,332 DEBUG app: login succeeded, session={'flash_message': '已接受報價，專案進行中', 'flash_type': 'success', 'user': {'id': 4, 'username': 'client1', 'role': 'client'}}
+2025-11-07 18:32:10,338 DEBUG app: dashboard called, session user={'id': 4, 'username': 'client1', 'role': 'client'}
+2025-11-07 18:32:33,617 DEBUG app: dashboard called, session user={'id': 6, 'username': 'co2', 'role': 'contractor'}
+2025-11-07 18:32:38,623 DEBUG app: login succeeded, session={'flash_message': '檔案上傳成功，專案已標記為「已提交」！', 'flash_type': 'success', 'user': {'id': 6, 'username': 'co2', 'role': 'contractor'}}
+2025-11-07 18:32:38,628 DEBUG app: dashboard called, session user={'id': 6, 'username': 'co2', 'role': 'contractor'}
+2025-11-07 18:32:53,968 WARNING app: DB 寫入失敗: 500: 上傳失敗: 0
+2025-11-07 18:32:53,987 DEBUG app: dashboard called, session user={'id': 6, 'username': 'co2', 'role': 'contractor'}
+2025-11-07 18:41:06,557 DEBUG app: dashboard called, session user={'id': 6, 'username': 'co2', 'role': 'contractor'}
+2025-11-07 18:41:10,397 DEBUG app: dashboard called, session user={'id': 6, 'username': 'co2', 'role': 'contractor'}
+2025-11-07 18:41:19,365 WARNING app: DB 寫入失敗: 500: 上傳失敗: invalid input syntax for type integer: "contractor"
+CONTEXT:  unnamed portal parameter $5 = '...'
+2025-11-07 18:41:19,385 DEBUG app: dashboard called, session user={'id': 6, 'username': 'co2', 'role': 'contractor'}
+2025-11-07 18:44:33,717 DEBUG app: dashboard called, session user={'id': 4, 'username': 'client1', 'role': 'client'}
+2025-11-07 18:44:34,826 DEBUG app: dashboard called, session user={'id': 4, 'username': 'client1', 'role': 'client'}
+2025-11-07 18:44:35,375 DEBUG app: dashboard called, session user={'id': 4, 'username': 'client1', 'role': 'client'}
+2025-11-07 18:44:35,560 DEBUG app: dashboard called, session user={'id': 4, 'username': 'client1', 'role': 'client'}
+2025-11-07 18:44:35,826 DEBUG app: dashboard called, session user={'id': 4, 'username': 'client1', 'role': 'client'}
+2025-11-07 18:44:36,008 DEBUG app: dashboard called, session user={'id': 4, 'username': 'client1', 'role': 'client'}
+2025-11-07 18:44:36,212 DEBUG app: dashboard called, session user={'id': 4, 'username': 'client1', 'role': 'client'}
+2025-11-07 18:44:43,289 DEBUG app: dashboard called, session user={'id': 6, 'username': 'co2', 'role': 'contractor'}
+2025-11-07 18:44:52,758 DEBUG app: dashboard called, session user={'id': 6, 'username': 'co2', 'role': 'contractor'}
+2025-11-07 18:44:56,433 DEBUG app: dashboard called, session user={'id': 4, 'username': 'client1', 'role': 'client'}
+2025-11-07 18:45:22,816 DEBUG app: dashboard called, session user={'id': 4, 'username': 'client1', 'role': 'client'}
+2025-11-07 18:45:26,416 DEBUG app: dashboard called, session user={'id': 4, 'username': 'client1', 'role': 'client'}
+2025-11-07 18:45:32,677 DEBUG app: dashboard called, session user={'id': 6, 'username': 'co2', 'role': 'contractor'}
+2025-11-07 18:45:39,852 DEBUG app: dashboard called, session user={'id': 6, 'username': 'co2', 'role': 'contractor'}
+2025-11-07 18:45:47,288 DEBUG app: dashboard called, session user={'id': 4, 'username': 'client1', 'role': 'client'}
+2025-11-07 18:46:37,893 DEBUG app: dashboard called, session user={'id': 4, 'username': 'client1', 'role': 'client'}
+2025-11-07 18:50:29,276 DEBUG app: dashboard called, session user={'id': 6, 'username': 'co2', 'role': 'contractor'}
+2025-11-07 18:50:37,292 DEBUG app: dashboard called, session user={'id': 6, 'username': 'co2', 'role': 'contractor'}
+2025-11-07 18:50:45,628 DEBUG app: dashboard called, session user={'id': 4, 'username': 'client1', 'role': 'client'}
+2025-11-07 18:50:48,955 DEBUG app: dashboard called, session user={'id': 4, 'username': 'client1', 'role': 'client'}
+2025-11-07 18:50:57,418 DEBUG app: dashboard called, session user={'id': 6, 'username': 'co2', 'role': 'contractor'}
+2025-11-07 18:50:58,978 DEBUG app: dashboard called, session user={'id': 4, 'username': 'client1', 'role': 'client'}
+2025-11-07 18:51:00,599 DEBUG app: dashboard called, session user={'id': 4, 'username': 'client1', 'role': 'client'}
+2025-11-07 18:51:13,295 DEBUG app: dashboard called, session user={'id': 6, 'username': 'co2', 'role': 'contractor'}
+2025-11-07 18:51:32,618 DEBUG app: dashboard called, session user={'id': 4, 'username': 'client1', 'role': 'client'}
+2025-11-07 18:51:41,038 DEBUG app: dashboard called, session user={'id': 6, 'username': 'co2', 'role': 'contractor'}
+2025-11-07 18:51:51,028 DEBUG app: dashboard called, session user={'id': 6, 'username': 'co2', 'role': 'contractor'}
+2025-11-07 18:51:55,491 DEBUG app: dashboard called, session user={'id': 4, 'username': 'client1', 'role': 'client'}
+2025-11-07 18:51:56,935 DEBUG app: dashboard called, session user={'id': 4, 'username': 'client1', 'role': 'client'}
+2025-11-07 18:52:06,726 DEBUG app: dashboard called, session user={'id': 6, 'username': 'co2', 'role': 'contractor'}
+2025-11-07 18:52:13,946 DEBUG app: dashboard called, session user={'id': 6, 'username': 'co2', 'role': 'contractor'}
+2025-11-07 18:52:15,708 DEBUG app: dashboard called, session user={'id': 4, 'username': 'client1', 'role': 'client'}
+2025-11-07 18:52:18,442 DEBUG app: dashboard called, session user={'id': 4, 'username': 'client1', 'role': 'client'}
+2025-11-07 18:52:34,317 DEBUG app: dashboard called, session user={'id': 4, 'username': 'client1', 'role': 'client'}
+2025-11-07 18:52:39,248 DEBUG app: dashboard called, session user={'id': 6, 'username': 'co2', 'role': 'contractor'}
+2025-11-07 18:52:42,533 DEBUG app: dashboard called, session user={'id': 6, 'username': 'co2', 'role': 'contractor'}
+2025-11-07 18:53:04,708 DEBUG app: login succeeded, session={'flash_message': '檔案已儲存，但資料庫同步失敗，系統將稍後重試。', 'flash_type': 'warning', 'user': {'id': 5, 'username': 'co', 'role': 'contractor'}}
+2025-11-07 18:53:04,717 DEBUG app: dashboard called, session user={'id': 5, 'username': 'co', 'role': 'contractor'}
+2025-11-07 18:53:09,491 DEBUG app: dashboard called, session user={'id': 5, 'username': 'co', 'role': 'contractor'}
+2025-11-07 18:53:12,613 DEBUG app: dashboard called, session user={'id': 4, 'username': 'client1', 'role': 'client'}
+2025-11-07 18:53:16,853 DEBUG app: dashboard called, session user={'id': 4, 'username': 'client1', 'role': 'client'}
+2025-11-07 18:53:31,432 DEBUG app: dashboard called, session user={'id': 5, 'username': 'co', 'role': 'contractor'}
+2025-11-07 18:53:49,434 DEBUG app: login succeeded, session={'flash_message': '檔案已儲存，但資料庫同步失敗，系統將稍後重試。', 'flash_type': 'warning', 'user': {'id': 6, 'username': 'co2', 'role': 'contractor'}}
+2025-11-07 18:53:49,440 DEBUG app: dashboard called, session user={'id': 6, 'username': 'co2', 'role': 'contractor'}
+2025-11-07 19:03:01,602 DEBUG app: dashboard called, session user={'id': 6, 'username': 'co2', 'role': 'contractor'}
+2025-11-07 19:03:08,025 DEBUG app: dashboard called, session user={'id': 4, 'username': 'client1', 'role': 'client'}
+2025-11-07 19:03:27,787 DEBUG app: dashboard called, session user={'id': 6, 'username': 'co2', 'role': 'contractor'}
+2025-11-07 19:03:32,578 DEBUG app: dashboard called, session user={'id': 4, 'username': 'client1', 'role': 'client'}
+2025-11-07 19:03:45,211 DEBUG app: dashboard called, session user={'id': 4, 'username': 'client1', 'role': 'client'}
+2025-11-07 19:03:48,655 DEBUG app: dashboard called, session user={'id': 6, 'username': 'co2', 'role': 'contractor'}
+2025-11-07 19:03:54,676 DEBUG app: dashboard called, session user={'id': 6, 'username': 'co2', 'role': 'contractor'}
+2025-11-07 19:04:04,933 DEBUG app: dashboard called, session user={'id': 4, 'username': 'client1', 'role': 'client'}
+2025-11-07 19:04:17,430 DEBUG app: login succeeded, session={'flash_message': '檔案已儲存，但資料庫同步失敗，系統將稍後重試。', 'flash_type': 'warning', 'user': {'id': 5, 'username': 'co', 'role': 'contractor'}}
+2025-11-07 19:04:17,440 DEBUG app: dashboard called, session user={'id': 5, 'username': 'co', 'role': 'contractor'}
+2025-11-07 19:04:23,381 DEBUG app: dashboard called, session user={'id': 5, 'username': 'co', 'role': 'contractor'}
+2025-11-07 19:04:26,593 DEBUG app: dashboard called, session user={'id': 4, 'username': 'client1', 'role': 'client'}
+2025-11-07 19:04:30,397 DEBUG app: dashboard called, session user={'id': 4, 'username': 'client1', 'role': 'client'}
+2025-11-07 19:04:33,761 DEBUG app: dashboard called, session user={'id': 5, 'username': 'co', 'role': 'contractor'}
+2025-11-07 19:04:39,077 DEBUG app: login succeeded, session={'flash_message': '檔案已儲存，但資料庫同步失敗，系統將稍後重試。', 'flash_type': 'warning', 'user': {'id': 6, 'username': 'co2', 'role': 'contractor'}}
+2025-11-07 19:04:39,320 DEBUG app: login succeeded, session={'flash_message': '檔案已儲存，但資料庫同步失敗，系統將稍後重試。', 'flash_type': 'warning', 'user': {'id': 6, 'username': 'co2', 'role': 'contractor'}}
+2025-11-07 19:04:39,335 DEBUG app: dashboard called, session user={'id': 6, 'username': 'co2', 'role': 'contractor'}
+2025-11-07 19:06:26,341 DEBUG app: login succeeded, session={'flash_message': '檔案已儲存，但資料庫同步失敗，系統將稍後重試。', 'flash_type': 'warning', 'user': {'id': 5, 'username': 'co', 'role': 'contractor'}}
+2025-11-07 19:06:26,348 DEBUG app: dashboard called, session user={'id': 5, 'username': 'co', 'role': 'contractor'}
+2025-11-07 19:07:20,887 DEBUG app: login succeeded, session={'flash_message': '檔案已儲存，但資料庫同步失敗，系統將稍後重試。', 'flash_type': 'warning', 'user': {'id': 6, 'username': 'co2', 'role': 'contractor'}}
+2025-11-07 19:07:20,897 DEBUG app: dashboard called, session user={'id': 6, 'username': 'co2', 'role': 'contractor'}
+2025-11-07 19:07:41,765 DEBUG app: dashboard called, session user={'id': 6, 'username': 'co2', 'role': 'contractor'}
+2025-11-07 19:08:01,554 DEBUG app: dashboard called, session user={'id': 4, 'username': 'client1', 'role': 'client'}
+2025-11-07 19:08:12,206 DEBUG app: login succeeded, session={'flash_message': '檔案已儲存，但資料庫同步失敗，系統將稍後重試。', 'flash_type': 'warning', 'user': {'id': 6, 'username': 'co2', 'role': 'contractor'}}
+2025-11-07 19:08:12,215 DEBUG app: dashboard called, session user={'id': 6, 'username': 'co2', 'role': 'contractor'}
+2025-11-07 19:08:15,770 DEBUG app: dashboard called, session user={'id': 6, 'username': 'co2', 'role': 'contractor'}
+2025-11-07 19:08:23,027 DEBUG app: login succeeded, session={'flash_message': '檔案已儲存，但資料庫同步失敗，系統將稍後重試。', 'flash_type': 'warning', 'user': {'id': 5, 'username': 'co', 'role': 'contractor'}}
+2025-11-07 19:08:23,038 DEBUG app: dashboard called, session user={'id': 5, 'username': 'co', 'role': 'contractor'}
+2025-11-07 19:08:26,407 DEBUG app: dashboard called, session user={'id': 5, 'username': 'co', 'role': 'contractor'}
+2025-11-07 19:08:32,589 DEBUG app: dashboard called, session user={'id': 4, 'username': 'client1', 'role': 'client'}
+2025-11-07 19:08:34,562 DEBUG app: dashboard called, session user={'id': 4, 'username': 'client1', 'role': 'client'}
+2025-11-07 19:08:36,981 DEBUG app: dashboard called, session user={'id': 5, 'username': 'co', 'role': 'contractor'}
+2025-11-07 19:11:12,653 DEBUG app: dashboard called, session user={'id': 5, 'username': 'co', 'role': 'contractor'}
+2025-11-07 19:11:27,450 DEBUG app: dashboard called, session user={'id': 4, 'username': 'client1', 'role': 'client'}
+2025-11-07 19:11:30,427 DEBUG app: dashboard called, session user={'id': 5, 'username': 'co', 'role': 'contractor'}
+2025-11-07 19:11:33,705 DEBUG app: dashboard called, session user={'id': 5, 'username': 'co', 'role': 'contractor'}
+2025-11-07 19:11:39,731 DEBUG app: login succeeded, session={'flash_message': '檔案已儲存，但資料庫同步失敗，系統將稍後重試。', 'flash_type': 'warning', 'user': {'id': 5, 'username': 'co', 'role': 'contractor'}}
+2025-11-07 19:11:39,741 DEBUG app: dashboard called, session user={'id': 5, 'username': 'co', 'role': 'contractor'}
+2025-11-07 19:11:47,583 DEBUG app: login succeeded, session={'flash_message': '檔案已儲存，但資料庫同步失敗，系統將稍後重試。', 'flash_type': 'warning', 'user': {'id': 6, 'username': 'co2', 'role': 'contractor'}}
+2025-11-07 19:11:47,830 DEBUG app: login succeeded, session={'flash_message': '檔案已儲存，但資料庫同步失敗，系統將稍後重試。', 'flash_type': 'warning', 'user': {'id': 6, 'username': 'co2', 'role': 'contractor'}}
+2025-11-07 19:11:47,842 DEBUG app: dashboard called, session user={'id': 6, 'username': 'co2', 'role': 'contractor'}
+2025-11-07 19:11:53,133 DEBUG app: dashboard called, session user={'id': 6, 'username': 'co2', 'role': 'contractor'}
+2025-11-07 19:11:55,287 DEBUG app: dashboard called, session user={'id': 4, 'username': 'client1', 'role': 'client'}
+2025-11-07 19:12:00,356 DEBUG app: dashboard called, session user={'id': 4, 'username': 'client1', 'role': 'client'}
+2025-11-07 19:12:00,399 DEBUG app: dashboard called, session user={'id': 4, 'username': 'client1', 'role': 'client'}
+2025-11-07 19:12:03,820 DEBUG app: dashboard called, session user={'id': 6, 'username': 'co2', 'role': 'contractor'}
+2025-11-07 19:12:04,921 DEBUG app: dashboard called, session user={'id': 6, 'username': 'co2', 'role': 'contractor'}
+2025-11-07 19:12:05,466 DEBUG app: dashboard called, session user={'id': 6, 'username': 'co2', 'role': 'contractor'}
+2025-11-07 19:12:05,659 DEBUG app: dashboard called, session user={'id': 6, 'username': 'co2', 'role': 'contractor'}
+2025-11-07 19:14:22,595 DEBUG app: dashboard called, session user={'id': 6, 'username': 'co2', 'role': 'contractor'}
+2025-11-07 19:14:37,584 DEBUG app: login succeeded, session={'flash_message': '檔案已儲存，但資料庫同步失敗，系統將稍後重試。', 'flash_type': 'warning', 'user': {'id': 5, 'username': 'co', 'role': 'contractor'}}
+2025-11-07 19:14:37,597 DEBUG app: dashboard called, session user={'id': 5, 'username': 'co', 'role': 'contractor'}
+2025-11-07 19:14:49,372 ERROR app: 上傳未知錯誤
+Traceback (most recent call last):
+  File "/Users/a-----/Desktop/1141posts-new/main.py", line 720, in upload_file
+    if bid["project_status"] == "completed":
+       ~~~^^^^^^^^^^^^^^^^^^
+KeyError: 'project_status'
+2025-11-07 19:14:49,387 DEBUG app: dashboard called, session user={'id': 5, 'username': 'co', 'role': 'contractor'}
+2025-11-07 19:14:59,644 ERROR app: 上傳未知錯誤
+Traceback (most recent call last):
+  File "/Users/a-----/Desktop/1141posts-new/main.py", line 720, in upload_file
+    if bid["project_status"] == "completed":
+       ~~~^^^^^^^^^^^^^^^^^^
+KeyError: 'project_status'
+2025-11-07 19:14:59,656 DEBUG app: dashboard called, session user={'id': 5, 'username': 'co', 'role': 'contractor'}
+2025-11-07 19:15:23,220 ERROR app: 上傳未知錯誤
+Traceback (most recent call last):
+  File "/Users/a-----/Desktop/1141posts-new/main.py", line 720, in upload_file
+    if bid["project_status"] == "completed":
+       ~~~^^^^^^^^^^^^^^^^^^
+KeyError: 'project_status'
+2025-11-07 19:15:23,230 DEBUG app: dashboard called, session user={'id': 5, 'username': 'co', 'role': 'contractor'}
+2025-11-07 19:17:25,032 DEBUG app: dashboard called, session user={'id': 5, 'username': 'co', 'role': 'contractor'}
+2025-11-07 19:17:30,751 DEBUG app: dashboard called, session user={'id': 5, 'username': 'co', 'role': 'contractor'}
+2025-11-07 19:17:35,676 DEBUG app: dashboard called, session user={'id': 5, 'username': 'co', 'role': 'contractor'}
+2025-11-07 19:17:46,003 DEBUG app: dashboard called, session user={'id': 4, 'username': 'client1', 'role': 'client'}
+2025-11-07 19:17:46,313 DEBUG app: dashboard called, session user={'id': 4, 'username': 'client1', 'role': 'client'}
+2025-11-07 19:17:48,704 DEBUG app: dashboard called, session user={'id': 4, 'username': 'client1', 'role': 'client'}
+2025-11-07 19:17:51,726 DEBUG app: dashboard called, session user={'id': 5, 'username': 'co', 'role': 'contractor'}
+2025-11-07 19:18:30,623 DEBUG app: dashboard called, session user={'id': 5, 'username': 'co', 'role': 'contractor'}
+2025-11-07 19:20:53,781 DEBUG app: dashboard called, session user={'id': 4, 'username': 'client1', 'role': 'client'}
+2025-11-07 19:20:56,011 DEBUG app: dashboard called, session user={'id': 5, 'username': 'co', 'role': 'contractor'}
+2025-11-07 19:20:57,064 DEBUG app: dashboard called, session user={'id': 5, 'username': 'co', 'role': 'contractor'}
+2025-11-07 19:21:15,790 DEBUG app: dashboard called, session user={'id': 5, 'username': 'co', 'role': 'contractor'}
+2025-11-07 19:21:19,036 DEBUG app: dashboard called, session user={'id': 4, 'username': 'client1', 'role': 'client'}
+2025-11-07 19:21:21,282 DEBUG app: dashboard called, session user={'id': 4, 'username': 'client1', 'role': 'client'}
+2025-11-07 19:21:23,900 DEBUG app: dashboard called, session user={'id': 5, 'username': 'co', 'role': 'contractor'}
+2025-11-07 19:21:25,484 DEBUG app: dashboard called, session user={'id': 5, 'username': 'co', 'role': 'contractor'}
+2025-11-07 19:22:26,925 DEBUG app: dashboard called, session user={'id': 5, 'username': 'co', 'role': 'contractor'}
+2025-11-07 19:22:43,152 DEBUG app: dashboard called, session user={'id': 4, 'username': 'client1', 'role': 'client'}
+2025-11-07 19:22:48,046 DEBUG app: dashboard called, session user={'id': 4, 'username': 'client1', 'role': 'client'}
+2025-11-07 19:22:50,885 DEBUG app: dashboard called, session user={'id': 5, 'username': 'co', 'role': 'contractor'}
+2025-11-07 19:22:53,265 DEBUG app: dashboard called, session user={'id': 5, 'username': 'co', 'role': 'contractor'}
+2025-11-07 19:22:55,472 DEBUG app: dashboard called, session user={'id': 4, 'username': 'client1', 'role': 'client'}
+2025-11-07 19:22:56,185 DEBUG app: dashboard called, session user={'id': 4, 'username': 'client1', 'role': 'client'}
+2025-11-07 19:22:58,086 DEBUG app: dashboard called, session user={'id': 5, 'username': 'co', 'role': 'contractor'}
+2025-11-07 19:23:03,504 DEBUG app: dashboard called, session user={'id': 5, 'username': 'co', 'role': 'contractor'}
+2025-11-07 19:23:05,471 DEBUG app: dashboard called, session user={'id': 4, 'username': 'client1', 'role': 'client'}
+2025-11-07 19:23:08,363 DEBUG app: dashboard called, session user={'id': 4, 'username': 'client1', 'role': 'client'}
+2025-11-07 19:23:10,307 DEBUG app: dashboard called, session user={'id': 5, 'username': 'co', 'role': 'contractor'}
+2025-11-07 19:24:58,925 DEBUG app: dashboard called, session user={'id': 5, 'username': 'co', 'role': 'contractor'}
+2025-11-07 19:25:03,401 DEBUG app: dashboard called, session user={'id': 5, 'username': 'co', 'role': 'contractor'}
+2025-11-07 19:25:13,521 DEBUG app: dashboard called, session user={'id': 5, 'username': 'co', 'role': 'contractor'}
+2025-11-07 19:25:18,603 DEBUG app: dashboard called, session user={'id': 4, 'username': 'client1', 'role': 'client'}
+2025-11-07 19:25:20,558 DEBUG app: dashboard called, session user={'id': 4, 'username': 'client1', 'role': 'client'}
+2025-11-07 19:25:32,321 DEBUG app: dashboard called, session user={'id': 5, 'username': 'co', 'role': 'contractor'}
+2025-11-07 19:27:00,320 DEBUG app: dashboard called, session user={'id': 5, 'username': 'co', 'role': 'contractor'}
+2025-11-07 19:27:10,912 DEBUG app: dashboard called, session user={'id': 5, 'username': 'co', 'role': 'contractor'}
+2025-11-07 19:27:13,522 DEBUG app: dashboard called, session user={'id': 4, 'username': 'client1', 'role': 'client'}
+2025-11-07 19:27:17,606 DEBUG app: dashboard called, session user={'id': 4, 'username': 'client1', 'role': 'client'}
+2025-11-07 19:27:22,770 DEBUG app: dashboard called, session user={'id': 4, 'username': 'client1', 'role': 'client'}
+2025-11-07 19:27:31,553 DEBUG app: dashboard called, session user={'id': 5, 'username': 'co', 'role': 'contractor'}
+2025-11-07 19:27:41,246 DEBUG app: dashboard called, session user={'id': 5, 'username': 'co', 'role': 'contractor'}
+2025-11-07 19:48:44,560 DEBUG app: dashboard called, session user={'id': 4, 'username': 'client1', 'role': 'client'}
+2025-11-07 19:50:46,229 DEBUG app: login succeeded, session={'flash_message': '專案已成功結案！', 'flash_type': 'success', 'user': {'id': 6, 'username': 'co2', 'role': 'contractor'}}
+2025-11-07 19:50:46,248 DEBUG app: dashboard called, session user={'id': 6, 'username': 'co2', 'role': 'contractor'}
+2025-11-07 19:51:23,199 DEBUG app: login succeeded, session={'flash_message': '專案已成功結案！', 'flash_type': 'success', 'user': {'id': 4, 'username': 'client1', 'role': 'client'}}
+2025-11-07 19:51:23,223 DEBUG app: dashboard called, session user={'id': 4, 'username': 'client1', 'role': 'client'}
+2025-11-07 19:51:40,445 DEBUG app: dashboard called, session user={'id': 4, 'username': 'client1', 'role': 'client'}
+2025-11-07 19:52:23,504 DEBUG app: login succeeded, session={'flash_message': '專案已成功結案！', 'flash_type': 'success', 'user': {'id': 6, 'username': 'co2', 'role': 'contractor'}}
+2025-11-07 19:52:23,516 DEBUG app: dashboard called, session user={'id': 6, 'username': 'co2', 'role': 'contractor'}
+2025-11-07 19:55:37,723 DEBUG app: dashboard called, session user={'id': 6, 'username': 'co2', 'role': 'contractor'}
+2025-11-07 20:20:49,699 DEBUG app: login succeeded, session={'flash_message': '專案已成功結案！', 'flash_type': 'success', 'user': {'id': 6, 'username': 'co2', 'role': 'contractor'}}
+2025-11-07 20:20:49,954 DEBUG app: login succeeded, session={'flash_message': '專案已成功結案！', 'flash_type': 'success', 'user': {'id': 6, 'username': 'co2', 'role': 'contractor'}}
+2025-11-07 20:20:49,973 DEBUG app: dashboard called, session user={'id': 6, 'username': 'co2', 'role': 'contractor'}
+2025-11-07 20:23:32,792 DEBUG app: dashboard called, session user={'id': 6, 'username': 'co2', 'role': 'contractor'}
+2025-11-07 20:25:36,503 DEBUG app: dashboard called, session user={'id': 6, 'username': 'co2', 'role': 'contractor'}
+2025-11-07 20:31:32,042 DEBUG app: login succeeded, session={'flash_message': '專案已成功結案！', 'flash_type': 'success', 'user': {'id': 6, 'username': 'co2', 'role': 'contractor'}}
+2025-11-07 20:31:32,053 DEBUG app: dashboard called, session user={'id': 6, 'username': 'co2', 'role': 'contractor'}
+2025-11-07 20:34:15,880 DEBUG app: dashboard called, session user={'id': 5, 'username': 'co', 'role': 'contractor'}
+2025-11-07 20:35:55,276 DEBUG app: login succeeded, session={'flash_message': '專案已成功結案！', 'flash_type': 'success', 'user': {'id': 4, 'username': 'client1', 'role': 'client'}}
+2025-11-07 20:35:55,289 DEBUG app: dashboard called, session user={'id': 4, 'username': 'client1', 'role': 'client'}
+2025-11-07 20:37:14,037 DEBUG app: dashboard called, session user={'id': 4, 'username': 'client1', 'role': 'client'}
+2025-11-07 23:37:08,737 ERROR app: 註冊過程發生例外
+Traceback (most recent call last):
+  File "/Users/penny/Library/CloudStorage/OneDrive-RegChien'sProject/桌面/1141posts-new拷貝/main.py", line 297, in register
+    hashed_password = pwd_context.hash(password)
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/passlib/context.py", line 2258, in hash
+    return record.hash(secret, **kwds)
+           ~~~~~~~~~~~^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/passlib/utils/handlers.py", line 779, in hash
+    self.checksum = self._calc_checksum(secret)
+                    ~~~~~~~~~~~~~~~~~~~^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/passlib/handlers/bcrypt.py", line 591, in _calc_checksum
+    self._stub_requires_backend()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/passlib/utils/handlers.py", line 2254, in _stub_requires_backend
+    cls.set_backend()
+    ~~~~~~~~~~~~~~~^^
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/passlib/utils/handlers.py", line 2156, in set_backend
+    return owner.set_backend(name, dryrun=dryrun)
+           ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/passlib/utils/handlers.py", line 2163, in set_backend
+    return cls.set_backend(name, dryrun=dryrun)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/passlib/utils/handlers.py", line 2188, in set_backend
+    cls._set_backend(name, dryrun)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/passlib/utils/handlers.py", line 2311, in _set_backend
+    super(SubclassBackendMixin, cls)._set_backend(name, dryrun)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/passlib/utils/handlers.py", line 2224, in _set_backend
+    ok = loader(**kwds)
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/passlib/handlers/bcrypt.py", line 626, in _load_backend_mixin
+    return mixin_cls._finalize_backend_mixin(name, dryrun)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/passlib/handlers/bcrypt.py", line 421, in _finalize_backend_mixin
+    if detect_wrap_bug(IDENT_2A):
+       ~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/passlib/handlers/bcrypt.py", line 380, in detect_wrap_bug
+    if verify(secret, bug_hash):
+       ~~~~~~^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/passlib/utils/handlers.py", line 792, in verify
+    return consteq(self._calc_checksum(secret), chk)
+                   ~~~~~~~~~~~~~~~~~~~^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/passlib/handlers/bcrypt.py", line 655, in _calc_checksum
+    hash = _bcrypt.hashpw(secret, config)
+ValueError: password cannot be longer than 72 bytes, truncate manually if necessary (e.g. my_password[:72])
+2025-11-07 23:39:07,684 ERROR app: 註冊過程發生例外
+Traceback (most recent call last):
+  File "/Users/penny/Library/CloudStorage/OneDrive-RegChien'sProject/桌面/1141posts-new拷貝/main.py", line 297, in register
+    hashed_password = pwd_context.hash(password)
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/passlib/context.py", line 2258, in hash
+    return record.hash(secret, **kwds)
+           ~~~~~~~~~~~^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/passlib/utils/handlers.py", line 779, in hash
+    self.checksum = self._calc_checksum(secret)
+                    ~~~~~~~~~~~~~~~~~~~^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/passlib/handlers/bcrypt.py", line 591, in _calc_checksum
+    self._stub_requires_backend()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/passlib/utils/handlers.py", line 2254, in _stub_requires_backend
+    cls.set_backend()
+    ~~~~~~~~~~~~~~~^^
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/passlib/utils/handlers.py", line 2156, in set_backend
+    return owner.set_backend(name, dryrun=dryrun)
+           ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/passlib/utils/handlers.py", line 2163, in set_backend
+    return cls.set_backend(name, dryrun=dryrun)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/passlib/utils/handlers.py", line 2188, in set_backend
+    cls._set_backend(name, dryrun)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/passlib/utils/handlers.py", line 2311, in _set_backend
+    super(SubclassBackendMixin, cls)._set_backend(name, dryrun)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/passlib/utils/handlers.py", line 2224, in _set_backend
+    ok = loader(**kwds)
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/passlib/handlers/bcrypt.py", line 626, in _load_backend_mixin
+    return mixin_cls._finalize_backend_mixin(name, dryrun)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/passlib/handlers/bcrypt.py", line 421, in _finalize_backend_mixin
+    if detect_wrap_bug(IDENT_2A):
+       ~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/passlib/handlers/bcrypt.py", line 380, in detect_wrap_bug
+    if verify(secret, bug_hash):
+       ~~~~~~^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/passlib/utils/handlers.py", line 792, in verify
+    return consteq(self._calc_checksum(secret), chk)
+                   ~~~~~~~~~~~~~~~~~~~^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/passlib/handlers/bcrypt.py", line 655, in _calc_checksum
+    hash = _bcrypt.hashpw(secret, config)
+ValueError: password cannot be longer than 72 bytes, truncate manually if necessary (e.g. my_password[:72])
+2025-11-07 23:41:11,964 DEBUG app: dashboard called, session user={'id': 1, 'username': 'client', 'role': 'client'}
+2025-11-07 23:41:15,877 DEBUG app: dashboard called, session user={'id': 1, 'username': 'client', 'role': 'client'}
+2025-11-07 23:41:45,036 DEBUG app: dashboard called, session user={'id': 2, 'username': 'Penny', 'role': 'client'}
+2025-11-07 23:42:40,748 DEBUG app: dashboard called, session user={'id': 2, 'username': 'Penny', 'role': 'client'}
+2025-11-07 23:43:25,205 DEBUG app: dashboard called, session user={'id': 3, 'username': 'contractor', 'role': 'contractor'}
+2025-11-07 23:43:48,688 DEBUG app: dashboard called, session user={'id': 3, 'username': 'contractor', 'role': 'contractor'}
+2025-11-07 23:44:24,471 DEBUG app: login succeeded, session={'user': {'id': 1, 'username': 'client', 'role': 'client'}}
+2025-11-07 23:44:24,478 DEBUG app: dashboard called, session user={'id': 1, 'username': 'client', 'role': 'client'}
+2025-11-07 23:44:25,950 DEBUG app: login succeeded, session={'user': {'id': 1, 'username': 'client', 'role': 'client'}}
+2025-11-07 23:44:25,955 DEBUG app: dashboard called, session user={'id': 1, 'username': 'client', 'role': 'client'}
+2025-11-07 23:45:14,705 DEBUG app: dashboard called, session user={'id': 1, 'username': 'client', 'role': 'client'}
+2025-11-07 23:45:38,104 DEBUG app: login succeeded, session={'user': {'id': 2, 'username': 'Penny', 'role': 'client'}}
+2025-11-07 23:45:38,111 DEBUG app: dashboard called, session user={'id': 2, 'username': 'Penny', 'role': 'client'}
+2025-11-07 23:46:19,751 DEBUG app: login succeeded, session={'user': {'id': 2, 'username': 'Penny', 'role': 'client'}}
+2025-11-07 23:46:19,758 DEBUG app: dashboard called, session user={'id': 2, 'username': 'Penny', 'role': 'client'}
+2025-11-07 23:49:26,970 DEBUG app: dashboard called, session user={'id': 4, 'username': 'contractor', 'role': 'contractor'}
+2025-11-07 23:49:58,749 DEBUG app: dashboard called, session user={'id': 4, 'username': 'contractor', 'role': 'contractor'}
+2025-11-07 23:50:13,521 DEBUG app: dashboard called, session user={'id': 1, 'username': 'client', 'role': 'client'}
+2025-11-07 23:50:38,249 DEBUG app: dashboard called, session user={'id': 4, 'username': 'contractor', 'role': 'contractor'}
+2025-11-07 23:50:47,467 DEBUG app: dashboard called, session user={'id': 1, 'username': 'client', 'role': 'client'}
+2025-11-07 23:50:58,317 DEBUG app: dashboard called, session user={'id': 1, 'username': 'client', 'role': 'client'}
+2025-11-07 23:51:06,349 DEBUG app: dashboard called, session user={'id': 4, 'username': 'contractor', 'role': 'contractor'}
+2025-11-07 23:56:14,071 DEBUG app: login succeeded, session={'user': {'id': 1, 'username': 'client', 'role': 'client'}}
+2025-11-07 23:56:14,086 DEBUG app: dashboard called, session user={'id': 1, 'username': 'client', 'role': 'client'}
+2025-11-07 23:57:31,911 DEBUG app: dashboard called, session user={'id': 1, 'username': 'client', 'role': 'client'}
+2025-11-07 23:58:01,645 DEBUG app: dashboard called, session user={'id': 1, 'username': 'client', 'role': 'client'}
+2025-11-07 23:59:32,700 DEBUG app: login succeeded, session={'user': {'id': 4, 'username': 'contractor', 'role': 'contractor'}}
+2025-11-07 23:59:32,716 DEBUG app: dashboard called, session user={'id': 4, 'username': 'contractor', 'role': 'contractor'}
+2025-11-08 00:01:07,224 DEBUG app: dashboard called, session user={'id': 4, 'username': 'contractor', 'role': 'contractor'}
+2025-11-08 00:01:44,293 DEBUG app: dashboard called, session user={'id': 4, 'username': 'contractor', 'role': 'contractor'}
+2025-11-08 00:02:04,608 DEBUG app: dashboard called, session user={'id': 1, 'username': 'client', 'role': 'client'}
+2025-11-08 00:02:30,105 DEBUG app: dashboard called, session user={'id': 1, 'username': 'client', 'role': 'client'}
+2025-11-08 00:34:21,403 DEBUG app: login succeeded, session={'user': {'id': 1, 'username': 'client', 'role': 'client'}}
+2025-11-08 00:34:21,416 DEBUG app: dashboard called, session user={'id': 1, 'username': 'client', 'role': 'client'}
+2025-11-08 01:15:22,129 DEBUG app: login succeeded, session={'user': {'id': 1, 'username': 'client', 'role': 'client'}}
+2025-11-08 01:15:22,150 DEBUG app: dashboard called, session user={'id': 1, 'username': 'client', 'role': 'client'}
+2025-11-08 01:20:41,798 DEBUG app: login succeeded, session={'user': {'id': 4, 'username': 'contractor', 'role': 'contractor'}}
+2025-11-08 01:20:41,826 DEBUG app: dashboard called, session user={'id': 4, 'username': 'contractor', 'role': 'contractor'}
+2025-11-08 01:25:26,680 DEBUG app: dashboard called, session user={'id': 4, 'username': 'contractor', 'role': 'contractor'}
+2025-11-08 01:26:34,038 DEBUG app: login succeeded, session={'user': {'id': 1, 'username': 'client', 'role': 'client'}}
+2025-11-08 01:26:34,053 DEBUG app: dashboard called, session user={'id': 1, 'username': 'client', 'role': 'client'}
+2025-11-08 14:58:44,944 DEBUG app: login succeeded, session={'user': {'id': 4, 'username': 'contractor', 'role': 'contractor'}}
+2025-11-08 14:58:44,973 DEBUG app: dashboard called, session user={'id': 4, 'username': 'contractor', 'role': 'contractor'}
+2025-11-08 14:59:19,682 DEBUG app: login succeeded, session={'user': {'id': 1, 'username': 'client', 'role': 'client'}}
+2025-11-08 14:59:19,697 DEBUG app: dashboard called, session user={'id': 1, 'username': 'client', 'role': 'client'}
+2025-11-08 15:20:41,322 DEBUG app: dashboard called, session user={'id': 1, 'username': 'client', 'role': 'client'}
+2025-11-08 15:21:53,164 DEBUG app: login succeeded, session={'user': {'id': 4, 'username': 'contractor', 'role': 'contractor'}}
+2025-11-08 15:21:53,187 DEBUG app: dashboard called, session user={'id': 4, 'username': 'contractor', 'role': 'contractor'}
+2025-11-08 15:44:12,129 DEBUG app: login succeeded, session={'flash_message': '已退件，承包商可重新上傳', 'flash_type': 'warning', 'user': {'id': 1, 'username': 'client', 'role': 'client'}}
+2025-11-08 15:44:12,152 DEBUG app: dashboard called, session user={'id': 1, 'username': 'client', 'role': 'client'}
+2025-11-08 15:44:31,937 DEBUG app: login succeeded, session={'flash_message': '已退件，承包商可重新上傳', 'flash_type': 'warning', 'user': {'id': 1, 'username': 'client', 'role': 'client'}}
+2025-11-08 15:44:31,953 DEBUG app: dashboard called, session user={'id': 1, 'username': 'client', 'role': 'client'}
+2025-11-08 15:45:45,680 DEBUG app: login succeeded, session={'flash_message': '已退件，承包商可重新上傳', 'flash_type': 'warning', 'user': {'id': 4, 'username': 'contractor', 'role': 'contractor'}}
+2025-11-08 15:45:45,695 DEBUG app: dashboard called, session user={'id': 4, 'username': 'contractor', 'role': 'contractor'}
+2025-11-08 15:46:33,370 DEBUG app: login succeeded, session={'user': {'id': 1, 'username': 'client', 'role': 'client'}}
+2025-11-08 15:46:33,386 DEBUG app: dashboard called, session user={'id': 1, 'username': 'client', 'role': 'client'}
+2025-11-08 15:47:25,037 DEBUG app: dashboard called, session user={'id': 1, 'username': 'client', 'role': 'client'}
+2025-11-08 15:48:01,244 DEBUG app: dashboard called, session user={'id': 4, 'username': 'contractor', 'role': 'contractor'}
+2025-11-08 15:48:40,513 DEBUG app: dashboard called, session user={'id': 4, 'username': 'contractor', 'role': 'contractor'}
+2025-11-08 15:48:59,483 DEBUG app: dashboard called, session user={'id': 1, 'username': 'client', 'role': 'client'}
+2025-11-08 15:49:07,977 DEBUG app: dashboard called, session user={'id': 1, 'username': 'client', 'role': 'client'}
+2025-11-08 15:50:31,209 DEBUG app: login succeeded, session={'user': {'id': 4, 'username': 'contractor', 'role': 'contractor'}}
+2025-11-08 15:50:31,218 DEBUG app: dashboard called, session user={'id': 4, 'username': 'contractor', 'role': 'contractor'}
+2025-11-08 15:52:56,397 DEBUG app: dashboard called, session user={'id': 4, 'username': 'contractor', 'role': 'contractor'}
+2025-11-08 15:56:18,825 DEBUG app: dashboard called, session user={'id': 1, 'username': 'client', 'role': 'client'}
+2025-11-08 15:57:40,641 DEBUG app: dashboard called, session user={'id': 1, 'username': 'client', 'role': 'client'}
+2025-11-08 15:58:13,561 DEBUG app: dashboard called, session user={'id': 4, 'username': 'contractor', 'role': 'contractor'}
+2025-11-08 15:58:53,763 DEBUG app: dashboard called, session user={'id': 4, 'username': 'contractor', 'role': 'contractor'}
+2025-11-08 16:00:00,222 DEBUG app: dashboard called, session user={'id': 4, 'username': 'contractor', 'role': 'contractor'}
+2025-11-08 19:30:09,019 DEBUG app: login succeeded, session={'user': {'id': 1, 'username': 'client', 'role': 'client'}}
+2025-11-08 19:30:09,041 DEBUG app: dashboard called, session user={'id': 1, 'username': 'client', 'role': 'client'}
+2025-11-10 02:39:22,179 DEBUG app: login succeeded, session={'user': {'id': 1, 'username': 'client', 'role': 'client'}}
+2025-11-10 02:39:22,196 DEBUG app: dashboard called, session user={'id': 1, 'username': 'client', 'role': 'client'}
+2025-12-22 02:11:10,888 DEBUG app: login succeeded, session={'user': {'id': 1, 'username': 'client', 'role': 'client'}}
+2025-12-22 02:11:10,910 DEBUG app: dashboard called, session user={'id': 1, 'username': 'client', 'role': 'client'}
+2025-12-22 09:18:59,522 DEBUG app: login succeeded, session={'user': {'id': 1, 'username': 'client', 'role': 'client'}}
+2025-12-22 09:18:59,533 DEBUG app: dashboard called, session user={'id': 1, 'username': 'client', 'role': 'client'}
+2025-12-22 09:19:10,556 DEBUG app: dashboard called, session user={'id': 1, 'username': 'client', 'role': 'client'}
+2025-12-22 09:19:24,070 DEBUG app: dashboard called, session user={'id': 1, 'username': 'client', 'role': 'client'}
+2025-12-22 16:13:24,876 DEBUG app: login succeeded, session={'user': {'id': 1, 'username': 'client', 'role': 'client'}}
+2025-12-22 16:13:25,054 DEBUG app: dashboard called, session user={'id': 1, 'username': 'client', 'role': 'client'}
+2025-12-22 16:14:45,252 DEBUG app: login succeeded, session={'user': {'id': 1, 'username': 'client', 'role': 'client'}}
+2025-12-22 16:14:45,261 DEBUG app: dashboard called, session user={'id': 1, 'username': 'client', 'role': 'client'}
+2025-12-22 16:15:10,247 DEBUG app: dashboard called, session user={'id': 1, 'username': 'client', 'role': 'client'}
+2025-12-22 16:16:35,975 DEBUG app: login succeeded, session={'user': {'id': 4, 'username': 'contractor', 'role': 'contractor'}}
+2025-12-22 16:16:35,982 DEBUG app: dashboard called, session user={'id': 4, 'username': 'contractor', 'role': 'contractor'}
+2025-12-22 16:18:03,841 DEBUG app: dashboard called, session user={'id': 4, 'username': 'contractor', 'role': 'contractor'}
+2025-12-22 16:22:34,825 DEBUG app: login succeeded, session={'user': {'id': 1, 'username': 'client', 'role': 'client'}}
+2025-12-22 16:22:34,835 DEBUG app: dashboard called, session user={'id': 1, 'username': 'client', 'role': 'client'}
+2025-12-22 16:30:58,538 DEBUG app: dashboard called, session user={'id': 1, 'username': 'client', 'role': 'client'}
+2025-12-22 16:31:16,753 DEBUG app: dashboard called, session user={'id': 4, 'username': 'contractor', 'role': 'contractor'}
+2025-12-22 16:48:03,590 DEBUG app: dashboard called, session user={'id': 4, 'username': 'contractor', 'role': 'contractor'}
+2025-12-22 16:48:25,091 DEBUG app: dashboard called, session user={'id': 1, 'username': 'client', 'role': 'client'}
+2025-12-22 16:48:35,721 DEBUG app: dashboard called, session user={'id': 1, 'username': 'client', 'role': 'client'}
+2025-12-22 16:49:19,639 DEBUG app: dashboard called, session user={'id': 4, 'username': 'contractor', 'role': 'contractor'}
+2025-12-22 16:49:42,104 DEBUG app: dashboard called, session user={'id': 4, 'username': 'contractor', 'role': 'contractor'}
+2025-12-22 16:50:58,064 DEBUG app: dashboard called, session user={'id': 4, 'username': 'contractor', 'role': 'contractor'}
+2025-12-22 16:51:42,024 DEBUG app: dashboard called, session user={'id': 4, 'username': 'contractor', 'role': 'contractor'}
+2025-12-22 16:52:00,322 DEBUG app: dashboard called, session user={'id': 4, 'username': 'contractor', 'role': 'contractor'}
+2025-12-22 16:52:06,807 DEBUG app: dashboard called, session user={'id': 1, 'username': 'client', 'role': 'client'}
+2025-12-22 16:52:21,382 DEBUG app: dashboard called, session user={'id': 1, 'username': 'client', 'role': 'client'}
+2025-12-23 05:42:07,649 DEBUG app: login succeeded, session={'user': {'id': 1, 'username': 'client', 'role': 'client'}}
+2025-12-23 05:42:07,673 DEBUG app: dashboard called, session user={'id': 1, 'username': 'client', 'role': 'client'}
+2025-12-23 09:21:06,732 DEBUG app: login succeeded, session={'user': {'id': 1, 'username': 'client', 'role': 'client'}}
+2025-12-23 09:21:06,752 DEBUG app: dashboard called, session user={'id': 1, 'username': 'client', 'role': 'client'}
+2025-12-23 09:23:36,485 DEBUG app: login succeeded, session={'user': {'id': 4, 'username': 'contractor', 'role': 'contractor'}}
+2025-12-23 09:23:36,495 DEBUG app: dashboard called, session user={'id': 4, 'username': 'contractor', 'role': 'contractor'}
+2025-12-23 09:27:40,142 DEBUG app: dashboard called, session user={'id': 4, 'username': 'contractor', 'role': 'contractor'}
+2025-12-23 09:37:13,882 DEBUG app: dashboard called, session user={'id': 1, 'username': 'client', 'role': 'client'}
+2025-12-23 09:37:30,511 DEBUG app: dashboard called, session user={'id': 4, 'username': 'contractor', 'role': 'contractor'}
+2025-12-23 09:37:49,815 DEBUG app: dashboard called, session user={'id': 4, 'username': 'contractor', 'role': 'contractor'}
+2025-12-23 09:37:58,832 DEBUG app: dashboard called, session user={'id': 1, 'username': 'client', 'role': 'client'}
+2025-12-23 09:40:26,791 DEBUG app: dashboard called, session user={'id': 1, 'username': 'client', 'role': 'client'}
+2025-12-23 09:40:38,875 DEBUG app: dashboard called, session user={'id': 4, 'username': 'contractor', 'role': 'contractor'}
+2025-12-23 09:41:07,178 DEBUG app: dashboard called, session user={'id': 4, 'username': 'contractor', 'role': 'contractor'}
+2025-12-23 09:41:25,494 DEBUG app: dashboard called, session user={'id': 4, 'username': 'contractor', 'role': 'contractor'}
+2025-12-23 09:41:37,904 DEBUG app: dashboard called, session user={'id': 1, 'username': 'client', 'role': 'client'}
+2025-12-23 09:41:52,333 DEBUG app: dashboard called, session user={'id': 1, 'username': 'client', 'role': 'client'}
+2025-12-23 09:47:21,117 DEBUG app: dashboard called, session user={'id': 1, 'username': 'client', 'role': 'client'}
+2025-12-23 09:50:27,297 DEBUG app: dashboard called, session user={'id': 1, 'username': 'client', 'role': 'client'}
+2025-12-23 09:55:16,593 DEBUG app: dashboard called, session user={'id': 4, 'username': 'contractor', 'role': 'contractor'}
+2025-12-23 09:56:34,198 DEBUG app: dashboard called, session user={'id': 1, 'username': 'client', 'role': 'client'}
+2025-12-23 10:09:43,306 DEBUG app: dashboard called, session user={'id': 1, 'username': 'client', 'role': 'client'}
+2025-12-23 10:10:39,149 DEBUG app: dashboard called, session user={'id': 4, 'username': 'contractor', 'role': 'contractor'}
+2025-12-23 10:11:17,318 DEBUG app: dashboard called, session user={'id': 4, 'username': 'contractor', 'role': 'contractor'}
+2025-12-23 10:12:11,605 DEBUG app: dashboard called, session user={'id': 4, 'username': 'contractor', 'role': 'contractor'}
+2025-12-23 10:12:35,123 DEBUG app: dashboard called, session user={'id': 4, 'username': 'contractor', 'role': 'contractor'}
+2025-12-23 10:20:20,016 DEBUG app: dashboard called, session user={'id': 1, 'username': 'client', 'role': 'client'}
+2025-12-23 10:20:46,056 DEBUG app: dashboard called, session user={'id': 1, 'username': 'client', 'role': 'client'}
+2025-12-23 10:21:06,074 DEBUG app: dashboard called, session user={'id': 4, 'username': 'contractor', 'role': 'contractor'}
+2025-12-23 10:21:57,402 DEBUG app: dashboard called, session user={'id': 1, 'username': 'client', 'role': 'client'}
+2025-12-23 10:22:01,585 DEBUG app: dashboard called, session user={'id': 4, 'username': 'contractor', 'role': 'contractor'}
+2025-12-23 10:22:57,979 DEBUG app: dashboard called, session user={'id': 4, 'username': 'contractor', 'role': 'contractor'}
+2025-12-23 10:23:27,556 DEBUG app: dashboard called, session user={'id': 1, 'username': 'client', 'role': 'client'}
+2025-12-23 10:23:43,054 DEBUG app: dashboard called, session user={'id': 1, 'username': 'client', 'role': 'client'}
+2025-12-23 10:24:36,855 DEBUG app: dashboard called, session user={'id': 4, 'username': 'contractor', 'role': 'contractor'}
+2025-12-23 10:25:16,598 DEBUG app: dashboard called, session user={'id': 4, 'username': 'contractor', 'role': 'contractor'}
+2025-12-23 10:25:27,303 DEBUG app: dashboard called, session user={'id': 1, 'username': 'client', 'role': 'client'}
+2025-12-23 10:26:03,745 DEBUG app: dashboard called, session user={'id': 1, 'username': 'client', 'role': 'client'}
+2025-12-23 10:29:34,804 DEBUG app: dashboard called, session user={'id': 1, 'username': 'client', 'role': 'client'}
+2025-12-23 10:29:44,640 DEBUG app: dashboard called, session user={'id': 4, 'username': 'contractor', 'role': 'contractor'}
+2025-12-23 10:30:36,012 DEBUG app: dashboard called, session user={'id': 4, 'username': 'contractor', 'role': 'contractor'}
+2025-12-23 10:31:33,353 DEBUG app: dashboard called, session user={'id': 4, 'username': 'contractor', 'role': 'contractor'}
+2025-12-23 10:32:11,720 DEBUG app: dashboard called, session user={'id': 1, 'username': 'client', 'role': 'client'}
+2025-12-23 10:57:46,621 DEBUG app: dashboard called, session user={'id': 4, 'username': 'contractor', 'role': 'contractor'}
+2025-12-23 15:21:40,489 DEBUG app: login succeeded, session={'user': {'id': 1, 'username': 'client', 'role': 'client'}}
+2025-12-23 15:21:40,503 DEBUG app: dashboard called, session user={'id': 1, 'username': 'client', 'role': 'client'}
+2025-12-23 15:23:14,789 DEBUG app: dashboard called, session user={'id': 1, 'username': 'client', 'role': 'client'}
+2025-12-23 15:56:03,513 DEBUG app: dashboard called, session user={'id': 1, 'username': 'client', 'role': 'client'}
+2025-12-23 15:56:15,920 DEBUG app: dashboard called, session user={'id': 1, 'username': 'client', 'role': 'client'}

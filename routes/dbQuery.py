@@ -60,8 +60,6 @@ async def create_project(conn, project: Project):
             except: pass
         raise HTTPException(status_code=500, detail=f"創建專案時發生錯誤: {str(e)}")
 
-# routes/dbQuery.py
-# routes/dbQuery.py
 async def get_projects_by_client(conn, client_id: int):
     async with conn.cursor(row_factory=rows.dict_row) as cur:
         await cur.execute(
@@ -78,7 +76,21 @@ async def get_projects_by_client(conn, client_id: int):
                         'upload_filename', s.filename,
                         'upload_path', s.file_path,
                         'upload_time', s.uploaded_at,
-                        'can_view', (s.filename IS NOT NULL AND b.status != 'rejected')
+                        'can_view', (s.filename IS NOT NULL AND b.status != 'rejected'),
+                        
+                        -- [新增] 1. 計算該 Contractor 作為乙方的平均分 (target_role='contractor')
+                        'contractor_avg_rating', (
+                            SELECT COALESCE(AVG((rating_1 + rating_2 + rating_3) / 3.0), 0)
+                            FROM reviews r
+                            WHERE r.reviewee_id = b.contractor_id AND r.target_role = 'contractor'
+                        ),
+                        
+                        -- [新增] 2. 計算該 Contractor 收到的評價數
+                        'contractor_review_count', (
+                            SELECT COUNT(*)
+                            FROM reviews r
+                            WHERE r.reviewee_id = b.contractor_id AND r.target_role = 'contractor'
+                        )
                     )
                     ORDER BY b.id DESC
                 ) FILTER (WHERE b.id IS NOT NULL), '[]') AS bids
@@ -93,8 +105,8 @@ async def get_projects_by_client(conn, client_id: int):
             (client_id,)
         )
         results = await cur.fetchall()
-        print(type(results))
-        # 確保 bids 是 list
+        
+        # 確保 bids 是 list (處理空值)
         for row in results:
             if row['bids'] is None:
                 row['bids'] = []
@@ -178,34 +190,46 @@ async def create_bid(conn, bid: Bid):
         raise HTTPException(status_code=500, detail=error_msg)
 
 # routes/dbQuery.py
+# dbQuery.py
+# dbQuery.py
 async def get_bids_by_contractor(conn, contractor_id: int):
-    async with conn.cursor(row_factory=rows.dict_row) as cur:
+    async with conn.cursor() as cur:
         await cur.execute(
             """
             SELECT 
-                b.*,
-                p.title as project_title,
-                p.status as project_status,
-                u.username as client_name,
-                s.filename as upload_filename,
-                s.file_path as upload_path,
-                s.uploaded_at as upload_time
+                b.id, b.project_id, b.price, b.status,
+                p.title AS project_title,
+                p.deadline AS project_deadline,
+                p.status AS project_status,
+                s.filename AS upload_filename
             FROM bids b
             JOIN projects p ON b.project_id = p.id
-            JOIN users u ON p.client_id = u.id
-            LEFT JOIN submissions s ON b.project_id = s.project_id AND s.uploaded_by = b.contractor_id
+            LEFT JOIN submissions s ON b.id = s.bid_id 
+                AND s.uploaded_at = (
+                    SELECT MAX(uploaded_at) 
+                    FROM submissions s2 
+                    WHERE s2.bid_id = b.id
+                )
             WHERE b.contractor_id = %s
-            ORDER BY b.id DESC
+            ORDER BY b.created_at DESC
             """,
             (contractor_id,)
         )
-        return await cur.fetchall()
-
+        rows = await cur.fetchall()
+        return [dict(row) for row in rows]
+    
 async def get_bid_by_project_and_contractor(conn, project_id, contractor_id):
     try:
         async with conn.cursor(row_factory=rows.dict_row) as cur:
             await cur.execute(
-                "SELECT * FROM bids WHERE project_id = %s AND contractor_id = %s",
+                """
+                SELECT 
+                    b.*,
+                    p.status as project_status
+                FROM bids b
+                JOIN projects p ON b.project_id = p.id
+                WHERE b.project_id = %s AND b.contractor_id = %s
+                """,
                 (project_id, contractor_id),
             )
             return await cur.fetchone()
@@ -235,71 +259,69 @@ async def accept_bid(conn, bid_id, client_id):
         await conn.rollback()
         raise
 
-# === 檔案上傳 ===
-# routes/dbQuery.py
-async def upload_file_db(conn, bid_id, filename, file_path):
-    if not bid_id or not filename or not file_path:
-        raise HTTPException(status_code=400, detail="參數錯誤")
-
-    project_id = None
-    contractor_id = None
-    upload_recorded = False
-
+# === 檔案上傳 === upload_file_db
+## routes/dbQuery.py
+# dbQuery.py
+async def db_upload_file_db(conn, bid_id: int, filename: str, file_path: str, uploader_id: int):
     try:
-        # Step 1: 取得 project_id 和 contractor_id
         async with conn.cursor() as cur:
-            await cur.execute(
-                "SELECT project_id, contractor_id FROM bids WHERE id = %s",
-                (bid_id,)
-            )
+            # 取得 project_id
+            await cur.execute("SELECT project_id FROM bids WHERE id = %s", (bid_id,))
             result = await cur.fetchone()
             if not result:
                 raise HTTPException(404, "報價不存在")
-            project_id = result[0] if isinstance(result, tuple) else result.get('project_id')
-            contractor_id = result[1] if isinstance(result, tuple) else result.get('contractor_id')
+            project_id = result["project_id"]
 
-        # Step 2: 寫入 submissions 表
-        try:
-            async with conn.cursor() as cur:
+            # 檢查是否已有上傳記錄
+            await cur.execute(
+                "SELECT id FROM submissions WHERE bid_id = %s ORDER BY uploaded_at DESC LIMIT 1",
+                (bid_id,)
+            )
+            existing = await cur.fetchone()
+
+            if existing:
+                # 更新舊記錄
+                await cur.execute(
+                    """
+                    UPDATE submissions 
+                    SET filename = %s, file_path = %s, uploaded_by = %s, uploaded_at = NOW()
+                    WHERE id = %s
+                    """,
+                    (filename, file_path, uploader_id, existing["id"])
+                )
+                print(f"[DB DEBUG] Updated submission for bid {bid_id}: {filename}")
+            else:
+                # 新增
                 await cur.execute(
                     """
                     INSERT INTO submissions 
-                    (project_id, filename, file_path, uploaded_by, uploaded_at)
-                    VALUES (%s, %s, %s, %s, NOW())
+                    (bid_id, project_id, filename, file_path, uploaded_by, uploaded_at)
+                    VALUES (%s, %s, %s, %s, %s, NOW())
                     """,
-                    (project_id, filename, file_path, contractor_id)
+                    (bid_id, project_id, filename, file_path, uploader_id)
                 )
-                await conn.commit()
-                upload_recorded = True
-                print(f"[DB DEBUG] Submission recorded: {filename}")
-        except Exception as e:
-            await conn.rollback()
-            print(f"[DB WARN] submissions insert failed: {str(e)}")
-            # 不擋流程！
+                print(f"[DB DEBUG] Inserted new submission for bid {bid_id}: {filename}")
 
-        # Step 3: 更新專案狀態
-        async with conn.cursor() as cur:
-            await cur.execute(
-                "UPDATE projects SET status = 'submitted' WHERE id = %s",
-                (project_id,)
-            )
             await conn.commit()
-            print(f"[DB DEBUG] Project {project_id} → 'submitted'")
-
-        return {"success": True, "upload_recorded": upload_recorded}
+        return {"success": True}
 
     except Exception as e:
+        await conn.rollback()
         import traceback
-        print(f"[DB ERROR] upload_file_db: {traceback.format_exc()}")
-        if isinstance(e, HTTPException): raise e
-        raise HTTPException(500, f"處理失敗: {str(e)}")
-    
+        print(f"[DB ERROR] {traceback.format_exc()}")
+        raise HTTPException(500, f"上傳失敗: {str(e)}")
+        
 # === 檢視上傳檔案 ===
 async def db_get_bid_by_id(conn, bid_id: int):
-    async with conn.cursor(row_factory=rows.dict_row) as cur:
+    async with conn.cursor() as cur:
         await cur.execute(
             """
-            SELECT b.*, p.client_id as project_client_id, u.username as contractor_name, p.title as project_title
+            SELECT 
+                b.id, b.project_id, b.contractor_id, b.price, b.status,
+                p.client_id AS project_client_id,
+                p.title AS project_title,
+                p.status AS project_status,
+                u.username AS contractor_name
             FROM bids b
             JOIN projects p ON b.project_id = p.id
             JOIN users u ON b.contractor_id = u.id
@@ -307,12 +329,25 @@ async def db_get_bid_by_id(conn, bid_id: int):
             """,
             (bid_id,)
         )
-        return await cur.fetchone()
+        row = await cur.fetchone()
+        return dict(row) if row else None
 
+# dbQuery.py
 async def db_get_upload_by_bid_id(conn, bid_id: int):
-    async with conn.cursor(row_factory=rows.dict_row) as cur:
-        await cur.execute("SELECT * FROM uploads WHERE bid_id = %s", (bid_id,))
-        return await cur.fetchone()
+    async with conn.cursor() as cur:
+        await cur.execute(
+            """
+            SELECT s.*, b.project_id 
+            FROM submissions s
+            JOIN bids b ON s.bid_id = b.id
+            WHERE s.bid_id = %s
+            ORDER BY s.uploaded_at DESC
+            LIMIT 1
+            """,
+            (bid_id,)
+        )
+        row = await cur.fetchone()
+        return dict(row) if row else None
 
 # === 狀態更新 ===
 async def db_update_bid_status(conn, bid_id: int, status: str):
@@ -399,3 +434,236 @@ async def get_bids_for_client_projects(conn, client_id: int):
             (client_id,),
         )
         return await cur.fetchall()
+    
+    # routes/dbQuery.py
+# === 新增：拒絕其他報價 ===
+async def reject_other_bids(conn, project_id: int, accepted_bid_id: int):
+    """接受一個報價後，自動將同專案的其他 pending 報價設為 rejected"""
+    try:
+        async with conn.cursor() as cur:
+            await cur.execute(
+                """
+                UPDATE bids 
+                SET status = 'rejected' 
+                WHERE project_id = %s 
+                  AND id != %s 
+                  AND status = 'pending'
+                """,
+                (project_id, accepted_bid_id)
+            )
+            await conn.commit()
+        print(f"[DB] Rejected other bids for project {project_id}")
+    except Exception as e:
+        await conn.rollback()
+        raise HTTPException(status_code=500, detail=f"拒絕其他報價失敗: {str(e)}")
+
+# === 新增：上傳後設專案為 submitted ===
+# routes/dbQuery.py
+async def set_project_submitted(conn, project_id: int):
+    try:
+        async with conn.cursor() as cur:
+            await cur.execute(
+                "UPDATE projects SET status = 'submitted' WHERE id = %s AND status = 'in_progress'",
+                (project_id,)
+            )
+            await conn.commit()
+    except Exception as e:
+        print(f"[DB INFO] 無法更新專案 {project_id} 為 submitted: {e}")
+
+# === 新增：結案時同步 bid 狀態 ===
+async def complete_bid_for_project(conn, project_id: int):
+    """將該專案下 accepted 的 bid 設為 completed"""
+    try:
+        async with conn.cursor() as cur:
+            await cur.execute(
+                "UPDATE bids SET status = 'completed' WHERE project_id = %s AND status = 'accepted'",
+                (project_id,)
+            )
+            await conn.commit()
+    except Exception as e:
+        await conn.rollback()
+        raise HTTPException(status_code=500, detail=f"結案同步 bid 失敗: {str(e)}")
+    
+
+
+# ===========================================================
+#                     新增：評價系統相關查詢
+# ===========================================================
+
+# 1.新增一個專門給 Contractor 用的  原本的 get_all_projects 未剔除
+# 這裡我們用 Join 或 Subquery 來取得 client 的評價資訊
+async def get_all_projects_with_stats(conn):
+    async with conn.cursor(row_factory=rows.dict_row) as cur:
+        await cur.execute("""
+            SELECT 
+                p.*,
+                u.username as client_name,
+                -- 計算該 Client 收到的平均總分 (target_role='client')
+                COALESCE(
+                    (SELECT AVG((rating_1 + rating_2 + rating_3) / 3.0) 
+                     FROM reviews r 
+                     WHERE r.reviewee_id = p.client_id AND r.target_role = 'client'), 
+                    0
+                ) as client_avg_rating,
+                -- 計算評價總數
+                (SELECT COUNT(*) 
+                 FROM reviews r 
+                 WHERE r.reviewee_id = p.client_id AND r.target_role = 'client') as client_review_count
+            FROM projects p
+            JOIN users u ON p.client_id = u.id
+            WHERE p.status = 'open'
+            ORDER BY p.id DESC
+        """)
+        return await cur.fetchall()
+
+# 2. 新增：取得特定使用者的詳細評價數據 (用於詳情頁)
+async def get_user_reputation_details(conn, user_id: int, role_viewed_as: str):
+    """
+    user_id: 被查看的人 (例如甲方 ID)
+    role_viewed_as: 被查看的角色 ('client' 或 'contractor')
+    """
+    async with conn.cursor(row_factory=rows.dict_row) as cur:
+        # 2.1 取得統計數據
+        await cur.execute("""
+            SELECT 
+                COUNT(*) as total_reviews,
+                COALESCE(AVG(rating_1), 0) as avg_dim1, -- client:需求合理性 / contractor:產出品質
+                COALESCE(AVG(rating_2), 0) as avg_dim2, -- client:驗收難度 / contractor:執行效率
+                COALESCE(AVG(rating_3), 0) as avg_dim3, -- 合作態度
+                COALESCE(AVG((rating_1 + rating_2 + rating_3)/3.0), 0) as overall_avg
+            FROM reviews 
+            WHERE reviewee_id = %s AND target_role = %s
+        """, (user_id, role_viewed_as))
+        stats = await cur.fetchone()
+
+        # 2.2 取得詳細評論列表 (包含評論者的名字，若需要匿名可遮蔽)
+        await cur.execute("""
+            SELECT 
+                r.*,
+                reviewer.username as reviewer_name,
+                p.title as project_title
+            FROM reviews r
+            JOIN users reviewer ON r.reviewer_id = reviewer.id
+            JOIN projects p ON r.project_id = p.id
+            WHERE r.reviewee_id = %s AND r.target_role = %s
+            ORDER BY r.created_at DESC
+        """, (user_id, role_viewed_as))
+        reviews_list = await cur.fetchall()
+
+        return {
+            "stats": stats,
+            "reviews": reviews_list
+        }
+
+# --------------
+# 1. 新增：建立評價
+async def create_review(conn, project_id: int, reviewer_id: int, reviewee_id: int, target_role: str, r1: int, r2: int, r3: int, comment: str):
+    try:
+        async with conn.cursor() as cur:
+            await cur.execute(
+                """
+                INSERT INTO reviews 
+                (project_id, reviewer_id, reviewee_id, target_role, rating_1, rating_2, rating_3, comment)
+                VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
+                """,
+                (project_id, reviewer_id, reviewee_id, target_role, r1, r2, r3, comment)
+            )
+            await conn.commit()
+    except Exception as e:
+        await conn.rollback()
+        raise HTTPException(status_code=500, detail=f"評價寫入失敗: {str(e)}")
+
+# 2. 修改：get_projects_by_client (增加 has_reviewed 欄位)
+# 請找到原本的函數，並將 SQL 修改如下 (注意 JOIN reviews 的部分)
+async def get_projects_by_client(conn, client_id: int):
+    async with conn.cursor(row_factory=rows.dict_row) as cur:
+        await cur.execute(
+            """
+            SELECT 
+                p.*,
+                -- [新增] 檢查甲方是否已經對這個專案的得標者做過評價
+                EXISTS(
+                    SELECT 1 FROM reviews r 
+                    WHERE r.project_id = p.id 
+                    AND r.reviewer_id = p.client_id
+                ) as has_reviewed,
+                
+                COALESCE(json_agg(
+                    json_build_object(
+                        'id', b.id,
+                        'contractor_id', b.contractor_id,
+                        'contractor_name', u.username,
+                        'price', b.price,
+                        'status', b.status,
+                        'upload_filename', s.filename,
+                        'upload_path', s.file_path,
+                        'can_view', (s.filename IS NOT NULL AND b.status != 'rejected'),
+                        'avg_rating', (SELECT COALESCE(AVG((rating_1+rating_2+rating_3)/3.0),0) FROM reviews WHERE reviewee_id=b.contractor_id AND target_role='contractor'),
+                        'review_count', (SELECT COUNT(*) FROM reviews WHERE reviewee_id=b.contractor_id AND target_role='contractor')
+                    )
+                    ORDER BY b.id DESC
+                ) FILTER (WHERE b.id IS NOT NULL), '[]') AS bids
+            FROM projects p
+            LEFT JOIN bids b ON p.id = b.project_id
+            LEFT JOIN users u ON b.contractor_id = u.id
+            LEFT JOIN submissions s ON b.project_id = s.project_id AND s.uploaded_by = b.contractor_id
+            WHERE p.client_id = %s
+            GROUP BY p.id
+            ORDER BY p.id DESC
+            """,
+            (client_id,)
+        )
+        results = await cur.fetchall()
+        for row in results:
+            if row['bids'] is None: row['bids'] = []
+        return results
+
+# 3. 修改：get_bids_by_contractor (增加 has_reviewed 欄位)
+async def get_bids_by_contractor(conn, contractor_id: int):
+    async with conn.cursor(row_factory=rows.dict_row) as cur:
+        await cur.execute(
+            """
+            SELECT 
+                b.id, b.project_id, b.price, b.status,
+                p.title AS project_title,
+                p.deadline AS project_deadline,
+                p.status AS project_status,
+                p.client_id, -- [新增] 需要知道 client 是誰才能評價
+                s.filename AS upload_filename,
+                
+                -- [新增] 檢查乙方是否已對這個專案的業主做過評價
+                EXISTS(
+                    SELECT 1 FROM reviews r 
+                    WHERE r.project_id = b.project_id 
+                    AND r.reviewer_id = %s
+                ) as has_reviewed
+                
+            FROM bids b
+            JOIN projects p ON b.project_id = p.id
+            LEFT JOIN submissions s ON b.id = s.bid_id 
+                AND s.uploaded_at = (SELECT MAX(uploaded_at) FROM submissions s2 WHERE s2.bid_id = b.id)
+            WHERE b.contractor_id = %s
+            ORDER BY b.created_at DESC
+            """,
+            (contractor_id, contractor_id)
+        )
+        return await cur.fetchall()
+    # routes/dbQuery.py
+
+
+# [新增] 根據專案ID與狀態取得報價 (用於評價時找出得標者)
+async def get_bid_by_project_and_status(conn, project_id: int, status: str):
+    async with conn.cursor(row_factory=rows.dict_row) as cur:
+        await cur.execute(
+            """
+            SELECT b.*, u.username as contractor_name
+            FROM bids b
+            JOIN users u ON b.contractor_id = u.id
+            WHERE b.project_id = %s AND b.status = %s
+            LIMIT 1
+            """,
+            (project_id, status)
+        )
+        return await cur.fetchone()
+    
+    
