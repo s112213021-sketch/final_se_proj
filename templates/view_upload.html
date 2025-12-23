@@ -1,50 +1,46 @@
 <!-- templates/view_upload.html -->
-<!-- 檢視上傳檔案的頁面 -->
-<!-- 主要功能：
-1. 顯示上傳檔案的詳細資訊
-2. 提供檔案下載連結
-3. 委託人可以進行退件或結案操作
-4. 承包商可以查看檔案狀態和重新上傳
--->
-
 {% extends "base.html" %}
 {% block title %}檢視檔案{% endblock %}
 
 {% block content %}
 <div class="container mt-4">
-    <!-- 檔案資訊卡片 -->
     <div class="card">
-        <!-- 卡片標題和返回按鈕 -->
         <div class="card-header d-flex justify-content-between">
-            <h5>檔案檢視</h5>
-            <a href="/dashboard" class="btn btn-secondary btn-sm">返回</a>
+            <h5>👁️ 檔案檢視</h5>
+            <a href="/dashboard" class="btn btn-secondary btn-sm">🏠 返回</a>
         </div>
         <div class="card-body">
-            <p><strong>專案：</strong> {{ bid.project_title }}</p>
-            <p><strong>檔案：</strong>
+            <p><strong>🏡 專案：</strong> {{ bid.project_title }}</p>
+            <p><strong>📁 檔案：</strong>
                 <a href="/uploads/{{ upload.filename }}" target="_blank" class="text-primary">
                     {{ upload.filename }} (點擊下載)
                 </a>
             </p>
-            <p><strong>上傳時間：</strong> {{ upload.created_at }}</p>
+            <p><strong>⏰ 上傳時間：</strong> {{ upload.created_at }}</p>
 
             <hr>
 
-            {% if user.role == "client" %}
+            {% if user.role == "client" and bid.project_status != 'completed' %}
             <form method="post" action="/reject_bid/{{ bid.id }}" class="d-inline">
-                <button type="submit" class="btn btn-warning btn-sm">退件</button>
+                <button type="submit" class="btn btn-warning btn-sm">🔄 退件</button>
             </form>
             <form method="post" action="/complete_project/{{ bid.project_id }}" class="d-inline ms-2">
-                <button type="submit" class="btn btn-success btn-sm">結案</button>
+                <button type="submit" class="btn btn-success btn-sm">✅ 結案</button>
             </form>
 
             {% elif user.role == "contractor" %}
-            {% if bid.status == "rejected" %}
+            {% if bid.project_status == 'completed' %}
+            <div class="alert alert-success">
+                🎉 <strong>已結案，審核通過！恭喜完成任務！</strong>
+            </div>
+            {% elif bid.status == 'rejected' %}
             <a href="/upload/{{ bid.project_id }}" class="btn btn-primary btn-sm">
-                重新上傳
+                🔄 重新上傳
             </a>
             {% else %}
-            <p class="text-success"><strong>檔案已提交，等待審核</strong></p>
+            <div class="alert alert-info">
+                ⏳ <strong>檔案已提交，等待審核中...</strong>
+            </div>
             {% endif %}
             {% endif %}
         </div>

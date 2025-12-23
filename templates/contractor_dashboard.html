@@ -1,110 +1,127 @@
-<!-- templates/contractor_dashboard.html -->
-<!-- 承包商（接案者）的儀表板頁面 -->
-<!-- 主要功能：
-1. 顯示可接案的專案列表
-2. 顯示已報價的專案狀態
-3. 管理已承接的專案
-4. 上傳專案成果
--->
-
 {% extends "base.html" %}
 {% block title %}承包商儀表板{% endblock %}
 
 {% block content %}
 <div class="container">
-    <!-- 顯示用戶歡迎訊息 -->
-    <h1 class="mt-4">歡迎，{{ request.session.user.username }}！</h1>
+    <h1 class="mt-4">{{ request.session.user.username }}</h1>
 
-    <!-- 顯示系統提示訊息（如操作成功/失敗提示） -->
     {% if session.get("flash_message") %}
     <div class="alert alert-{{ session.flash_type or 'info' }} alert-dismissible fade show">
         {{ session.flash_message | safe }}
-        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        <button type="button" class="btn-close" data-bs-dismiss="alert">×</button>
     </div>
     {% endif %}
 
-    <hr>
-
-    <!-- 可報價專案 -->
     <section class="mb-5">
-        <h3>可報價的專案</h3>
+        <h3 class="mb-3">可報價的專案</h3>
         {% if projects %}
-        <div class="row">
+        <div class="row g-4">
             {% for p in projects %}
-            <div class="col-md-6 mb-3">
-                <div class="card">
-                    <div class="card-body">
-                        <h5>{{ p.title }}</h5>
-                        <p>{{ p.description[:100] }}...</p>
-                        <p><strong>預算：</strong> ${{ p.budget }}</p>
-                        <a href="/submit_bid/{{ p.id }}" class="btn btn-primary btn-sm">提交報價</a>
+            <div class="col-md-6 col-lg-4">
+                <div class="card h-100">
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title">{{ p.title }}</h5>
+                        <p class="card-text text-muted flex-grow-1">
+                            {{ p.description[:100] }}{% if p.description|length > 100 %}...{% endif %}
+                        </p>
+                        <p class="card-text"><strong>預算</strong> <span class="text-success">${{ "%.2f"|format(p.budget)
+                                }}</span></p>
+                        <p class="card-text text-muted small">
+                            <strong>截止</strong> {{ p.deadline }}
+                        </p>
+                        <a href="/submit_bid/{{ p.id }}" class="btn btn-primary btn-sm mt-auto">提交報價</a>
                     </div>
                 </div>
             </div>
             {% endfor %}
         </div>
         {% else %}
-        <p class="text-muted">目前沒有開放專案</p>
+        <div class="alert alert-info">
+            目前沒有開放報價的專案，稍後再來看看
+        </div>
         {% endif %}
     </section>
 
-    <hr>
-
-    <!-- 我的報價 -->
     <section>
-        <h3>我的報價</h3>
+        <h3 class="mb-3">我的報價</h3>
         {% if bids %}
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th>專案</th>
-                    <th>金額</th>
-                    <th>狀態</th>
-                    <th>檔案</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for bid in bids %}
-                <tr>
-                    <!-- 專案名稱 -->
-                    <td>{{ bid.project_title }}</td>
+        <div class="table-responsive">
+            <table class="table table-hover align-middle">
+                <thead>
+                    <tr>
+                        <th>專案</th>
+                        <th>金額</th>
+                        <th>狀態</th>
+                        <th>上傳檔案</th>
+                        <th width="200">操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for bid in bids %}
+                    <tr>
+                        <td>
+                            <strong>{{ bid.project_title }}</strong>
+                            <br>
+                            <small class="text-muted">截止：{{ bid.project_deadline }}</small>
+                        </td>
 
-                    <!-- 金額 -->
-                    <td>${{ "%.2f"|format(bid.price) }}</td>
+                        <td class="text-success fw-bold">${{ "%.2f"|format(bid.price) }}</td>
 
-                    <!-- 狀態欄 -->
-                    <td>
-                        {% if bid.status == 'accepted' and bid.upload_filename %}
-                        <span class="badge bg-success">已上傳</span>
-                        {% elif bid.status == 'accepted' %}
-                        <span class="badge bg-warning text-dark">待上傳</span>
-                        {% elif bid.status == 'rejected' %}
-                        <span class="badge bg-danger">已退件</span>
-                        {% else %}
-                        <span class="badge bg-light text-dark">待審核</span>
-                        {% endif %}
-                    </td>
+                        <td>
+                            {% if bid.project_status == 'completed' %}
+                            <span class="badge bg-warning text-dark">已結案</span>
+                            {% elif bid.status == 'accepted' and bid.upload_filename %}
+                            <span class="badge bg-success">已上傳</span>
+                            {% elif bid.status == 'accepted' %}
+                            <span class="badge bg-warning text-dark">待上傳</span>
+                            {% elif bid.status == 'rejected' %}
+                            <span class="badge bg-danger">已退件</span>
+                            {% else %}
+                            <span class="badge bg-secondary">待審核</span>
+                            {% endif %}
+                        </td>
 
-                    <!-- 檔案欄 -->
-                    <td>
-                        {% if bid.status == 'accepted' and bid.upload_filename %}
-                        <a href="/view_upload/{{ bid.id }}" class="btn btn-info btn-sm">
-                            已上傳（檢視）
-                        </a>
-                        {% elif bid.status == 'accepted' %}
-                        <a href="/upload/{{ bid.project_id }}" class="btn btn-success btn-sm">
-                            上傳檔案
-                        </a>
-                        {% else %}
-                        <span class="text-muted">—</span>
-                        {% endif %}
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+                        <td>
+                            {% if bid.project_status == 'completed' %}
+                            <span class="text-success small">審核通過</span>
+                            {% elif bid.upload_filename %}
+                            <span class="badge bg-success">已上傳</span>
+                            {% elif bid.status == 'accepted' %}
+                            <span class="text-muted">—</span>
+                            {% elif bid.status == 'rejected' %}
+                            <span class="badge bg-danger">需重傳</span>
+                            {% else %}
+                            <span class="text-muted">—</span>
+                            {% endif %}
+                        </td>
+
+                        <td>
+                            {% if bid.project_status == 'completed' %}
+                            <a href="/view_upload/{{ bid.id }}" class="btn btn-info btn-sm">檢視</a>
+                            {% elif bid.status == 'accepted' or bid.status == 'rejected' %}
+                            {% if bid.status == 'rejected' %}
+                            <a href="/upload/{{ bid.project_id }}" class="btn btn-warning btn-sm">重新上傳</a>
+                            {% else %}
+                            <a href="/upload/{{ bid.project_id }}" class="btn btn-success btn-sm">上傳檔案</a>
+                            {% endif %}
+                            {% if bid.upload_filename %}
+                            <a href="/view_upload/{{ bid.id }}" class="btn btn-secondary btn-sm ms-1">檢視</a>
+                            {% endif %}
+                            {% elif bid.status == 'pending' %}
+                            <span class="text-muted small">等待客戶選擇</span>
+                            {% else %}
+                            <span class="text-muted">—</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
         {% else %}
-        <p class="text-muted">尚未提交報價</p>
+        <div class="alert alert-info">
+            尚未提交任何報價，快去接案吧
+        </div>
         {% endif %}
     </section>
 </div>

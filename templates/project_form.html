@@ -1,40 +1,36 @@
-<!-- templates/project_form.html -->
-<!-- 委託人建立/修改專案的表單頁面 -->
-<!-- 主要功能：
-1. 新增專案需求
-2. 修改現有專案
-3. 表單驗證和錯誤提示
--->
-
 {% extends "base.html" %}
 {% block content %}
-<!-- 根據情境顯示不同的標題 -->
-<h1>{% if project %}修改需求案{% else %}提需求案{% endif %}</h1>
+<div class="container">
+        <h1>{% if project %}修改專案{% else %}建立專案{% endif %}</h1>
 
-<!-- 錯誤訊息顯示區 -->
-{% if error %}
-<div style="color: red; margin-bottom: 1em;">
-    {{ error }}
+        {% if error %}
+        <div class="alert alert-danger">
+                {{ error }}
+        </div>
+        {% endif %}
+
+        <form method="post" action="{% if project %}/edit_project/{{ project.id }}{% else %}/create_project{% endif %}">
+                <label>專案標題
+                        <input type="text" name="title" value="{{ project.title if project else '' }}" required
+                                placeholder="例如：網站設計、品牌識別設計">
+                </label>
+
+                <label>專案描述
+                        <textarea name="description" required
+                                placeholder="詳細描述您的專案需求與期望...">{{ project.description if project else '' }}</textarea>
+                </label>
+
+                <label>預算金額 ($)
+                        <input type="number" name="budget" step="0.01" value="{{ project.budget if project else '' }}"
+                                required min="0" placeholder="設定您的預算">
+                </label>
+
+                <label>截止日期
+                        <input type="date" name="deadline" value="{{ project.deadline if project else '' }}" required
+                                min="{{ today }}">
+                </label>
+
+                <button type="submit">{% if project %}更新專案{% else %}建立專案{% endif %}</button>
+        </form>
 </div>
-{% endif %}
-
-<!-- 專案表單 -->
-<!-- 根據是否為編輯模式決定表單提交的目標路徑 -->
-<form method="post" action="{% if project %}/edit_project/{{ project.id }}{% else %}/create_project{% endif %}">
-    <!-- 專案標題 -->
-    <label>標題: <input type="text" name="title" value="{{ project.title if project else '' }}" required></label><br>
-
-    <!-- 專案描述 -->
-    <label>描述: <textarea name="description" required>{{ project.description if project else '' }}</textarea></label><br>
-
-    <!-- 預算設定，限制最小值為 0 -->
-    <label>預算 ($): <input type="number" name="budget" step="0.01" value="{{ project.budget if project else '' }}"
-            required min="0"></label><br>
-
-    <!-- 截止日期，限制最小值為今天 -->
-    <label>截止日期: <input type="date" name="deadline" value="{{ project.deadline if project else '' }}" required
-            min="{{ today }}"></label><br>
-
-    <button type="submit">提交</button>
-</form>
 {% endblock %}

@@ -8,7 +8,7 @@
 # 5. 投標流程
 
 # === 框架相關匯入 ===
-from fastapi import FastAPI, Depends, Request, Form, HTTPException, UploadFile, File  # Web 框架核心組件
+from fastapi import FastAPI, Depends, Request, Form, HTTPException, UploadFile, File, Response  # Web 框架核心組件
 from fastapi.templating import Jinja2Templates  # 模板引擎
 from fastapi.responses import HTMLResponse, RedirectResponse, JSONResponse  # HTTP 響應類型
 from fastapi.staticfiles import StaticFiles  # 靜態文件服務
@@ -18,6 +18,7 @@ from typing import Optional, List  # 型別提示
 # === 系統相關匯入 ===
 import os  # 操作系統功能
 import secrets  # 生成安全隨機值
+from hash import hash_password, verify_password  # 密碼雜湊工具
 from datetime import datetime  # 日期時間處理
 from starlette.middleware.sessions import SessionMiddleware  # 會話管理
 from passlib.context import CryptContext  # 密碼加密
@@ -26,6 +27,7 @@ import logging  # 日誌記錄
 from logging.handlers import RotatingFileHandler  # 循環日誌處理
 import json  # JSON 處理
 import tempfile  # 臨時文件處理
+
 # === 密碼加密設定 ===
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")  # 使用 bcrypt 進行密碼加密
 
@@ -52,7 +54,6 @@ try:
         get_bid_by_project_and_contractor as db_get_bid_by_project_and_contractor,  # 獲取特定專案和承包商的投標
         
         # 檔案上傳
-        upload_file_db as db_upload_file_db,  # 上傳檔案到資料庫
         get_project_by_id as db_get_project_by_id,
         upsert_user as db_upsert_user,
         get_user_by_credentials as db_get_user_by_credentials,
@@ -61,6 +62,10 @@ try:
         update_project as db_update_project,
         set_project_status as db_set_project_status,
         get_bids_for_client_projects as db_get_bids_for_client_projects,
+        set_project_submitted,
+        reject_other_bids,
+        complete_bid_for_project,
+        db_upload_file_db,  # 這行一定要加！
     )
 except ImportError as e:
     raise ImportError(f"無法匯入 db 或 routes.dbQuery 模組: {str(e)}")
@@ -120,7 +125,7 @@ async def http_exception_handler(request: Request, exc: HTTPException):
     payload = {
         "status": "error",
         "code": exc.status_code,
-        "message": exc.detail,
+        "message": str(exc.detail),
     }
     return JSONResponse(content=payload, status_code=exc.status_code)
 
@@ -259,7 +264,7 @@ async def login(
                 password_hash = row[2]
                 role = row[3]
 
-            if password_hash and pwd_context.verify(password, password_hash):
+            if password_hash and verify_password(password, password_hash):
                 set_session_user(request, {"id": user_id, "username": username_db, "role": role})
                 logger.debug("login succeeded, session=%s", request.session)
                 return RedirectResponse(url="/dashboard", status_code=302)
@@ -290,7 +295,7 @@ async def register(
         if existing:
             return templates.TemplateResponse("base.html", {"request": request, "error": "帳號已存在", "show_register": True})
 
-        hashed_password = pwd_context.hash(password)
+        hashed_password = hash_password(password)
         user_id = await db_upsert_user(conn, username, hashed_password, role)
 
         set_session_user(request, {"id": user_id, "username": username, "role": role})
@@ -466,52 +471,6 @@ async def create_project(
             {"request": request, "error": "預算必須是有效的數字"}
         )
 
-    try:
-        datetime.strptime(deadline, "%Y-%m-%d")
-    except ValueError:
-        return templates.TemplateResponse(
-            "project_form.html",
-            {"request": request, "error": "無效的日期格式，請使用 YYYY-MM-DD"}
-        )
-
-    try:
-        print(f"[APP DEBUG] create_project route called by user: {user}")
-        print(f"[APP DEBUG] form values title={title!r}, budget={budget!r}, deadline={deadline!r}")
-        new_project = Project(
-            title=title,
-            description=description,
-            budget=budget_value,
-            deadline=deadline,
-            status="open",
-            client_id=user["id"]
-        )
-        
-        try:
-            print(f"[APP DEBUG] calling db_create_project...")
-            project_id = await db_create_project(conn, new_project)
-            print(f"[APP DEBUG] db_create_project returned: {project_id}")
-            if project_id:
-                return RedirectResponse(url="/dashboard", status_code=302)
-            else:
-                return templates.TemplateResponse(
-                    "project_form.html",
-                    {"request": request, "error": "創建專案失敗（未返回有效 id）"}
-                )
-        except HTTPException as e:
-            return templates.TemplateResponse(
-                "project_form.html",
-                {"request": request, "error": e.detail}
-            )
-        except Exception as e:
-            return templates.TemplateResponse(
-                "project_form.html",
-                {"request": request, "error": f"創建專案時發生錯誤：{str(e)}"}
-            )
-    except Exception as e:
-        return templates.TemplateResponse(
-            "project_form.html",
-            {"request": request, "error": f"創建專案時發生錯誤：{str(e)}"}
-        )
 
 @app.get("/edit_project/{project_id}", response_class=HTMLResponse)
 async def edit_project_form(request: Request, project_id: int, conn=Depends(getDB), user: dict = Depends(get_current_user)):
@@ -533,15 +492,26 @@ async def edit_project(project_id: int, title: str = Form(...), description: str
 
 # 接受報價
 @app.post("/accept_bid/{bid_id}")
-async def accept_bid(bid_id: int, conn=Depends(getDB), user: dict = Depends(get_current_user)):
-    if not isinstance(user, dict) or user.get("role") != "client":
-        raise HTTPException(status_code=403, detail="無權限")
-    try:
-        await db_accept_bid(conn, bid_id, user.get("id"))
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"接受報價失敗: {str(e)}")
-    return RedirectResponse(url="/dashboard", status_code=302)
+async def accept_bid(bid_id: int, request: Request, user=Depends(get_current_user), conn=Depends(getDB)):
+    if user["role"] != "client":
+        raise HTTPException(403, "無權限")
 
+    bid = await db_get_bid_by_id(conn, bid_id)
+    if not bid or bid["project_client_id"] != user["id"]:
+        raise HTTPException(404, "報價不存在")
+
+    project_id = bid["project_id"]
+
+    # 接受此報價
+    await db_update_bid_status(conn, bid_id, "accepted")
+    # 拒絕其他報價
+    await reject_other_bids(conn, project_id, bid_id)
+    # 專案進入進行中
+    await db_update_project_status(conn, project_id, "in_progress")
+
+    request.session["flash_message"] = "已接受報價，專案進行中"
+    request.session["flash_type"] = "success"
+    return RedirectResponse("/dashboard", 302)
 # === 專案結案相關路由 ===
 
 @app.post("/close_project/{project_id}")
@@ -677,10 +647,18 @@ async def upload_file_form(
     if user.get("role") != "contractor":
         raise HTTPException(status_code=403, detail="無權限")
     
-    # 檢查是否有對應的已接受報價
+    # 檢查是否有對應的報價
     bid = await db_get_bid_by_project_and_contractor(conn, project_id, user.get("id"))
-    if not bid or bid["status"] != "accepted":
-        raise HTTPException(status_code=403, detail="找不到已接受的報價")
+    if not bid:
+        raise HTTPException(status_code=403, detail="找不到相關報價")
+    
+    # 檢查專案狀態
+    if bid["project_status"] == "completed":
+        raise HTTPException(status_code=403, detail="專案已結案")
+        
+    # 檢查報價狀態（允許 accepted 和 rejected 狀態的報價上傳）
+    if bid["status"] not in ["accepted", "rejected"]:
+        raise HTTPException(status_code=403, detail="報價未被接受或退件")
     
     return templates.TemplateResponse("upload.html", {"request": request, "project_id": project_id})
 
@@ -695,88 +673,99 @@ async def upload_file(
     user: dict = Depends(get_current_user),
 ):
     if user.get("role") != "contractor":
-        raise HTTPException(status_code=403, detail="無權限")
+        raise HTTPException(status_code=403, detail="僅承包商可上傳檔案")
 
     try:
+        # 1. 取得 bid，允許 accepted 或 rejected
         bid = await db_get_bid_by_project_and_contractor(conn, project_id, user.get("id"))
-        if not bid or bid["status"] != "accepted":
-            raise HTTPException(status_code=403, detail="找不到已接受的報價")
-        # === 讀取檔案並驗證（避免使用不存在的 file.size） ===
+        if not bid or bid["status"] not in ["accepted", "rejected"]:
+            raise HTTPException(status_code=403, detail="無權限上傳（報價需為接受或退件狀態）")
+        if bid["project_status"] == "completed":
+            raise HTTPException(403, "專案已結案，無法上傳")
+
+        # 2. 檔案驗證
         allowed_extensions = {".pdf", ".docx", ".txt", ".jpg", ".png"}
         raw = await file.read()
         file_size = len(raw)
         file_extension = os.path.splitext(file.filename)[1].lower()
+
         if file_extension not in allowed_extensions:
             raise HTTPException(status_code=400, detail="不支援的檔案類型")
         if file_size > 10 * 1024 * 1024:
-            raise HTTPException(status_code=400, detail="檔案大小超過限制 (10MB)")
+            raise HTTPException(status_code=400, detail="檔案大小超過 10MB")
 
-        # === 儲存檔案到 uploads 目錄 ===
+        # 3. 儲存檔案
         os.makedirs("uploads", exist_ok=True)
         unique_filename = f"{secrets.token_hex(8)}{file_extension}"
         file_path = os.path.join("uploads", unique_filename)
-        with open(file_path, "wb") as buffer:
-            buffer.write(raw)
+        with open(file_path, "wb") as f:
+            f.write(raw)
 
-        # === 更新資料庫 ===
-        # 嘗試寫入 DB；若失敗（例如權限），改為將 metadata 寫入本地 pending 檔案，並通知系統管理員/後續同步
+        # 4. 寫入 DB（傳入 user["id"]）
         try:
-            result = await db_upload_file_db(conn, bid["id"], unique_filename, file_path)
-            # 成功情況
-            request.session["flash_message"] = "檔案上傳成功，專案已標記為「已提交」！"
-            request.session["flash_type"] = "success"
-        except HTTPException as e:
-            # 將上傳 metadata 寫入本地待同步檔案（uploads/pending_uploads.json）
-            pending_dir = "uploads"
-            os.makedirs(pending_dir, exist_ok=True)
-            pending_path = os.path.join(pending_dir, "pending_uploads.json")
+            await db_upload_file_db(conn, bid["id"], unique_filename, file_path, user["id"])
+            db_success = True
+
+            if bid["status"] == "rejected":
+                await db_update_bid_status(conn, bid["id"], "accepted")
+
+        except Exception as e:
+            logger.warning(f"DB 寫入失敗: {e}")
+
+        # 5. Fallback: 寫入 pending_uploads.json
+        if not db_success:
+            pending_path = "uploads/pending_uploads.json"
             entry = {
                 "timestamp": datetime.utcnow().isoformat() + "Z",
-                "bid_id": int(bid["id"]),
-                "project_id": int(project_id),
-                "uploader_id": int(user.get("id")),
+                "bid_id": bid["id"],
+                "project_id": project_id,
+                "uploader_id": user["id"],
                 "filename": unique_filename,
                 "orig_filename": file.filename,
                 "file_path": file_path,
                 "note": "pending_db_insert",
             }
-            # 原子寫入（使用暫存檔）
+
             try:
+                data = []
                 if os.path.exists(pending_path):
                     with open(pending_path, "r", encoding="utf-8") as f:
                         try:
                             data = json.load(f)
-                        except Exception:
+                        except:
                             data = []
-                else:
-                    data = []
                 data.append(entry)
-                # atomic write
-                fd, tmp = tempfile.mkstemp(prefix="pending_uploads", dir=pending_dir)
+
+                fd, tmp = tempfile.mkstemp(prefix="pending_", dir="uploads")
                 with os.fdopen(fd, "w", encoding="utf-8") as tf:
                     json.dump(data, tf, ensure_ascii=False, indent=2)
                 os.replace(tmp, pending_path)
-            except Exception as ex_write:
-                logger.exception("寫入 pending_uploads.json 失敗")
-                request.session["flash_message"] = f"上傳成功但無法記錄 metadata（請聯絡管理員）：{str(ex_write)}"
-                request.session["flash_type"] = "error"
-            else:
-                # 告知使用者檔案已保存，但 metadata 待同步
-                request.session["flash_message"] = "檔案已上傳，但資料庫無法寫入；系統將在稍後同步 metadata。若未自動同步請聯絡管理員。"
-                request.session["flash_type"] = "warning"
 
-        # === 跳轉回儀表板 ===
-        return RedirectResponse(url="/dashboard", status_code=302)
+                request.session["flash_message"] = "檔案已儲存，但資料庫同步失敗，系統將稍後重試。"
+                request.session["flash_type"] = "warning"
+            except Exception as ex:
+                logger.exception("寫入 pending_uploads.json 失敗")
+                request.session["flash_message"] = f"上傳成功但無法記錄 metadata（請聯絡管理員）"
+                request.session["flash_type"] = "error"
+
+        # 6. 更新專案狀態（僅 in_progress → submitted）
+        try:
+            await set_project_submitted(conn, project_id)
+        except:
+            pass  # 已是 submitted，忽略
+
+        return RedirectResponse("/dashboard", status_code=302)
 
     except HTTPException as e:
-        request.session["flash_message"] = e.detail
+        request.session["flash_message"] = str(e.detail)
         request.session["flash_type"] = "error"
-        return RedirectResponse(url="/dashboard", status_code=302)
+        return RedirectResponse("/dashboard", status_code=302)
     except Exception as e:
+        logger.exception("上傳未知錯誤")
         request.session["flash_message"] = f"上傳失敗：{str(e)}"
         request.session["flash_type"] = "error"
-        return RedirectResponse(url="/dashboard", status_code=302)
-
+        return RedirectResponse("/dashboard", status_code=302)
+    
 # 簡易訊息頁與發送
 @app.get("/messages/{project_id}", response_class=HTMLResponse)
 async def get_project_messages(request: Request, project_id: int, conn=Depends(getDB), user: dict = Depends(get_current_user)):
@@ -800,44 +789,55 @@ async def clear_flash(request: Request):
 # main.py
 
 @app.get("/view_upload/{bid_id}")
-async def view_upload(bid_id: int, request: Request, user=Depends(get_current_user), conn=Depends(getDB)):
+async def view_upload(
+    bid_id: int,
+    request: Request,
+    user=Depends(get_current_user),
+    conn=Depends(getDB)
+):
+    # 1. 查 bid
     bid = await db_get_bid_by_id(conn, bid_id)
+    if not bid:
+        print(f"[404] Bid {bid_id} 不存在")
+        raise HTTPException(status_code=404, detail="報價不存在")
+
+    # 2. 權限檢查
+    if user["role"] == "client" and bid.get("project_client_id") != user["id"]:
+        raise HTTPException(403, "無權限")
+    if user["role"] == "contractor" and bid.get("contractor_id") != user["id"]:
+        raise HTTPException(403, "無權限")
+
+    # 3. 查 upload（用 bid_id）
     upload = await db_get_upload_by_bid_id(conn, bid_id)
-    # 若 DB 中沒有 upload 紀錄，檢查本地 pending_uploads.json（fallback）
+
+    # 4. fallback: pending_uploads.json
     if not upload:
-        pending_path = os.path.join("uploads", "pending_uploads.json")
+        pending_path = "uploads/pending_uploads.json"
         if os.path.exists(pending_path):
             try:
                 with open(pending_path, "r", encoding="utf-8") as f:
-                    pending = json.load(f)
-            except Exception:
-                pending = []
-            for e in pending:
-                try:
-                    if int(e.get("bid_id", -1)) == int(bid_id):
+                    data = json.load(f)
+                for e in data:
+                    if e.get("bid_id") == bid_id:
                         upload = {
-                            "id": None,
-                            "bid_id": bid_id,
-                            "filename": e.get("filename"),
-                            "file_path": e.get("file_path"),
-                            "created_at": e.get("timestamp")
+                            "filename": e["filename"],
+                            "created_at": e["timestamp"],
+                            "file_path": e["file_path"]
                         }
+                        print(f"[FALLBACK] 使用 pending.json 找到 bid {bid_id}")
                         break
-                except Exception:
-                    continue
+            except Exception as e:
+                print(f"[FALLBACK ERROR] {e}")
 
-    if not bid or not upload:
-        raise HTTPException(404, "檔案不存在")
-    if user["role"] == "client" and bid["project_client_id"] != user["id"]:
-        raise HTTPException(403, "無權限")
-    if user["role"] == "contractor" and bid["contractor_id"] != user["id"]:
-        raise HTTPException(403, "無權限")
+    if not upload:
+        print(f"[404] Bid {bid_id} 無上傳記錄")
+        raise HTTPException(status_code=404, detail="尚未上傳檔案")
+
     return templates.TemplateResponse("view_upload.html", {
         "request": request,
         "bid": bid,
         "upload": upload,
-        "user": user,
-        "session": request.session
+        "user": user
     })
 
 @app.post("/reject_bid/{bid_id}")
@@ -848,12 +848,38 @@ async def reject_bid(bid_id: int, request: Request, user=Depends(get_current_use
     request.session["flash_type"] = "warning"
     return RedirectResponse("/dashboard", 302)
 
+# === 結案：同步專案 + bid 狀態 ===
 @app.post("/complete_project/{project_id}")
-async def complete_project(project_id: int,request: Request,  user=Depends(get_current_user),conn=Depends(getDB)):
+async def complete_project(
+    project_id: int,
+    request: Request,
+    user=Depends(get_current_user),
+    conn=Depends(getDB)
+):
     if user["role"] != "client":
-        raise HTTPException(403, "無權限")
+        raise HTTPException(403, "僅委託人可結案")
 
-    await db_update_project_status(conn, project_id, "complete")
-    request.session["flash_message"] = "專案已結案！"
-    request.session["flash_type"] = "success"  
-    return RedirectResponse("/dashboard", status_code=302)
+    # 檢查專案
+    project = await db_get_project_by_id(conn, project_id)
+    if not project or project["client_id"] != user["id"]:
+        raise HTTPException(404, "專案不存在")
+
+    try:
+        # 1. 更新專案狀態
+        await db_update_project_status(conn, project_id, "completed")
+
+        # 2. 更新 accepted 的 bid 為 completed
+        async with conn.cursor() as cur:
+            await cur.execute(
+                "UPDATE bids SET status = 'completed' WHERE project_id = %s AND status = 'accepted'",
+                (project_id,)
+            )
+            await conn.commit()
+
+        request.session["flash_message"] = "專案已成功結案！"
+        request.session["flash_type"] = "success"
+    except Exception as e:
+        await conn.rollback()
+        raise HTTPException(500, f"結案失敗: {str(e)}")
+
+    return RedirectResponse("/dashboard", 302)
