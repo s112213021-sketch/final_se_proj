@@ -1,5 +1,12 @@
 __pycache__/
 *.pyc
 logs/
-uploads/
+
 db.py
+logs/
+uploads/
+*.log
+*.pdf
+*.jpg
+*.png
+*.txt
