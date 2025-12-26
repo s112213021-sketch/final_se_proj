@@ -1,0 +1,232 @@
+
+### 第一部分：Database Schema (資料庫設計)
+
+為了滿足「版本控管」與「提案計畫書」的需求，我們需要一張新的資料表來專門管理檔案。我們**不直接在 `bids` 或 `projects` 表中覆蓋檔案路徑**，而是建立一張獨立的紀錄表，這樣才能保留歷史版本。
+
+#### 1. 新增 `project_files` 資料表
+
+這張表用來儲存所有的上傳紀錄（包含提案時的 PDF，以及結案過程中的多次交付物）。
+
+SQL
+
+```
+CREATE TABLE project_files (
+    id SERIAL PRIMARY KEY,
+    project_id INTEGER NOT NULL REFERENCES projects(id),
+    uploader_id INTEGER NOT NULL REFERENCES users(id), -- 上傳者 (乙方)
+    bid_id INTEGER REFERENCES bids(id), -- 關聯到哪一個報價 (可選，方便追蹤)
+    
+    -- 檔案資訊
+    file_type VARCHAR(20) NOT NULL, -- 'proposal' (提案計畫書) 或 'deliverable' (結案交付物)
+    original_filename VARCHAR(255) NOT NULL, -- 原始檔名 (顯示用，如 "設計圖_v1.pdf")
+    stored_filename VARCHAR(255) NOT NULL, -- 系統檔名 (避免覆蓋，如 "uuid_timestamp.pdf")
+    file_path TEXT NOT NULL, -- 實際儲存路徑
+    
+    -- 版本控制
+    version_number INTEGER DEFAULT 1, -- 版本號 (同一專案同一人上傳的第幾版)
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- 索引：加速查詢某個專案的所有檔案
+CREATE INDEX idx_files_project ON project_files(project_id);
+```
+
+#### 2. 修改 `projects` 表 (確認欄位)
+
+確保專案表有截止日期。
+
+- `deadline` (TIMESTAMP): 必須欄位，用於判斷是否還能投標。
+    
+
+---
+
+### 第二部分：Use Cases (使用案例)
+
+這裡針對新的需求（限時、PDF、版本控管）設計四個核心案例。
+
+#### UC-01: 乙方限時提案 (Bidding with Proposal)
+
+- **參與者:** 乙方
+    
+- **前置條件:**
+    
+    1. 現在時間 < 專案截止時間 (`deadline`)。
+        
+    2. 乙方尚未對此專案投標。
+        
+- **流程:**
+    
+    1. 乙方進入「案件詳情頁」。
+        
+    2. 填寫報價金額。
+        
+    3. **上傳「提案計畫書」 (系統限制僅能上傳 PDF)。**
+        
+    4. 系統後端檢查：
+        
+        - 是否逾期？
+            
+        - 檔案格式是否為 PDF？
+            
+    5. 系統將檔案重新命名 (UUID) 並存檔，寫入 `bids` 表與 `project_files` 表 (type='proposal')。
+        
+- **例外:** 若已過截止時間，隱藏或鎖定投標按鈕。
+    
+
+#### UC-02: 甲方選標 (Select Contractor)
+
+- **參與者:** 甲方
+    
+- **前置條件:** 專案截止時間已過 (或甲方決定提前結束)。
+    
+- **流程:**
+    
+    1. 甲方查看報價列表。
+        
+    2. 列表顯示每位乙方的報價金額，以及**「下載提案計畫書」按鈕**。
+        
+    3. 甲方下載並閱讀各家 PDF。
+        
+    4. 甲方選擇一位乙方，按下「接受提案」。
+        
+
+#### UC-03: 乙方交付與版本更新 (File Versioning)
+
+- **參與者:** 乙方
+    
+- **前置條件:** 標案已得標，專案狀態為 `in_progress` 或 `rejected` (被退件)。
+    
+- **流程:**
+    
+    1. 乙方進入儀表板。
+        
+    2. 上傳交付檔案 (不限 PDF，可能是 JPG/ZIP 等)。
+        
+    3. **系統邏輯 (版本控管):**
+        
+        - 查詢該乙方在此專案已上傳過幾次 (例如已上傳過 2 次)。
+            
+        - 本次上傳設為「第 3 版」。
+            
+        - **不覆蓋舊檔**，新增一筆 `project_files` 紀錄。
+            
+    4. 更新專案狀態為 `submitted` (待審核)。
+        
+
+#### UC-04: 甲方審核與退件 (Review & Reject)
+
+- **參與者:** 甲方
+    
+- **流程:**
+    
+    1. 甲方看到專案狀態為 `submitted`。
+        
+    2. 點擊進入，看到**「檔案歷史列表」** (顯示 v1, v2, v3... 所有檔案的下載連結)。
+        
+    3. 甲方下載最新版 (v3) 進行檢查。
+        
+    4. 若不滿意，點擊「退件 (Reject)」。
+        
+    5. 系統通知乙方需修改（流程回到 UC-03，乙方將上傳 v4）。
+        
+
+---
+
+### 第三部分：UI Flow (介面流程)
+
+#### 1. 投標介面 (乙方視角)
+
+Plaintext
+
+```
+[案件詳情頁]
+   |
+   +-- 標題 / 預算 / **截止倒數計時**
+   |
+   +-- [投標表單] (僅在未截止時顯示)
+         |
+         +-- 輸入金額
+         +-- **上傳提案計畫書 (按鈕: 選擇檔案)**
+         |      (前端驗證: accept=".pdf")
+         |
+         +-- [送出報價]
+```
+
+#### 2. 選標介面 (甲方視角)
+
+Plaintext
+
+```
+[專案管理頁]
+   |
+   +-- 狀態: 開放中 (或 已截止)
+   |
+   +-- [報價列表]
+         |
+         +-- 乙方 A | $5,000 | [下載提案 PDF] | [選擇此人]
+         +-- 乙方 B | $4,500 | [下載提案 PDF] | [選擇此人]
+```
+
+#### 3. 交付與驗收介面 (雙方共用 - 結案階段)
+
+這是一個循環介面，直到結案。
+
+Plaintext
+
+```
+[工作區 / 結案專區]
+   |
+   +-- 當前狀態: 待審核 (Submitted) / 已退件 (Rejected)
+   |
+   +-- **[交付物版本紀錄區]** (表格)
+   |     | 版本 |  檔名        | 上傳時間      | 下載   |
+   |     | v3   | final_v2.jpg | 10分鐘前      | [Link] | (最新)
+   |     | v2   | final.jpg    | 昨天 14:00    | [Link] |
+   |     | v1   | draft.jpg    | 前天 09:00    | [Link] |
+   |
+   +-- (若身分是乙方 且 狀態是 In_Progress/Rejected)
+   |     +-- [上傳新版本] 按鈕 -> 觸發上傳 Modal
+   |
+   +-- (若身分是甲方 且 狀態是 Submitted)
+         +-- [退件 (要求修改)] 按鈕
+         +-- [驗收通過 (結案)] 按鈕
+```
+
+### 技術實作重點 (給開發者的筆記)
+
+1. **檔名處理 (關鍵需求):**
+    
+    - 使用者上傳 `proposal.pdf`。
+        
+    - Python 後端接收後，**絕對不要**直接存成 `proposal.pdf`。
+        
+    - **作法:** 使用 UUID 或 時間戳記。
+        
+        Python
+        
+        ```
+        import uuid
+        import os
+        
+        file_ext = os.path.splitext(uploaded_file.filename)[1] # 取得 .pdf
+        if file_ext.lower() != '.pdf':
+             return Error("只允許 PDF")
+        
+        # 產生唯一檔名
+        stored_name = f"{uuid.uuid4()}{file_ext}" 
+        # 存到 uploads/ 資料夾，但資料庫同時記錄 original_filename="proposal.pdf"
+        ```
+        
+2. **截止日期檢查:**
+    
+    - 在 `submit_bid` 的 API 中，必須加入時間檢查：
+        
+        Python
+        
+        ```
+        if project.deadline < datetime.now():
+            raise HTTPException(400, "報價已截止")
+        ```
+        
+
+這套規劃完全符合圖片中提到的「不可覆蓋舊檔」、「保留歷史版本」、「限制 PDF」等需求。

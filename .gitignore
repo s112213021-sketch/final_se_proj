@@ -1,0 +1,74 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# 環境變數
+.env
+.env.local
+.env.*.local
+
+# Virtual Environment
+venv/
+ENV/
+env/
+.venv
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# 上傳檔案
+uploads/*
+!uploads/.gitkeep
+
+# 日誌
+logs/*.log
+logs/*.log.*
+
+# 資料庫
+*.db
+*.sqlite
+*.sqlite3
+
+# 暫存檔案
+pending_uploads.json
+*.tmp
+*.temp
+
+# MacOS
+.DS_Store
+
+# 測試
+.pytest_cache/
+.coverage
+htmlcov/
+*.cover
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# 其他
+*.bak
+*.orig

@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+{% block title %}信譽檔案 - {{ target_user.username }}{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="text-center mb-5">
+        <h1 class="mb-2">{{ target_user.username }} 的信譽檔案</h1>
+        <p class="text-muted" style="letter-spacing: 2px;">REPUTATION PROFILE</p>
+    </div>
+
+    <div class="card mb-5" style="background: linear-gradient(135deg, var(--bg-card) 0%, #FFFDF5 100%);">
+        <div class="card-body p-5">
+            <div class="row align-items-center">
+                <div class="col-md-4 text-center border-end border-warning">
+                    <div style="font-size: 5rem; color: var(--accent-gold-dark); font-family: 'Cormorant Garamond', serif;">
+                        {{ "%.1f"|format(stats.overall_avg) }}
+                    </div>
+                    <div class="text-muted text-uppercase small">綜合評分 ({{ stats.total_reviews }} 則評價)</div>
+                </div>
+
+                <div class="col-md-8 ps-md-5">
+                    <div class="mb-4">
+                        <div class="d-flex justify-content-between mb-1">
+                            <span class="fw-bold" style="color: var(--text-primary);">{{ labels.dim1 }}</span>
+                            <span class="text-warning fw-bold">{{ "%.1f"|format(stats.avg_dim1) }}</span>
+                        </div>
+                        <div class="progress" style="height: 8px; background-color: #EDE8D6;">
+                            <div class="progress-bar" role="progressbar" 
+                                 style="width: {{ (stats.avg_dim1 / 5) * 100 }}%; background-color: var(--accent-gold);"></div>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <div class="d-flex justify-content-between mb-1">
+                            <span class="fw-bold" style="color: var(--text-primary);">{{ labels.dim2 }}</span>
+                            <span class="text-warning fw-bold">{{ "%.1f"|format(stats.avg_dim2) }}</span>
+                        </div>
+                        <div class="progress" style="height: 8px; background-color: #EDE8D6;">
+                            <div class="progress-bar" role="progressbar" 
+                                 style="width: {{ (stats.avg_dim2 / 5) * 100 }}%; background-color: var(--accent-gold);"></div>
+                        </div>
+                    </div>
+
+                    <div class="mb-2">
+                        <div class="d-flex justify-content-between mb-1">
+                            <span class="fw-bold" style="color: var(--text-primary);">{{ labels.dim3 }}</span>
+                            <span class="text-warning fw-bold">{{ "%.1f"|format(stats.avg_dim3) }}</span>
+                        </div>
+                        <div class="progress" style="height: 8px; background-color: #EDE8D6;">
+                            <div class="progress-bar" role="progressbar" 
+                                 style="width: {{ (stats.avg_dim3 / 5) * 100 }}%; background-color: var(--accent-gold);"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <h3 class="mb-4 text-center" style="color: var(--accent-gold-dark);">歷史評價紀錄</h3>
+    
+    {% if reviews %}
+        <div class="row">
+            {% for review in reviews %}
+            <div class="col-12 mb-3">
+                <div class="card h-100 border-0 shadow-sm" style="background-color: #fafcff;">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-start mb-2">
+                            <div>
+                                <strong class="me-2">{{ review.reviewer_name }}</strong>
+                                <span class="badge bg-secondary text-black rounded-pill" style="font-size: 0.7rem;">
+                                    專案：{{ review.project_title }}
+                                </span>
+                            </div>
+                            <span class="text-muted small">{{ review.created_at.strftime('%Y-%m-%d') }}</span>
+                        </div>
+                        
+                        <div class="mb-2 text-warning" style="font-size: 0.9rem;">
+                            {% set avg = (review.rating_1 + review.rating_2 + review.rating_3) / 3 %}
+                            {% for i in range(1, 6) %}
+                                {% if i <= avg %}★{% else %}☆{% endif %}
+                            {% endfor %}
+                            <span class="text-muted ms-1 small">({{ "%.1f"|format(avg) }})</span>
+                        </div>
+
+                        <p class="card-text text-secondary" style="font-style: italic;">
+                            "{{ review.comment }}"
+                        </p>
+                        
+                        <div class="d-flex gap-3 mt-3 pt-2 border-top border-light">
+                            <small class="text-muted">{{ labels.dim1 }}: <span class="text-dark">{{ review.rating_1 }}</span></small>
+                            <small class="text-muted">{{ labels.dim2 }}: <span class="text-dark">{{ review.rating_2 }}</span></small>
+                            <small class="text-muted">{{ labels.dim3 }}: <span class="text-dark">{{ review.rating_3 }}</span></small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="alert alert-info text-center">
+            目前尚未收到任何評價。
+        </div>
+    {% endif %}
+
+    <div class="text-center mt-5">
+        <a href="/dashboard" class="btn btn-secondary">返回儀表板</a>
+    </div>
+</div>
+{% endblock %}

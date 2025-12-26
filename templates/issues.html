@@ -1,0 +1,429 @@
+{% extends "base.html" %}
+{% block title %}Issue Tracker{% endblock %}
+
+{% block content %}
+<div class="page-wrap issues-wrap">
+  {% set is_completed = (project.status == "completed") %}
+
+  {# ====== 小工具：時間格式（只到秒）====== #}
+  {% macro fmt_ts(ts) -%}
+    {%- if ts -%}
+      {# ts 可能長這樣：2025-12-23 09:36:02.825095+08:00 或 2025-12-23 09:36:02 #}
+      {%- set s = (ts|string) -%}
+      {%- set s = s.replace('T',' ') -%}
+      {{- s[:19] -}}
+    {%- endif -%}
+  {%- endmacro %}
+
+  <!-- ====== 頁首（做成右圖那種：左標題/右狀態）====== -->
+  <div class="top-card">
+    <div class="top-card__head">
+      <div class="top-card__title">
+        <div class="t1">{{ project.title }}</div>
+        <div class="t2">專案 ID：{{ project.id }}</div>
+      </div>
+
+      <div class="top-card__right">
+        <span class="status-pill {{ project.status }}">
+          {{ project.status|upper }}
+        </span>
+      </div>
+    </div>
+
+    <div class="top-card__actions">
+      <a class="btn btn-ghost" href="/issues/{{ project.id }}/view_latest">返回檔案檢視</a>
+      <a class="btn btn-ghost" href="/dashboard">返回儀表板</a>
+
+      <div class="chip chip--count">
+        未完成 Issue：<strong>{{ open_count }}</strong>
+      </div>
+
+      {% if user.role == "client" %}
+        {% if is_completed %}
+          <button class="btn btn-disabled" type="button" disabled>專案已結案（不可操作）</button>
+        {% elif open_count == 0 and project.status in ["submitted","in_progress"] %}
+          <form class="inline" method="post" action="/projects/{{ project.id }}/complete_if_no_open_issues">
+            <button class="btn btn-primary" type="submit">所有 Issue 已處理 → 專案結案</button>
+          </form>
+        {% else %}
+          <button class="btn btn-disabled" type="button" disabled>需先解完所有 Issue 才能結案</button>
+        {% endif %}
+      {% endif %}
+    </div>
+
+    {% if is_completed %}
+      <div class="lock-note">
+        此專案已結案，Issue 討論已鎖定（仍可查看歷史）。
+      </div>
+    {% endif %}
+  </div>
+
+  <!-- ====== 新增 Issue（風格改成右圖那種卡片）====== -->
+  {% if user.role == "client" and not is_completed %}
+  <div class="card pro-card">
+    <div class="pro-card__head">
+      <div class="pro-card__h-left">
+        <div class="h-title">新增 Issue（待解決事項）</div>
+        <div class="h-sub">針對結案內容提出問題，乙方可回覆與上傳修正版。</div>
+      </div>
+      <div class="pro-card__h-right">
+        <span class="status-pill open">NEW</span>
+      </div>
+    </div>
+
+    <div class="pro-card__body">
+      <form method="post" action="/issues/{{ project.id }}/create" class="form-grid">
+        <div class="form-row">
+          <label>標題</label>
+          <input type="text" name="title" required placeholder="例如：版面跑版 / 功能缺漏 / 需求未達成...">
+        </div>
+
+        <div class="form-row">
+          <label>描述</label>
+          <textarea name="description" rows="3" placeholder="描述問題、預期修正方向、驗收標準..."></textarea>
+        </div>
+
+        <div class="form-actions">
+          <button class="btn btn-primary" type="submit">建立 Issue</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  {% endif %}
+
+  <!-- ====== Issue 列表 ====== -->
+  {% if issues and issues|length > 0 %}
+    {% for item in issues %}
+      {% set issue = item.issue %}
+      {% set is_open = (issue.status in ["open","in_progress","OPEN","IN_PROGRESS"]) %}
+
+      <div class="card issue-card pro-card">
+        <div class="pro-card__head">
+          <div class="pro-card__h-left">
+            <div class="h-title">
+              <span class="issue-no">#{{ issue.id }}</span>
+              <span class="issue-title">{{ issue.title }}</span>
+            </div>
+
+            <div class="h-sub meta-line">
+              <span>開立者 ID：{{ issue.created_by }}</span>
+              <span class="dot">•</span>
+              <span>建立：{{ fmt_ts(issue.created_at) }}</span>
+              {% if not is_open and issue.closed_at %}
+                <span class="dot">•</span>
+                <span>關閉：{{ fmt_ts(issue.closed_at) }}</span>
+              {% endif %}
+            </div>
+          </div>
+
+          <div class="pro-card__h-right">
+            <span class="status-pill {{ 'open' if is_open else 'closed' }}">
+              {{ (issue.status|string).upper() }}
+            </span>
+
+            {% if user.role == "client" and is_open and not is_completed %}
+              <form method="post" action="/issues/{{ issue.id }}/resolve" class="inline" style="margin-left:10px;">
+                <button class="btn btn-outline" type="submit">標記已完成</button>
+              </form>
+            {% endif %}
+          </div>
+        </div>
+
+        <div class="pro-card__body">
+          {% if issue.description %}
+            <div class="issue-desc">{{ issue.description }}</div>
+          {% endif %}
+
+          <!-- 修正檔案 -->
+          {% if item.attachments and item.attachments|length > 0 %}
+          <div class="pane">
+            <div class="pane-title">修正檔案</div>
+            <ul class="file-list">
+              {% for f in item.attachments %}
+                <li>
+                  <a class="file-link" href="/{{ f.file_path }}" download>📎 {{ f.filename }}</a>
+                  <span class="muted small">（上傳者 ID：{{ f.uploader_id }}｜{{ fmt_ts(f.uploaded_at) }}）</span>
+                </li>
+              {% endfor %}
+            </ul>
+          </div>
+          {% endif %}
+
+          <!-- 乙方上傳修正版 -->
+          {% if user.role == "contractor"
+                and is_open
+                and project.status in ["submitted","in_progress"]
+                and not is_completed %}
+          <div class="pane">
+            <div class="pane-title">上傳修正版檔案</div>
+            <form method="post" action="/issues/{{ issue.id }}/upload" enctype="multipart/form-data" class="upload-form">
+              <input type="file" name="file" required>
+              <button class="btn btn-primary" type="submit">上傳修正版</button>
+            </form>
+            <div class="muted small" style="margin-top:8px;">支援：pdf / docx / txt / jpg / png，最大 10MB</div>
+          </div>
+          {% endif %}
+
+          <!-- 討論留言 -->
+          <div class="pane">
+            <div class="pane-title">討論留言</div>
+
+            {% if item.comments and item.comments|length > 0 %}
+              <div class="comment-box">
+                {% for c in item.comments %}
+                  <div class="comment {% if c.author_id == user.id %}comment--mine{% endif %}">
+                    <div class="comment-head">
+                      <strong>作者：{{ c.author_name or ('ID:' ~ (c.author_id or '')) }}</strong>
+                      <span class="muted small">{{ fmt_ts(c.created_at) }}</span>
+                    </div>
+                    <div class="comment-body">{{ c.content }}</div>
+                  </div>
+                  {% if not loop.last %}<div class="divider"></div>{% endif %}
+                {% endfor %}
+              </div>
+            {% else %}
+              <div class="muted">尚無留言</div>
+            {% endif %}
+
+            {% if is_open and not is_completed %}
+              <form method="post" action="/issues/{{ issue.id }}/comment" class="comment-form">
+                <input type="text" name="content" required placeholder="輸入留言...（甲乙雙方皆可）">
+                <button class="btn btn-outline" type="submit">送出</button>
+              </form>
+            {% else %}
+              <div class="muted small">（已結案或已完成，無法新增留言）</div>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+
+    {% endfor %}
+  {% else %}
+    <div class="card pro-card">
+      <div class="pro-card__head">
+        <div class="pro-card__h-left">
+          <div class="h-title">Issues</div>
+          <div class="h-sub">目前沒有 Issue。</div>
+        </div>
+        <div class="pro-card__h-right">
+          <span class="status-pill closed">EMPTY</span>
+        </div>
+      </div>
+      <div class="pro-card__body">
+        <div class="muted">目前沒有 Issue。</div>
+      </div>
+    </div>
+  {% endif %}
+</div>
+
+<style>
+/* ====== 讓 issues.html 長得像右圖那種「卡片 + 橫條頭 + 右上狀態膠囊」====== */
+
+.issues-wrap { max-width: 1100px; margin: 0 auto; }
+
+/* 頂部卡片 */
+.top-card{
+  border: 2px solid #caa85b;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #fff;
+  margin-bottom: 18px;
+}
+.top-card__head{
+  display:flex; justify-content:space-between; align-items:center;
+  background:#efe6d2;
+  padding: 18px 22px;
+  border-bottom: 2px solid #caa85b;
+}
+.top-card__title .t1{
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: .5px;
+}
+.top-card__title .t2{
+  margin-top: 6px;
+  color:#6f6a5a;
+  font-size: 14px;
+}
+.top-card__actions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  align-items:center;
+  padding: 14px 22px 18px;
+}
+.chip--count{
+  margin-left:auto;
+  background:#f6f1e4;
+  border: 1px solid #d9c48b;
+  border-radius: 999px;
+  padding: 6px 12px;
+}
+
+/* 共用：右上狀態 pill */
+.status-pill{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  padding: 8px 16px;
+  border-radius: 999px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  font-size: 14px;
+  color:#fff;
+}
+.status-pill.submitted{ background:#6c88ad; }
+.status-pill.in_progress{ background:#8e7c55; }
+.status-pill.open{ background:#d0b676; color:#000; }   /* ✅ OPEN 字色黑 */
+.status-pill.closed{ background:#2f7d4a; }
+.status-pill.completed{ background:#2f7d4a; }
+
+/* 鎖定提示 */
+.lock-note{
+  margin: 0 22px 18px;
+  padding: 12px 14px;
+  border-radius: 10px;
+  border: 1px solid #e4d4a8;
+  background:#fbf7ea;
+  color:#6f6a5a;
+}
+
+/* 右圖那種 project-card 感 */
+.pro-card{
+  border: 2px solid #caa85b;
+  border-radius: 12px;
+  overflow:hidden;
+  background:#fff;
+  margin-bottom: 18px;
+}
+.pro-card__head{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:16px;
+  background:#efe6d2;
+  padding: 16px 22px;
+  border-bottom: 2px solid #caa85b;
+}
+.pro-card__h-left .h-title{
+  font-size: 20px;
+  font-weight: 900;
+  letter-spacing: .5px;
+}
+.pro-card__h-left .h-sub{
+  margin-top: 8px;
+  color:#6f6a5a;
+  font-size: 14px;
+  line-height: 1.5;
+}
+.pro-card__h-right{
+  display:flex;
+  align-items:center;
+  justify-content:flex-end;
+  gap:10px;
+  padding-top: 2px;
+}
+.pro-card__body{
+  padding: 18px 22px 20px;
+}
+
+/* Issue 標題/對齊 */
+.issue-no{ font-weight: 900; margin-right: 6px; }
+.issue-title{ font-weight: 900; }
+.meta-line{ display:flex; flex-wrap:wrap; gap:8px; align-items:center; }
+.dot{ margin: 0 4px; opacity:.6; }
+
+/* 內容 */
+.issue-desc{
+  margin-bottom: 14px;
+  padding: 12px 14px;
+  border-radius: 10px;
+  background:#fbf7ea;
+  border: 1px solid #e4d4a8;
+}
+
+/* pane */
+.pane{
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid #eee;
+}
+.pane-title{
+  font-weight: 900;
+  margin-bottom: 10px;
+}
+.file-list{ margin:0; padding-left: 18px; }
+.file-link{ font-weight: 700; }
+
+/* 留言 */
+.comment-box{
+  border: 1px solid #eee;
+  border-radius: 10px;
+  overflow:hidden;
+  background:#fff;
+}
+.comment{ padding: 12px 12px; }
+.comment-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+}
+.comment-body{ margin-top: 8px; }
+
+/* 自己的留言靠右顯示 */
+.comment--mine {
+  background: #e8f4f8;
+  margin-left: 20%;
+  border-left: 3px solid #5ba3c4;
+}
+.comment--mine .comment-head {
+  flex-direction: row-reverse;
+}
+.comment--mine .comment-body {
+  text-align: right;
+}
+
+.divider{ height:1px; background:#eee; }
+
+.comment-form{
+  margin-top: 12px;
+  display:flex;
+  gap:10px;
+}
+.comment-form input{
+  flex:1;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border:1px solid #ddd;
+}
+
+/* 上傳 */
+.upload-form{ display:flex; gap:10px; align-items:center; flex-wrap:wrap; }
+.upload-form input[type="file"]{ max-width: 320px; }
+
+/* 表單 */
+.form-grid{ display:grid; gap:14px; }
+.form-row label{ font-weight: 800; display:block; margin-bottom:6px; }
+.form-row input, .form-row textarea{
+  width:100%;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border:1px solid #ddd;
+}
+.form-actions{ display:flex; justify-content:flex-end; }
+
+/* 小字 */
+.muted{ color:#6f6a5a; }
+.small{ font-size: 12px; }
+
+/* 手機 */
+@media (max-width: 720px){
+  .top-card__actions{ padding: 12px 14px 14px; }
+  .top-card__head{ padding: 14px; }
+  .pro-card__head{ padding: 14px; }
+  .pro-card__body{ padding: 14px; }
+  .chip--count{ margin-left: 0; width: 100%; justify-content:center; }
+}
+</style>
+{% endblock %}

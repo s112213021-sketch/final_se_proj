@@ -1,0 +1,1031 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>外包小窩</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600;700&family=Montserrat:wght@300;400;600;700&display=swap"
+        rel="stylesheet">
+    <style>
+        /* LVMH奢華風格設計系統 - 使用金色、黑色、米白色調 */
+        :root {
+            --bg-primary: #F8F6F0;
+            --bg-secondary: #FFFEF9;
+            --bg-card: #FFFFFF;
+            --bg-hover: #F5F3ED;
+            --border-color: #D4C5A9;
+            --border-accent: #B8A67D;
+
+            --text-primary: #2C2416;
+            --text-secondary: #6B5D4F;
+            --text-muted: #9B8E7E;
+
+            --accent-gold: #C9A961;
+            --accent-gold-dark: #9D7E3A;
+            --accent-gold-light: #E8D5A8;
+            --accent-bronze: #B8956A;
+
+            --luxury-black: #1A1612;
+            --luxury-cream: #F5F1E8;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', 'Microsoft JhengHei', sans-serif;
+            background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+            color: var(--text-primary);
+            min-height: 100vh;
+            line-height: 1.7;
+            position: relative;
+            letter-spacing: 0.3px;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image:
+                radial-gradient(circle at 15% 25%, rgba(201, 169, 97, 0.03) 0%, transparent 40%),
+                radial-gradient(circle at 85% 75%, rgba(157, 126, 58, 0.03) 0%, transparent 40%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* 全屏奢華進場動畫 */
+        .welcome-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--luxury-black) 0%, #2C2416 50%, var(--luxury-black) 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+            animation: fadeOut 0.8s ease-in-out 3.5s forwards;
+        }
+
+        @keyframes fadeOut {
+            to {
+                opacity: 0;
+                visibility: hidden;
+            }
+        }
+
+        /* 精緻的房子圖標動畫 */
+        .welcome-house {
+            width: 180px;
+            height: 180px;
+            position: relative;
+            animation: luxuryHouseFloat 2.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+            margin-bottom: 60px;
+        }
+
+        @keyframes luxuryHouseFloat {
+            0% {
+                transform: translateY(-100vh) scale(0.3) rotate(-180deg);
+                opacity: 0;
+            }
+
+            60% {
+                transform: translateY(15px) scale(1.08) rotate(5deg);
+            }
+
+            80% {
+                transform: translateY(-8px) scale(0.96) rotate(-3deg);
+            }
+
+            100% {
+                transform: translateY(0) scale(1) rotate(0deg);
+                opacity: 1;
+            }
+        }
+
+        .house-roof {
+            width: 0;
+            height: 0;
+            border-left: 90px solid transparent;
+            border-right: 90px solid transparent;
+            border-bottom: 70px solid var(--accent-gold);
+            position: absolute;
+            top: 20px;
+            left: 0;
+            filter: drop-shadow(0 8px 30px rgba(201, 169, 97, 0.5));
+        }
+
+        .house-body {
+            width: 150px;
+            height: 110px;
+            background: linear-gradient(135deg, var(--accent-gold-light) 0%, var(--luxury-cream) 100%);
+            position: absolute;
+            top: 90px;
+            left: 15px;
+            border-radius: 0 0 15px 15px;
+            box-shadow: 0 12px 40px rgba(201, 169, 97, 0.4);
+            border: 2px solid var(--accent-gold);
+        }
+
+        .house-door {
+            width: 45px;
+            height: 65px;
+            background: linear-gradient(180deg, var(--accent-gold-dark) 0%, var(--accent-bronze) 100%);
+            position: absolute;
+            bottom: 0;
+            left: 52px;
+            border-radius: 20px 20px 0 0;
+            border: 2px solid var(--accent-gold);
+        }
+
+        .house-window {
+            width: 28px;
+            height: 28px;
+            background: linear-gradient(135deg, #FFF9E6 0%, var(--accent-gold-light) 100%);
+            position: absolute;
+            top: 25px;
+            border-radius: 6px;
+            box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.15);
+            border: 2px solid var(--accent-gold);
+        }
+
+        .house-window:nth-child(1) {
+            left: 18px;
+        }
+
+        .house-window:nth-child(2) {
+            right: 18px;
+        }
+
+        .welcome-text {
+            margin-top: 20px;
+            font-size: 4.5rem;
+            font-weight: 300;
+            font-family: 'Cormorant Garamond', serif;
+            color: var(--accent-gold);
+            text-shadow: 0 4px 30px rgba(201, 169, 97, 0.6);
+            animation: luxuryTextSlide 1.2s cubic-bezier(0.34, 1.56, 0.64, 1) 0.8s both;
+            letter-spacing: 8px;
+        }
+
+        @keyframes luxuryTextSlide {
+            from {
+                transform: translateY(80px);
+                opacity: 0;
+                letter-spacing: 15px;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+                letter-spacing: 8px;
+            }
+        }
+
+        .welcome-subtitle {
+            font-size: 0.95rem;
+            color: var(--accent-gold-light);
+            margin-top: 15px;
+            animation: luxuryTextSlide 1.2s cubic-bezier(0.34, 1.56, 0.64, 1) 1.2s both;
+            letter-spacing: 3px;
+            font-weight: 300;
+            text-transform: uppercase;
+        }
+
+        /* 四個圓圈"外包小窩"在動畫後顯示 */
+        .hero-section {
+            text-align: center;
+            padding: 80px 2rem 60px;
+            background: linear-gradient(180deg, var(--luxury-cream) 0%, transparent 100%);
+            opacity: 0;
+            animation: heroFadeIn 1s ease-out 3.8s forwards;
+        }
+
+        @keyframes heroFadeIn {
+            to {
+                opacity: 1;
+            }
+        }
+
+        .hero-circles {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 40px;
+            margin-bottom: 50px;
+            flex-wrap: wrap;
+        }
+
+        .hero-circle {
+            width: 160px;
+            height: 160px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent-gold-light) 0%, var(--bg-card) 100%);
+            border: 4px solid var(--accent-gold);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4.5rem;
+            font-weight: 600;
+            color: var(--accent-gold-dark);
+            box-shadow: 0 15px 50px rgba(201, 169, 97, 0.25);
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            animation: circleFloat 3s ease-in-out infinite;
+            font-family: 'Cormorant Garamond', serif;
+        }
+
+        .hero-circle:nth-child(1) {
+            animation-delay: 0s;
+        }
+
+        .hero-circle:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .hero-circle:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        .hero-circle:nth-child(4) {
+            animation-delay: 0.6s;
+        }
+
+        @keyframes circleFloat {
+
+            0%,
+            100% {
+                transform: translateY(0) scale(1);
+            }
+
+            50% {
+                transform: translateY(-15px) scale(1.05);
+            }
+        }
+
+        .hero-circle:hover {
+            transform: translateY(-10px) scale(1.1);
+            box-shadow: 0 20px 60px rgba(201, 169, 97, 0.4);
+            border-color: var(--accent-gold-dark);
+        }
+
+        .hero-title {
+            font-size: 3rem;
+            font-weight: 300;
+            font-family: 'Cormorant Garamond', serif;
+            color: var(--luxury-black);
+            margin-bottom: 20px;
+            letter-spacing: 3px;
+        }
+
+        .hero-subtitle {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            font-weight: 300;
+            letter-spacing: 2px;
+            margin-bottom: 40px;
+        }
+
+        /* 房屋形狀的登入註冊按鈕 */
+        .hero-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        .btn-house-hero {
+            position: relative;
+            padding: 20px 50px 18px;
+            background: linear-gradient(135deg, var(--accent-gold) 0%, var(--accent-gold-dark) 100%);
+            border: 3px solid var(--accent-gold-dark);
+            border-radius: 0 0 15px 15px;
+            color: white;
+            font-weight: 600;
+            font-size: 1.1rem;
+            text-decoration: none;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            letter-spacing: 2px;
+            box-shadow: 0 10px 35px rgba(201, 169, 97, 0.3);
+            overflow: visible;
+        }
+
+        .btn-house-hero::before {
+            content: '';
+            position: absolute;
+            top: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 40px solid transparent;
+            border-right: 40px solid transparent;
+            border-bottom: 30px solid var(--accent-gold);
+            filter: drop-shadow(0 -5px 10px rgba(201, 169, 97, 0.3));
+            transition: all 0.4s ease;
+        }
+
+        .btn-house-hero:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 50px rgba(201, 169, 97, 0.5);
+            color: white;
+        }
+
+        .btn-house-hero:hover::before {
+            border-bottom-color: var(--accent-gold-dark);
+            top: -30px;
+        }
+
+        .btn-house-hero.secondary {
+            background: linear-gradient(135deg, var(--bg-card) 0%, var(--luxury-cream) 100%);
+            color: var(--luxury-black);
+            border-color: var(--accent-gold);
+        }
+
+        .btn-house-hero.secondary::before {
+            border-bottom-color: var(--accent-gold);
+        }
+
+        .btn-house-hero.secondary:hover {
+            background: linear-gradient(135deg, var(--luxury-cream) 0%, var(--accent-gold-light) 100%);
+            color: var(--luxury-black);
+        }
+
+        /* 奢華導航列 */
+        .nav {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(15px);
+            border-bottom: 2px solid var(--accent-gold);
+            padding: 1.2rem 3rem;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 30px rgba(201, 169, 97, 0.15);
+        }
+
+        .nav-brand {
+            font-size: 1.6rem;
+            font-weight: 600;
+            font-family: 'Cormorant Garamond', serif;
+            color: var(--accent-gold-dark);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            letter-spacing: 2px;
+        }
+
+        .nav-brand::before {
+            content: '⌂';
+            font-size: 2rem;
+            color: var(--accent-gold);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+        }
+
+        /* 固定在右上角的登入註冊錨點 */
+        .auth-anchor {
+            position: fixed;
+            top: 18px;
+            right: 26px;
+            z-index: 11000;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            background: rgba(255,255,255,0.95);
+            padding: 6px 10px;
+            border-radius: 12px;
+            border: 2px solid var(--border-color);
+            box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+        }
+
+        .auth-anchor a {
+            color: var(--text-primary);
+            text-decoration: none;
+            padding: 6px 10px;
+            border-radius: 8px;
+            font-weight: 600;
+            background: transparent;
+            border: 2px solid transparent;
+        }
+
+        .auth-anchor a:hover {
+            background: var(--luxury-cream);
+            border-color: var(--accent-gold);
+            color: var(--accent-gold-dark);
+            transform: translateY(-2px);
+        }
+
+        .nav a {
+            color: var(--text-primary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            padding: 0.7rem 1.5rem;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            letter-spacing: 0.5px;
+            border: 2px solid transparent;
+        }
+
+        .nav a:hover {
+            color: var(--accent-gold-dark);
+            background: var(--luxury-cream);
+            border-color: var(--accent-gold);
+            transform: translateY(-2px);
+        }
+
+        .nav-user {
+            color: var(--luxury-black);
+            font-weight: 600;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.1rem;
+        }
+
+        .nav-role {
+            display: inline-block;
+            padding: 0.4rem 1rem;
+            background: linear-gradient(135deg, var(--accent-gold) 0%, var(--accent-gold-dark) 100%);
+            border-radius: 20px;
+            font-size: 0.7rem;
+            color: white;
+            margin-left: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            box-shadow: 0 4px 15px rgba(201, 169, 97, 0.3);
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        h1 {
+            font-size: 3rem;
+            font-weight: 300;
+            font-family: 'Cormorant Garamond', serif;
+            color: var(--luxury-black);
+            margin-bottom: 2.5rem;
+            text-align: center;
+            letter-spacing: 3px;
+            position: relative;
+        }
+
+        h1::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 120px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent 0%, var(--accent-gold) 50%, transparent 100%);
+        }
+
+        h3 {
+            font-size: 1.8rem;
+            font-family: 'Cormorant Garamond', serif;
+            color: var(--accent-gold-dark);
+            margin-top: 3rem;
+            margin-bottom: 2rem;
+            font-weight: 400;
+            letter-spacing: 2px;
+        }
+
+        /* 房屋卡片設計 - 奢華風格 */
+        .card {
+            background: var(--bg-card);
+            border: 2px solid var(--border-color);
+            border-radius: 0 0 20px 20px;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            overflow: visible;
+            box-shadow: 0 10px 40px rgba(201, 169, 97, 0.12);
+            position: relative;
+            margin-top: 35px;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 35px solid transparent;
+            border-right: 35px solid transparent;
+            border-bottom: 35px solid var(--accent-gold);
+            filter: drop-shadow(0 -5px 15px rgba(201, 169, 97, 0.2));
+            transition: all 0.4s ease;
+        }
+
+        .card:hover {
+            border-color: var(--accent-gold);
+            transform: translateY(-8px);
+            box-shadow: 0 20px 60px rgba(201, 169, 97, 0.25);
+        }
+
+        .card:hover::before {
+            border-bottom-color: var(--accent-gold-dark);
+            top: -35px;
+        }
+
+        .card-header {
+            background: linear-gradient(135deg, var(--luxury-cream) 0%, var(--accent-gold-light) 100%);
+            border-bottom: 2px solid var(--accent-gold);
+            padding: 1.5rem 2rem;
+            font-weight: 600;
+            border-radius: 0;
+            color: var(--luxury-black);
+            letter-spacing: 1px;
+        }
+
+        .card-body {
+            padding: 2rem;
+        }
+
+        .card-title {
+            color: var(--luxury-black);
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            font-family: 'Cormorant Garamond', serif;
+            letter-spacing: 1px;
+        }
+
+        .card-text {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            line-height: 1.7;
+        }
+
+        /* 奢華按鈕設計 */
+        button,
+        .btn {
+            padding: 0.9rem 2rem;
+            border: 2px solid;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            font-size: 0.95rem;
+            text-decoration: none;
+            display: inline-block;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+        }
+
+        .btn-primary,
+        button[type="submit"] {
+            background: linear-gradient(135deg, var(--accent-gold) 0%, var(--accent-gold-dark) 100%);
+            color: white;
+            border-color: var(--accent-gold-dark);
+        }
+
+        .btn-primary:hover,
+        button[type="submit"]:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(201, 169, 97, 0.4);
+            color: white;
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #6B8E6F 0%, #A8C5A3 100%);
+            color: white;
+            border-color: #6B8E6F;
+        }
+
+        .btn-success:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(107, 142, 111, 0.4);
+        }
+
+        .btn-warning {
+            background: linear-gradient(135deg, var(--accent-bronze) 0%, var(--accent-gold-light) 100%);
+            color: var(--luxury-black);
+            border-color: var(--accent-bronze);
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, #B85C5C 0%, #D98E8E 100%);
+            color: white;
+            border-color: #B85C5C;
+        }
+
+        .btn-info {
+            background: linear-gradient(135deg, #5C7C9B 0%, #8BA8C4 100%);
+            color: white;
+            border-color: #5C7C9B;
+        }
+
+        .btn-secondary {
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            border-color: var(--border-color);
+        }
+
+        .btn-sm {
+            padding: 0.6rem 1.4rem;
+            font-size: 0.8rem;
+        }
+
+        /* Forms */
+        form {
+            background: var(--bg-card);
+            padding: 3rem;
+            border-radius: 20px;
+            border: 2px solid var(--border-color);
+            margin-top: 2rem;
+            box-shadow: 0 10px 40px rgba(201, 169, 97, 0.1);
+        }
+
+        label {
+            display: block;
+            color: var(--text-primary);
+            font-weight: 600;
+            margin-bottom: 0.6rem;
+            margin-top: 1.2rem;
+            letter-spacing: 0.5px;
+        }
+
+        input[type="text"],
+        input[type="password"],
+        input[type="number"],
+        input[type="date"],
+        input[type="file"],
+        textarea,
+        select {
+            width: 100%;
+            padding: 1rem;
+            background: var(--bg-secondary);
+            border: 2px solid var(--border-color);
+            border-radius: 10px;
+            color: var(--text-primary);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            margin-bottom: 1rem;
+        }
+
+        input:focus,
+        textarea:focus,
+        select:focus {
+            outline: none;
+            border-color: var(--accent-gold);
+            box-shadow: 0 0 0 4px rgba(201, 169, 97, 0.1);
+            background: white;
+        }
+
+        textarea {
+            min-height: 140px;
+            resize: vertical;
+        }
+
+        /* Tables */
+        .table {
+            width: 100%;
+            background: var(--bg-card);
+            border-radius: 15px;
+            overflow: hidden;
+            border: 2px solid var(--border-color);
+            box-shadow: 0 10px 40px rgba(201, 169, 97, 0.1);
+        }
+
+        .table thead {
+            background: linear-gradient(135deg, var(--luxury-cream) 0%, var(--accent-gold-light) 100%);
+        }
+
+        .table th {
+            padding: 1.3rem;
+            color: var(--luxury-black);
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 1.5px;
+            border-bottom: 2px solid var(--accent-gold);
+        }
+
+        .table td {
+            padding: 1.3rem;
+            color: var(--text-secondary);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .table tbody tr {
+            transition: background 0.2s ease;
+        }
+
+        .table tbody tr:hover {
+            background: var(--luxury-cream);
+        }
+
+        /* Badges */
+        .badge {
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .badge.bg-success {
+            background: linear-gradient(135deg, #6B8E6F 0%, #A8C5A3 100%) !important;
+            color: white;
+        }
+
+        .badge.bg-warning {
+            background: linear-gradient(135deg, var(--accent-bronze) 0%, var(--accent-gold-light) 100%) !important;
+            color: var(--luxury-black);
+        }
+
+        .badge.bg-danger {
+            background: linear-gradient(135deg, #B85C5C 0%, #D98E8E 100%) !important;
+            color: white;
+        }
+
+        .badge.bg-info {
+            background: linear-gradient(135deg, #5C7C9B 0%, #8BA8C4 100%) !important;
+            color: white;
+        }
+
+        .badge.bg-secondary {
+            background: var(--bg-hover) !important;
+            color: var(--text-secondary);
+            border: 2px solid var(--border-accent);
+        }
+
+        /* Alerts */
+        .alert {
+            padding: 1.3rem 2rem;
+            border-radius: 15px;
+            margin-bottom: 2rem;
+            border: 2px solid;
+            font-weight: 500;
+        }
+
+        .alert-info {
+            background: rgba(92, 124, 155, 0.1);
+            border-color: #5C7C9B;
+            color: #5C7C9B;
+        }
+
+        .alert-success {
+            background: rgba(107, 142, 111, 0.1);
+            border-color: #6B8E6F;
+            color: #6B8E6F;
+        }
+
+        .alert-warning {
+            background: rgba(201, 169, 97, 0.1);
+            border-color: var(--accent-gold);
+            color: var(--accent-gold-dark);
+        }
+
+        .error,
+        .alert-danger {
+            background: rgba(184, 92, 92, 0.1);
+            border-color: #B85C5C;
+            color: #B85C5C;
+        }
+
+        .text-success {
+            color: #6B8E6F !important;
+            font-weight: 600;
+        }
+
+        .text-muted {
+            color: var(--text-muted) !important;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .welcome-text {
+                font-size: 3rem;
+                letter-spacing: 4px;
+            }
+
+            .hero-circles {
+                gap: 20px;
+            }
+
+            .hero-circle {
+                width: 120px;
+                height: 120px;
+                font-size: 3rem;
+            }
+
+            .hero-title {
+                font-size: 2rem;
+            }
+
+            .nav {
+                flex-direction: column;
+                gap: 1rem;
+                padding: 1rem;
+            }
+
+            .nav-links {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .container {
+                padding: 1.5rem;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            .btn-house-hero {
+                padding: 15px 35px 13px;
+                font-size: 1rem;
+            }
+
+            .btn-house-hero::before {
+                border-left-width: 30px;
+                border-right-width: 30px;
+                border-bottom-width: 25px;
+            }
+        }
+
+        .btn-close {
+            background: transparent;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            opacity: 0.6;
+        }
+
+        .btn-close:hover {
+            opacity: 1;
+        }
+
+        .alert-dismissible {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .mt-4 {
+            margin-top: 2rem;
+        }
+
+        .mb-3 {
+            margin-bottom: 1.5rem;
+        }
+
+        .mb-4 {
+            margin-bottom: 2rem;
+        }
+
+        .mb-5 {
+            margin-bottom: 3rem;
+        }
+
+        .ms-2 {
+            margin-left: 0.5rem;
+        }
+
+        .d-flex {
+            display: flex;
+        }
+
+        .d-inline {
+            display: inline;
+        }
+
+        .justify-content-between {
+            justify-content: space-between;
+        }
+
+        .align-items-center {
+            align-items: center;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 全屏歡迎動畫 -->
+    <div class="welcome-screen" id="welcomeScreen">
+        <div class="welcome-house">
+            <div class="house-roof"></div>
+            <div class="house-body">
+                <div class="house-window"></div>
+                <div class="house-window"></div>
+                <div class="house-door"></div>
+            </div>
+        </div>
+        <div class="welcome-text">外包小窩</div>
+        <div class="welcome-subtitle">Premium Freelance Platform</div>
+    </div>
+
+    <!-- 四個圓圈英雄區塊 -->
+    <div class="hero-section" id="heroSection">
+        <div class="hero-circles">
+            <div class="hero-circle">外</div>
+            <div class="hero-circle">包</div>
+            <div class="hero-circle">小</div>
+            <div class="hero-circle">窩</div>
+        </div>
+        <h1 class="hero-title">老闆～請幫我打包外帶一份PROJECT!</h1>
+        <p class="hero-subtitle">EXCELLENCE IN EVERY PROJECT</p>
+        {% if not request.session.user %}
+        <!-- hero-buttons removed; use fixed auth anchor instead -->
+        {% endif %}
+    </div>
+
+    <div class="nav">
+        <div class="nav-brand">外包小窩</div>
+        <div class="nav-links">
+            {% if request.session.user %}
+            <span class="nav-user">{{ request.session.user.username }}<span class="nav-role">{{
+                    request.session.user.role }}</span></span>
+            <a href="/dashboard">儀表板</a>
+            <a href="/logout">登出</a>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="container">
+        {% block content %}{% endblock %}
+        {% if error %}
+        <p class="error">{{ error }}</p>
+        {% endif %}
+        {% if show_login %}
+        <form method="post" action="/login">
+            <label>帳號: <input type="text" name="username" required></label>
+            <label>密碼: <input type="password" name="password" required></label>
+            <button type="submit">登入</button>
+        </form>
+        {% endif %}
+        {% if show_register %}
+        <form method="post" action="/register">
+            <label>帳號: <input type="text" name="username" required></label>
+            <label>密碼: <input type="password" name="password" required></label>
+            <label>角色:
+                <select name="role">
+                    <option value="client">委託人</option>
+                    <option value="contractor">接案人</option>
+                </select>
+            </label>
+            <button type="submit">註冊</button>
+        </form>
+        {% endif %}
+        {% if show_messages %}
+        <h3>對話</h3>
+        <ul>
+            {% for m in messages %}
+            <li>[{{ m.created_at }}] <b>{{ m.username }}</b>: {{ m.content }}</li>
+            {% endfor %}
+        </ul>
+        <form method="post" action="/messages/{{ project_id }}">
+            <input type="text" name="content" placeholder="輸入訊息" required>
+            <button type="submit">送出</button>
+        </form>
+        {% endif %}
+    </div>
+
+    <!-- 固定的登入/註冊錨點 -->
+    {% if not request.session.user %}
+    <div class="auth-anchor" aria-label="auth-links">
+        <a href="/login" class="btn btn-sm">登入</a>
+        <a href="/register" class="btn btn-sm btn-secondary">註冊</a>
+    </div>
+    {% endif %}
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        setTimeout(() => {
+            const welcomeScreen = document.getElementById('welcomeScreen');
+            if (welcomeScreen) {
+                welcomeScreen.style.display = 'none';
+            }
+        }, 4300);
+    </script>
+</body>
+
+</html>

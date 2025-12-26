@@ -1,0 +1,49 @@
+<!-- templates/view_upload.html -->
+{% extends "base.html" %}
+{% block title %}檢視檔案{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="card">
+        <div class="card-header d-flex justify-content-between">
+            <h5>👁️ 檔案檢視</h5>
+            <a href="/dashboard" class="btn btn-secondary btn-sm">🏠 返回</a>
+        </div>
+        <div class="card-body">
+            <p><strong>🏡 專案：</strong> {{ bid.project_title }}</p>
+            <p><strong>📁 檔案：</strong>
+                <a href="/uploads/{{ upload.filename }}" target="_blank" class="text-primary">
+                    {{ upload.filename }} (點擊下載)
+                </a>
+            </p>
+            <p><strong>⏰ 上傳時間：</strong> {{ upload.created_at }}</p>
+
+            <hr>
+
+            {% if user.role == "client" and bid.project_status != 'completed' %}
+            <form method="post" action="/reject_bid/{{ bid.id }}" class="d-inline">
+                <button type="submit" class="btn btn-warning btn-sm">🔄 退件</button>
+            </form>
+            <form method="post" action="/complete_project/{{ bid.project_id }}" class="d-inline ms-2">
+                <button type="submit" class="btn btn-success btn-sm">✅ 結案</button>
+            </form>
+
+            {% elif user.role == "contractor" %}
+            {% if bid.project_status == 'completed' %}
+            <div class="alert alert-success">
+                🎉 <strong>已結案，審核通過！恭喜完成任務！</strong>
+            </div>
+            {% elif bid.status == 'rejected' %}
+            <a href="/upload/{{ bid.project_id }}" class="btn btn-primary btn-sm">
+                🔄 重新上傳
+            </a>
+            {% else %}
+            <div class="alert alert-info">
+                ⏳ <strong>檔案已提交，等待審核中...</strong>
+            </div>
+            {% endif %}
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

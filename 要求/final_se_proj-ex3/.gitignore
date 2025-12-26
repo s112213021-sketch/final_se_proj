@@ -1,0 +1,12 @@
+__pycache__/
+*.pyc
+logs/
+
+db.py
+logs/
+uploads/
+*.log
+*.pdf
+*.jpg
+*.png
+*.txt

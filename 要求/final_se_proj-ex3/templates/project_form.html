@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container">
+        <h1>{% if project %}修改專案{% else %}建立專案{% endif %}</h1>
+
+        {% if error %}
+        <div class="alert alert-danger">
+                {{ error }}
+        </div>
+        {% endif %}
+
+        <form method="post" action="{% if project %}/edit_project/{{ project.id }}{% else %}/create_project{% endif %}">
+                <label>專案標題
+                        <input type="text" name="title" value="{{ project.title if project else '' }}" required
+                                placeholder="例如：網站設計、品牌識別設計">
+                </label>
+
+                <label>專案描述
+                        <textarea name="description" required
+                                placeholder="詳細描述您的專案需求與期望...">{{ project.description if project else '' }}</textarea>
+                </label>
+
+                <label>預算金額 ($)
+                        <input type="number" name="budget" step="0.01" value="{{ project.budget if project else '' }}"
+                                required min="0" placeholder="設定您的預算">
+                </label>
+
+                <label>截止日期
+                        <input type="date" name="deadline" value="{{ project.deadline if project else '' }}" required
+                                min="{{ today }}">
+                </label>
+
+                <button type="submit">{% if project %}更新專案{% else %}建立專案{% endif %}</button>
+        </form>
+</div>
+{% endblock %}

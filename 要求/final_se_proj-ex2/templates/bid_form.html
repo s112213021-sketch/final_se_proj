@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container">
+    <h1>提出報價</h1>
+
+    <div class="card mb-4">
+        <div class="card-header">
+            <h5 class="mb-0">{{ project.title }}</h5>
+        </div>
+        <div class="card-body">
+            <p class="mb-3">{{ project.description }}</p>
+            <div class="row">
+                <div class="col-md-6">
+                    <p class="mb-2"><strong>預算</strong> <span class="text-success">${{ project.budget }}</span></p>
+                </div>
+                <div class="col-md-6">
+                    <p class="mb-2"><strong>截止日期</strong> {{ project.deadline }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <form method="post" action="/submit_bid/{{ project.id }}">
+        <label>您的報價金額 ($)
+            <input type="number" name="price" step="0.01" required placeholder="請輸入報價金額">
+        </label>
+        <button type="submit">提交報價</button>
+    </form>
+</div>
+{% endblock %}

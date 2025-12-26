@@ -1,0 +1,170 @@
+{% extends "base.html" %}
+{% block title %}承包商儀表板{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="mt-4">{{ request.session.user.username }}</h1>
+
+    {% if session.get("flash_message") %}
+    <div class="alert alert-{{ session.flash_type or 'info' }} alert-dismissible fade show">
+        {{ session.flash_message | safe }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert">×</button>
+    </div>
+    {% endif %}
+
+    <section class="mb-5">
+        <h3 class="mb-3">可報價的專案</h3>
+        {% if projects %}
+        <div class="row g-4">
+            {% for p in projects %}
+            <div class="col-md-6 col-lg-4">
+                <div class="card h-100">
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title">{{ p.title }}</h5>
+
+                        <div class="mb-3 d-flex align-items-center">
+                            <span class="text-muted small me-2">委託人：{{ p.client_name }}</span>
+                            {% if p.client_review_count > 0 %}
+                                <a href="/reputation/{{ p.client_id }}?role=client" class="text-decoration-none badge bg-warning text-dark border border-warning">
+                                    ★ {{ "%.1f"|format(p.client_avg_rating) }} ({{ p.client_review_count }})
+                                </a>
+                            {% else %}
+                                <span class="badge bg-secondary text-black">尚無評價</span>
+                            {% endif %}
+                        </div>
+                        <p class="card-text text-muted flex-grow-1">    
+                            {{ p.description[:100] }}{% if p.description|length > 100 %}...{% endif %}
+                        </p>
+                        <p class="card-text"><strong>預算</strong> <span class="text-success">${{ "%.2f"|format(p.budget)
+                                }}</span></p>
+                        <p class="card-text text-muted small">
+                            <strong>截止</strong> {{ p.deadline }}
+                        </p>
+                        <a href="/submit_bid/{{ p.id }}" class="btn btn-primary btn-sm mt-auto">提交報價</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="alert alert-info">
+            目前沒有開放報價的專案，稍後再來看看
+        </div>
+        {% endif %}
+    </section>
+
+    <section>
+        <h3 class="mb-3">我的報價</h3>
+        {% if bids %}
+        <div class="table-responsive">
+            <table class="table table-hover align-middle">
+                <thead>
+                    <tr>
+                        <th>專案</th>
+                        <th>金額</th>
+                        <th>狀態</th>
+                        <th>上傳檔案</th>
+                        <th>Issues</th>
+                        <th width="240">操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for bid in bids %}
+                    <tr>
+                        <td>
+                            <strong>{{ bid.project_title }}</strong>
+                            <br>
+                            <small class="text-muted">截止：{{ bid.project_deadline }}</small>
+                        </td>
+
+                        <td class="text-success fw-bold">${{ "%.2f"|format(bid.price) }}</td>
+
+                        <td>
+                            {% if bid.project_status == 'completed' %}
+                            <span class="badge bg-warning text-dark">已結案</span>
+                            {% elif bid.status == 'accepted' and bid.upload_filename %}
+                            <span class="badge bg-success">已上傳</span>
+                            {% elif bid.status == 'accepted' %}
+                            <span class="badge bg-warning text-dark">待上傳</span>
+                            {% elif bid.status == 'rejected' and bid.upload_filename %}
+                            <span class="badge bg-danger">已退件</span>
+                            {% elif bid.status == 'rejected' and bid.project_status != 'open' %}
+                            <span class="badge bg-secondary">未被選擇</span>
+                            {% elif bid.status == 'pending' %}
+                            <span class="badge bg-secondary">待審核</span>
+                            {% else %}
+                            <span class="badge bg-secondary">待審核</span>
+                            {% endif %}
+                        </td>
+
+                        <td>
+                            {% if bid.project_status == 'completed' %}
+                            <span class="text-success small">審核通過</span>
+                            {% elif bid.upload_filename %}
+                            <span class="badge bg-success">已上傳</span>
+                            {% elif bid.status == 'accepted' %}
+                            <span class="text-muted">—</span>
+                            {% elif bid.status == 'rejected' and bid.upload_filename %}
+                            <span class="badge bg-danger">需重傳</span>
+                            {% elif bid.status == 'rejected' and bid.project_status != 'open' %}
+                            <span class="text-muted small">—</span>
+                            {% else %}
+                            <span class="text-muted">—</span>
+                            {% endif %}
+                        </td>
+
+                        <!-- Issues 欄位 -->
+                        <td>
+                            {% if bid.status == 'accepted' or (bid.status == 'rejected' and bid.upload_filename) or bid.project_status == 'completed' %}
+                                <a href="/issues/{{ bid.project_id }}" class="btn btn-outline-secondary btn-sm">
+                                    📝 查看 Issues
+                                </a>
+                            {% else %}
+                                <span class="text-muted small">—</span>
+                            {% endif %}
+                        </td>
+
+                        <!-- 操作欄位 -->
+                        <td>
+                            {% if bid.project_status == 'completed' %}
+                                <a href="/view_upload/{{ bid.id }}" class="btn btn-info btn-sm">檢視</a>
+
+                                {% if not bid.has_reviewed %}
+                                    <a href="/review/{{ bid.project_id }}" class="btn btn-primary btn-sm ms-1">⭐ 評價業主</a>
+                                {% else %}
+                                    <span class="badge bg-secondary ms-1">已評價</span>
+                                {% endif %}
+
+                            {% elif bid.status == 'accepted' %}
+                                <a href="/upload/{{ bid.project_id }}" class="btn btn-success btn-sm">上傳檔案</a>
+
+                                {% if bid.upload_filename %}
+                                    <a href="/view_upload/{{ bid.id }}" class="btn btn-secondary btn-sm ms-1">檢視</a>
+                                {% endif %}
+
+                            {% elif bid.status == 'rejected' and bid.upload_filename %}
+                                <a href="/upload/{{ bid.project_id }}" class="btn btn-warning btn-sm">重新上傳</a>
+                                <a href="/view_upload/{{ bid.id }}" class="btn btn-secondary btn-sm ms-1">檢視</a>
+
+                            {% elif bid.status == 'rejected' and bid.project_status != 'open' %}
+                                <span class="text-muted small">未被選擇</span>
+
+                            {% elif bid.status == 'pending' %}
+                                <span class="text-muted small">等待客戶選擇</span>
+                            {% else %}
+                                <span class="text-muted">—</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <div class="alert alert-info">
+            尚未提交任何報價，快去接案吧
+        </div>
+        {% endif %}
+    </section>
+</div>
+{% endblock %}
